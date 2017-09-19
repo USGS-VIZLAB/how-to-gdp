@@ -1,0 +1,64 @@
+vizlab: "0.2.0"
+info:
+  id: how-gdp
+  name: Geo Data Portal Behind-the-scenes 
+  date: 2017-09-19
+  publish-date: 2018-10-12
+  path: /how-gdp
+  analytics-id: 
+  description: >-
+    Explanation of how the Geo Data Portal works.
+  keywords: >-
+    USGS, VIZLAB, GDP
+  audience: General public
+  url: 
+  twitter: "@USGS-R"
+  thumbnail-facebook:
+    url: 
+    width: 1560
+    height: 820
+    alttext: ""
+    type: image/png
+  thumbnail-twitter:
+    url: 
+    width: 560
+    height: 300
+    alttext: ""
+  thumbnail-landing:
+    url: images/vizlab06.png
+    width: 400
+    height: 400
+    alttext: ""
+  
+  required-packages:
+    vizlab:
+      repo: CRAN
+      version: 0.2.0
+    
+  contributors:
+    - 
+      name: Dave Blodgett
+      email: dblodgett@usgs.gov
+      affiliation: U.S. Geological Survey
+    -
+      name: Lindsay Carr
+      email: lcarr@usgs.gov
+      affiliation: U.S. Geological Survey
+    -
+      name: Jordan Read
+      email: jread@usgs.gov
+      affiliation: U.S. Geological Survey
+    -
+      name: David Watkins
+      email: wwatkins@usgs.gov
+      affiliation: U.S. Geological Survey
+
+fetch:
+    
+process:
+  
+visualize:
+    
+publish:
+
+  
