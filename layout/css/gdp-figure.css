@@ -11,12 +11,12 @@ a{
   text-decoration:none;
 }
 
-#gdp-fig-two,
-#gdp-text,
-#gdp-fig{
+#gdp-fig-two h1 h2 h3 p text,
+#gdp-text h1 h2 h3 p text,
+#gdp-fig h1 h2 h3 p text{
   padding:10px;
   font-family: "Source Sans Pro", sans-serif;
-  margin-bottom:10px;
+  margin: 10px auto 20px auto;
   font-size:1.1em;
   line-height:1.5em;
 }
