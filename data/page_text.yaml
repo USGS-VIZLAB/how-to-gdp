@@ -1,0 +1,69 @@
+---
+gdp-overview: >-
+  # The Geo Data Portal
+  
+  Increasing complexity of natural resource management questions requires computations 
+  involving a variety of data. The USGS Geo Data Portal (GDP) enables more efficient 
+  climate modeling and data acquisition to answer regional- or national-scale questions 
+  by conducting data processing on the web. Web-enabled processing has given researchers 
+  and managers access to powerful processing capabilities with minimal effort; thus, 
+  producing important modeling or decision support results for nominal cost.
+   
+  The following will explain how the Geo Data Portal works.
+
+processing-before: >-
+  ### Bandwidth and processing savings with GDP
+  
+  Here is where I would type information about bandwidth and processing savings.
+processing-after: >-
+  
+  Here's where I could add more about processing.
+algorithm-before: >-
+  ### GDP algorithm support
+
+  Here is where I would type information about algorithm support and include a neat 
+  [link](https://www.google.com/) to something.
+algorithm-after: >-
+  
+  Here is some info about the pic.
+use-case-intro: >-
+  # Storm Transposition Use-case
+  
+  Introduction to storm transposition study and what it will show with GDP.
+storm-transpose-before: >-
+  ### Result of Storm Transposition
+
+  Animation of the storm transposition w/ precip.
+storm-transpose-after: >-
+  
+  Text after the animation about storm transposition.
+inputs-precip-before: >-
+  ### GDP Inputs - data
+  
+  Animated map of precip data pulled from geoknife.
+inputs-precip-after: >-
+  
+  More text about geoknife precip data.
+inputs-geometry-before: >-
+  ### GDP Inputs - geometry
+  
+  Info about geometries with GDP.
+inputs-geometry-after: >-
+  
+  Some more text about geometries.
+method-animation-before: >-
+  ### GDP Processing
+  
+  How the data is processed -- takes gridded data and 'melts' into one value per timestep.
+method-animation-after: >-
+  
+  More info about the GDP processing step animation
+conclusion: >-
+  ### GDP Results
+  
+  What can you do with the processed data from GDP? Perform peak flow analyses (see potter?) 
+  for more info. 
+  
+  # Other applications of GDP
+  
+  Also include information about other GDP applications.
