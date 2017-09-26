@@ -35,11 +35,12 @@ use-case-intro: >-
   # Extreme Storm Transposition Use-case
   
   We are using an extreme storm transposition analysis to show off how the GDP works. Storm
-  transpositions are a "what-if" water resource planning tool where actual extreme rain 
-  events are simulated in different locations. Water resource managers use this method to evaluate
+  transpositions are a "what-if" 
+  [water resource planning tool](https://toolkit.climate.gov/case-studies/using-demonstration-storms-prepare-extreme-rainfall) where actual extreme rain 
+  events are simulated in different locations. Water resource managers can use this method to evaluate
   the impact a storm with similar intensity would have on their city and then implement risk-reducing
   measures where they are needed. In this use-case, we are recreating the 
-  [Potter et al](https://toolkit.climate.gov/case-studies/using-demonstration-storms-prepare-extreme-rainfall) 
+  [Potter et al](http://onlinelibrary.wiley.com/doi/10.1111/1752-1688.12441/abstract)
   extreme storm transposition for a storm in 2008 that impacted Baraboo, WI and moving it to Madison, WI.
 
 storm-transpose-before: >-
