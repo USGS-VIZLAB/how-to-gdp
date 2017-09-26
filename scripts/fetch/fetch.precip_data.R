@@ -1,9 +1,16 @@
 fetch.precip_data <- function(viz){
   
-  precip.data <- mtcars
+  library(geoknife)
   
-  saveRDS(precip.data, viz[['location']])
+  deps <- readDepends(viz)
+  sf_poly <- deps[["sf-poly"]]
   
+  sp_poly <- sf_to_sp(sf_poly)
+  
+  stencil <- geoknife::simplegeom(sp_poly)
+  precip <- get_gdp_precip(stencil, viz[['start.date']], viz[['end.date']])
+  
+  saveRDS(precip, viz[['location']])
 }
 
 fetchTimestamp.precip_data <- vizlab:::fetchTimestamp.file
