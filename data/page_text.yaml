@@ -3,67 +3,93 @@ gdp-overview: >-
   # The Geo Data Portal
   
   Increasing complexity of natural resource management questions requires computations 
-  involving a variety of data. The USGS Geo Data Portal (GDP) enables more efficient 
-  climate modeling and data acquisition to answer regional- or national-scale questions 
-  by conducting data processing on the web. Web-enabled processing has given researchers 
-  and managers access to powerful processing capabilities with minimal effort; thus, 
-  producing important modeling or decision support results for nominal cost.
+  involving a variety of data. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
+  enables more efficient climate modeling and data acquisition to answer regional- or 
+  national-scale questions by conducting data processing on the web. Web-enabled 
+  processing has given researchers and managers access to powerful processing capabilities
+  with minimal effort; thus, producing important modeling or decision support results for 
+  nominal cost.
    
   The following will explain how the Geo Data Portal works.
 
 processing-before: >-
   ### Bandwidth and processing savings with GDP
   
-  Here is where I would type information about bandwidth and processing savings.
+  The GDP moves computationally intensive processing steps from a researcher's computer to
+  the web. This means researchers have more computational power at their fingertips, and 
+  do not need to need their computer tied up during a lengthy processing step.
 processing-after: >-
   
-  Here's where I could add more about processing.
+  This differs from traditional geoprocessing workflows which require downloads of an 
+  immense amount of data to then process. The GDP requires users to download only the 
+  processed data.
 algorithm-before: >-
   ### GDP algorithm support
 
-  Here is where I would type information about algorithm support and include a neat 
-  [link](https://www.google.com/) to something.
+  [[Here is where I would type information about algorithm support.]]
+  
 algorithm-after: >-
   
-  Here is some info about the pic.
+  [[Here is some info about the pic.]]
 use-case-intro: >-
-  # Storm Transposition Use-case
+  # Extreme Storm Transposition Use-case
   
-  Introduction to storm transposition study and what it will show with GDP.
+  We are using an extreme storm transposition analysis to show off how the GDP works. Storm
+  transpositions are a "what-if" 
+  [water resource planning tool](https://toolkit.climate.gov/case-studies/using-demonstration-storms-prepare-extreme-rainfall) where actual extreme rain 
+  events are simulated in different locations. Water resource managers can use this method to evaluate
+  the impact a storm with similar intensity would have on their city and then implement risk-reducing
+  measures where they are needed. In this use-case, we are recreating the 
+  [Potter et al](http://onlinelibrary.wiley.com/doi/10.1111/1752-1688.12441/abstract)
+  extreme storm transposition for a storm in 2008 that impacted Baraboo, WI and moving it to Madison, WI.
+
 storm-transpose-before: >-
   ### Result of Storm Transposition
 
-  Animation of the storm transposition w/ precip.
+  Here is a visualization product showing the extreme storm transposition from Baraboo to
+  Madison, Wisconsin.
+  
 storm-transpose-after: >-
   
-  Text after the animation about storm transposition.
+  The data were selected and processed through the GDP. The following will break down how the 
+  GDP processed the data. The resulting impact on the watershed is out of scope for this 
+  visualization.
+  
 inputs-precip-before: >-
   ### GDP Inputs - data
   
-  Animated map of precip data pulled from geoknife.
+  For this analysis, we will be looking at precipitation data. The data are gridded and have 
+  multiple timesteps. Below is an animated map of the gridded data through time.
+
 inputs-precip-after: >-
   
-  More text about geoknife precip data.
+  [[More text about geoknife precip data.]]
 inputs-geometry-before: >-
   ### GDP Inputs - geometry
   
-  Info about geometries with GDP.
+  The GDP summarizes the gridded data based on given geometries and algorithms. We are looking
+  at two different geometries - the Baraboo River watershed and the Yahara River watershed.
+  
 inputs-geometry-after: >-
   
-  Some more text about geometries.
+  [[Some more text about geometries.]]
 method-animation-before: >-
   ### GDP Processing
   
-  How the data is processed -- takes gridded data and 'melts' into one value per timestep.
+  The real power of GDP is summarizing all of this data. For each timestep, the GDP clips the 
+  data to the given geometry, and then "melts" the data for that geometry into one value based
+  on your chosen algorithm. The result is one value per timestep per geometry, so in this 
+  example, one value per timestep in the Baraboo River watershed and one in the Yahara.
+  
 method-animation-after: >-
   
-  More info about the GDP processing step animation
+  [[More info about the GDP processing step animation]]
 conclusion: >-
   ### GDP Results
   
-  What can you do with the processed data from GDP? Perform peak flow analyses (see potter?) 
-  for more info. 
+  [[What can you do with the processed data from GDP? Perform peak flow analyses (see potter?) 
+  for more info.]] 
   
   # Other applications of GDP
   
-  Also include information about other GDP applications.
+  [[Also include information about other GDP applications.]]
