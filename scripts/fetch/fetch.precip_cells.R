@@ -1,6 +1,4 @@
 fetch.precip_cells <- function(viz){
-  library(sf)
-  library(sp)
   
   deps <- readDepends(viz)
   storm_poly <- deps[["storm-poly"]]

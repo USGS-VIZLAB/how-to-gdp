@@ -5,11 +5,9 @@
 #' counties must be strings of "[state]:[county]". See ?maps::county.fips
 #' 
 county_to_sf <- function(counties, crs = 3086){
-  library(sf)
-  library(maps)
   
-  sf_poly <- sf::st_as_sf(map("county", region = counties, plot = FALSE, fill=TRUE))
-  sf_poly_transf <- st_transform(sf_poly, crs)
+  sf_poly <- sf::st_as_sf(maps::map("county", region = counties, plot = FALSE, fill=TRUE))
+  sf_poly_transf <- sf::st_transform(sf_poly, crs)
   
   return(sf_poly_transf)
 }
@@ -17,8 +15,6 @@ county_to_sf <- function(counties, crs = 3086){
 #' Convert an sf object into an sp object
 #' 
 sf_to_sp <- function(sf_poly, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"){
-  library(sf)
-  library(sp)
   
   sp_poly <- as(sf_poly, "Spatial")
   sp_poly_transf <- sp::spTransform(sp_poly, sp::CRS(crs))
@@ -32,10 +28,9 @@ sf_to_sp <- function(sf_poly, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +to
 #' on process is not a feature yet.
 #' 
 poly_to_grid <- function(sf_poly, cell_size = 15000, crs = 3086){
-  library(sf)
   
-  cell_grid <- st_make_grid(sf_poly, cellsize = cell_size, crs = crs)
-  cell_poly <- st_difference(st_union(sf_poly), cell_grid)
+  cell_grid <- sf::st_make_grid(sf_poly, cellsize = cell_size, crs = crs)
+  cell_poly <- sf::st_difference(sf::st_union(sf_poly), cell_grid)
   
   return(cell_poly)
 }
@@ -43,9 +38,6 @@ poly_to_grid <- function(sf_poly, cell_size = 15000, crs = 3086){
 #' get GDP precipitation data for given a stencil and dates
 #' 
 get_gdp_precip <- function(stencil, start_date, end_date){
-  library(geoknife)
-  library(dplyr)
-  library(tidyr)
   
   fabric <- geoknife::webdata(url = 'https://cida.usgs.gov/thredds/dodsC/stageiv_combined', 
                               variables = "Total_precipitation_surface_1_Hour_Accumulation", 

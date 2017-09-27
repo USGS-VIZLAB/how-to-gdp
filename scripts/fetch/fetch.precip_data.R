@@ -1,7 +1,5 @@
 fetch.precip_data <- function(viz){
   
-  library(geoknife)
-  
   deps <- readDepends(viz)
   sf_poly <- deps[["sf-poly"]]
   
