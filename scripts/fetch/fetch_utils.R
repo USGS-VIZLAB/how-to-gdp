@@ -4,22 +4,11 @@
 #' 
 #' counties must be strings of "[state]:[county]". See ?maps::county.fips
 #' 
-county_to_sf <- function(counties, crs = 3086){
+county_to_sf <- function(counties){
   
   sf_poly <- sf::st_as_sf(maps::map("county", region = counties, plot = FALSE, fill=TRUE))
-  sf_poly_transf <- sf::st_transform(sf_poly, crs)
   
   return(sf_poly_transf)
-}
-
-#' Convert an sf object into an sp object
-#' 
-sf_to_sp <- function(sf_poly, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"){
-  
-  sp_poly <- as(sf_poly, "Spatial")
-  sp_poly_transf <- sp::spTransform(sp_poly, sp::CRS(crs))
-  
-  return(sp_poly_transf)
 }
 
 #' take an sf object polygon and make a grid out of it
@@ -27,7 +16,7 @@ sf_to_sp <- function(sf_poly, crs = "+proj=longlat +datum=WGS84 +ellps=WGS84 +to
 #' This really belongs in process, but having fetch depend
 #' on process is not a feature yet.
 #' 
-poly_to_grid <- function(sf_poly, cell_size = 15000, crs = 3086){
+poly_to_grid <- function(sf_poly, cell_size, crs){
   
   cell_grid <- sf::st_make_grid(sf_poly, cellsize = cell_size, crs = crs)
   cell_poly <- sf::st_difference(sf::st_union(sf_poly), cell_grid)
