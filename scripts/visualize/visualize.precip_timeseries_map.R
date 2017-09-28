@@ -4,7 +4,7 @@ visualize.precip_timeseries_map <- function(viz){
   precip.cumulative <- deps[['precip-cumulative']]
   
   png(viz[['location']])
-  plot(precip.cumulative)
+  plot(mtcars)
   dev.off()
   
 }

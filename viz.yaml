@@ -33,6 +33,24 @@ info:
     vizlab:
       repo: CRAN
       version: 0.2.0
+    sf:
+      repo: CRAN
+      version: 0.5-4
+    sp: 
+      repo: CRAN
+      version: 1.2.5
+    geoknife:
+      repo: CRAN
+      version: 1.5.5
+    dplyr:
+      repo: CRAN
+      version: 0.7.2
+    tidyr:
+      repo: CRAN
+      version: 0.7.1
+    maps:
+      repo: CRAN
+      version: 3.2.0
   contributors:
     - 
       name: Dave Blodgett
@@ -53,11 +71,33 @@ info:
 
 fetch:
     - 
+      id: storm-poly
+      location: cache/storm_poly.rds
+      reader: rds
+      fetcher: storm_poly
+      scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
+      regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,green lake"]
+      crs: "+init=EPSG:3086"
+    - 
+      id: storm-cell-poly
+      location: cache/storm_cell_poly.rds
+      reader: rds
+      fetcher: precip_cells 
+      scripts: [scripts/fetch/fetch.precip_cells.R, scripts/fetch/fetch_utils.R]
+      depends: ["storm-poly"]
+      cell-size: 1500
+      crs: "+init=EPSG:3086"
+    - 
       id: precip-data
       location: cache/precip_data.rds
       reader: rds
       fetcher: precip_data
-      scripts: scripts/fetch/fetch.precip_data.R
+      scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
+      depends: 
+        sf-poly: "storm-cell-poly"
+      crs: "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+      start.date: "2008-06-02"
+      end.date: "2008-06-13"
     -
       id: page-text
       location: data/page_text.yaml
