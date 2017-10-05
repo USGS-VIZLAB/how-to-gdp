@@ -12,13 +12,14 @@ create_breaks <- function(nbins, stepsize){
 #' `id` (location of precip summarization), and `precipVal`
 #' 
 calc_cumulative_precip <- function(precip_df){
+  `%>%` <- magrittr::`%>%`
   
-  precip_grp <- dplyr::group_by(precip_df, id)
-  precip_english <- dplyr::mutate(precip_grp, precipVal = precipVal/25.4) #convert mm to inches
-  precip_cumulative <- dplyr::mutate(precip_english, summ = cumsum(precipVal))
-  precip_data <- dplyr::select(precip_cumulative, DateTime, id, precipVal = summ)
+  precip <- dplyr::group_by(precip_df, id) %>% 
+    dplyr::mutate(precipVal = precipVal/25.4) %>% #convert mm to inches
+    dplyr::mutate(summ = cumsum(precipVal)) %>% 
+    dplyr::select(DateTime, id, precipVal = summ)
   
-  return(precip_data)
+  return(precip)
 }
 
 #' add a column to precip data based on the color bin  the precip
@@ -28,14 +29,13 @@ calc_cumulative_precip <- function(precip_df){
 #' `id` (location of precip summarization), and `precipVal`
 #' 
 bin_precip <- function(precip_df, breaks){
+  `%>%` <- magrittr::`%>%`
   
-  precip_df <- dplyr::mutate(precip_df, cols = cut(precipVal, breaks = breaks, labels = FALSE)) 
-  precip_df <- dplyr::mutate(precip_df, cols = ifelse(precipVal > tail(breaks,1), 
-                                                      length(breaks), 
-                                                      cols))
-  precip_df <- dplyr::mutate(precip_df, cols = ifelse(is.na(cols), 1, cols)) 
-  precip_df <- dplyr::mutate(precip_df, cols = as.character(cols)) 
-  precip_df <- dplyr::select(precip_df, id, DateTime, cols)
+  precip <- dplyr::mutate(precip_df, cols = cut(precipVal, breaks = breaks, labels = FALSE)) %>%
+    dplyr::mutate(cols = ifelse(precipVal > tail(breaks,1), length(breaks), cols)) %>%
+    dplyr::mutate(cols = ifelse(is.na(cols), 1, cols)) %>% 
+    dplyr::mutate(cols = as.character(cols)) %>% 
+    dplyr::select(id, DateTime, cols)
   
-  return(precip_df)
+  return(precip)
 }
