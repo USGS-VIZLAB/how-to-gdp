@@ -88,6 +88,14 @@ fetch:
       cell-size: 1500
       crs: "+init=EPSG:3086"
     - 
+      id: transpose-poly
+      location: cache/transpose_poly.rds
+      reader: rds
+      fetcher: storm_poly
+      scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
+      regions: ["wisconsin,dane", "wisconsin,iowa", "wisconsin,columbia", "wisconsin,jefferson"]
+      crs: "+init=EPSG:3086"
+    - 
       id: precip-data
       location: cache/precip_data.rds
       reader: rds
@@ -152,7 +160,7 @@ visualize:
       visualizer: watershed_map
       scripts: scripts/visualize/visualize.watershed_map.R
       depends: 
-        region: "watershed-orig"
+        region_sf: "storm-poly"
       title: ""
       alttext: ""
     -
@@ -162,7 +170,7 @@ visualize:
       visualizer: watershed_map
       scripts: scripts/visualize/visualize.watershed_map.R
       depends: 
-        region: "watershed-new"
+        region_sf: "transpose-poly"
       title: ""
       alttext: ""
     -

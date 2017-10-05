@@ -1,12 +1,10 @@
 visualize.watershed_map <- function(viz){
   deps <- readDepends(viz)
-  region <- deps[['region']]
+  region_sf <- deps[['region_sf']]
   
-  library(maps)
+  library(sf)
   
   png(viz[['location']])
-  map("state", "wisconsin")
-  map("county", region="wisconsin", add=TRUE)
-  map("county", region = region, fill=TRUE, col="cornflowerblue", add=TRUE)
+  plot(region_sf, col="white")
   dev.off()
 }
