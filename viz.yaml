@@ -77,7 +77,7 @@ fetch:
       fetcher: storm_poly
       scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
       regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,green lake"]
-      crs: "+init=EPSG:3086"
+      crs: "+init=EPSG:5070"
     - 
       id: storm-cell-poly
       location: cache/storm_cell_poly.rds
@@ -86,7 +86,7 @@ fetch:
       scripts: [scripts/fetch/fetch.precip_cells.R, scripts/fetch/fetch_utils.R]
       depends: ["storm-poly"]
       cell-size: 1500
-      crs: "+init=EPSG:3086"
+      crs: "+init=EPSG:5070"
     - 
       id: transpose-poly
       location: cache/transpose_poly.rds
@@ -94,7 +94,7 @@ fetch:
       fetcher: storm_poly
       scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
       regions: ["wisconsin,dane", "wisconsin,iowa", "wisconsin,columbia", "wisconsin,jefferson"]
-      crs: "+init=EPSG:3086"
+      crs: "+init=EPSG:5070"
     - 
       id: precip-data
       location: cache/precip_data.rds
