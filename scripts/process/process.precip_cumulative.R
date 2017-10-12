@@ -1,9 +1,11 @@
 process.precip_cumulative <- function(viz){
   
   deps <- readDepends(viz)
-  precip.data <- deps[['precip-data']]
+  precip_data <- deps[['precip-data']]
+  precip_breaks <- deps[['precip-breaks']]
   
-  precip.cumulative <- precip.data
+  precip_data <- calc_cumulative_precip(precip_data)
+  precip_data <- bin_precip(precip_data, precip_breaks)
   
-  saveRDS(precip.cumulative, viz[['location']])
+  saveRDS(precip_data, viz[['location']])
 }

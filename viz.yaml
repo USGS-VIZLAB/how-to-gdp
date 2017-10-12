@@ -1,333 +1,351 @@
 cvizlab: "0.2.0"
 info:
-  id: how-gdp
-  name: How GDP Works 
-  date: 2017-09-19
-  publish-date: 2018-10-12
-  path: /how-gdp
-  analytics-id: 
-  description: >-
-    Explanation of how the Geo Data Portal works.
-  keywords: >-
-    USGS, VIZLAB, GDP
-  audience: General public
+id: how-gdp
+name: How GDP Works 
+date: 2017-09-19
+publish-date: 2018-10-12
+path: /how-gdp
+analytics-id: 
+description: >-
+  Explanation of how the Geo Data Portal works.
+keywords: >-
+  USGS, VIZLAB, GDP
+audience: GDP current and future users
+url: 
+twitter: "@USGS-R"
+thumbnail-facebook:
   url: 
-  twitter: "@USGS-R"
-  thumbnail-facebook:
-    url: 
-    width: 1560
-    height: 820
-    alttext: ""
-    type: image/png
-  thumbnail-twitter:
-    url: 
-    width: 560
-    height: 300
-    alttext: ""
-  thumbnail-landing:
-    url: images/vizlab06.png
-    width: 400
-    height: 400
-    alttext: ""
-  required-packages:
-    vizlab:
-      repo: CRAN
-      version: 0.2.0
-    sf:
-      repo: CRAN
-      version: 0.5-4
-    sp: 
-      repo: CRAN
-      version: 1.2.5
-    geoknife:
-      repo: CRAN
-      version: 1.5.5
-    dplyr:
-      repo: CRAN
-      version: 0.7.2
-    tidyr:
-      repo: CRAN
-      version: 0.7.1
-    maps:
-      repo: CRAN
-      version: 3.2.0
-  contributors:
-    - 
-      name: Dave Blodgett
-      email: dblodgett@usgs.gov
-      affiliation: U.S. Geological Survey
-    -
-      name: Lindsay Carr
-      email: lcarr@usgs.gov
-      affiliation: U.S. Geological Survey
-    -
-      name: Jordan Read
-      email: jread@usgs.gov
-      affiliation: U.S. Geological Survey
-    -
-      name: David Watkins
-      email: wwatkins@usgs.gov
-      affiliation: U.S. Geological Survey
+  width: 1560
+  height: 820
+  alttext: ""
+  type: image/png
+thumbnail-twitter:
+  url: 
+  width: 560
+  height: 300
+  alttext: ""
+thumbnail-landing:
+  url: images/vizlab06.png
+  width: 400
+  height: 400
+  alttext: ""
+required-packages:
+  vizlab:
+    repo: CRAN
+    version: 0.2.0
+  sf:
+    repo: CRAN
+    version: 0.5-4
+  sp: 
+    repo: CRAN
+    version: 1.2.5
+  geoknife:
+    repo: CRAN
+    version: 1.5.5
+  dplyr:
+    repo: CRAN
+    version: 0.7.2
+  tidyr:
+    repo: CRAN
+    version: 0.7.1
+  maps:
+    repo: CRAN
+    version: 3.2.0
+contributors:
+  - 
+    name: Dave Blodgett
+    email: dblodgett@usgs.gov
+    affiliation: U.S. Geological Survey
+  -
+    name: Lindsay Carr
+    email: lcarr@usgs.gov
+    affiliation: U.S. Geological Survey
+  -
+    name: Jordan Read
+    email: jread@usgs.gov
+    affiliation: U.S. Geological Survey
+  -
+    name: David Watkins
+    email: wwatkins@usgs.gov
+    affiliation: U.S. Geological Survey
 
 fetch:
-    - 
-      id: storm-poly
-      location: cache/storm_poly.rds
-      reader: rds
-      fetcher: storm_poly
-      scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
-      regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,green lake"]
-      crs: "+init=EPSG:3086"
-    - 
-      id: storm-cell-poly
-      location: cache/storm_cell_poly.rds
-      reader: rds
-      fetcher: precip_cells 
-      scripts: [scripts/fetch/fetch.precip_cells.R, scripts/fetch/fetch_utils.R]
-      depends: ["storm-poly"]
-      cell-size: 1500
-      crs: "+init=EPSG:3086"
-    - 
-      id: precip-data
-      location: cache/precip_data.rds
-      reader: rds
-      fetcher: precip_data
-      scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
-      depends: 
-        sf-poly: "storm-cell-poly"
-      crs: "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-      start.date: "2008-06-02"
-      end.date: "2008-06-13"
-    -
-      id: page-text
-      location: data/page_text.yaml
-      reader: md
-      mimetype: text/yaml
-      scripts:
-    - 
-      id: watershed-orig
-      location: cache/watershed_orig.rds
-      reader: rds
-      fetcher: watershed_geometry
-      scripts: scripts/fetch/fetch.watershed_geometry.R
-      region: "wisconsin,portage" 
-    - 
-      id: watershed-new
-      location: cache/watershed_new.rds
-      reader: rds
-      fetcher: watershed_geometry
-      scripts: scripts/fetch/fetch.watershed_geometry.R
-      region: "wisconsin,dane" 
+  - 
+    id: storm-poly
+    location: cache/storm_poly.rds
+    reader: rds
+    fetcher: storm_poly
+    scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
+    regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,green lake"]
+    crs: "+init=EPSG:3086"
+  - 
+    id: storm-cell-poly
+    location: cache/storm_cell_poly.rds
+    reader: rds
+    fetcher: precip_cells 
+    scripts: [scripts/fetch/fetch.precip_cells.R, scripts/fetch/fetch_utils.R]
+    depends: ["storm-poly"]
+    cell-size: 1500
+    crs: "+init=EPSG:3086"
+  - 
+    id: precip-data
+    location: cache/precip_data.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
+    depends: 
+      sf-poly: "storm-cell-poly"
+    crs: "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
+    start.date: "2008-06-02"
+    end.date: "2008-06-13"
+  -
+    id: page-text
+    location: data/page_text.yaml
+    reader: md
+    mimetype: text/yaml
+    scripts:
+  - 
+    id: watershed-orig
+    location: cache/watershed_orig.rds
+    reader: rds
+    fetcher: watershed_geometry
+    scripts: scripts/fetch/fetch.watershed_geometry.R
+    region: "wisconsin,portage" 
+  - 
+    id: watershed-new
+    location: cache/watershed_new.rds
+    reader: rds
+    fetcher: watershed_geometry
+    scripts: scripts/fetch/fetch.watershed_geometry.R
+    region: "wisconsin,dane" 
 process:
-    - 
-      id: precip-cumulative
-      location: cache/precip_cumulative.rds
-      reader: rds
-      processor: precip_cumulative
-      scripts: scripts/process/process.precip_cumulative.R
-      depends: "precip-data"
+  -
+    id: precip-colors
+    location: cache/precip_colors.json
+    reader: json
+    mimetype: application/javascript
+    export: true
+    processor: precip_colors
+    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_bins.R]
+    bins: 9
+    palette: "Blues"
+  -
+    id: precip-breaks
+    location: cache/precip_breaks.rds
+    reader: rds
+    processor: precip_breaks
+    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_bins.R]
+    depends: ["precip-colors"]
+    step-size: 1.5
+  - 
+    id: precip-cumulative
+    location: cache/precip_cumulative.rds
+    reader: rds
+    processor: precip_cumulative
+    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_cumulative.R]
+    depends: ["precip-data", "precip-breaks"]
 visualize:
-    - 
-      id: storm-transpose
-      location: figures/storm-transpose.png
-      mimetype: image/png
-      visualizer: storm_transpose
-      scripts: scripts/visualize/visualize.storm_transpose.R
-      depends: "precip-cumulative"
-      title: "Transposing storm precip"
-      alttext: "Transposing storm precip"
-    - 
-      id: precip-timeseries-map
-      location: figures/precip-timeseries-map.png
-      mimetype: image/png
-      visualizer: precip_timeseries_map
-      scripts: scripts/visualize/visualize.precip_timeseries_map.R
-      depends: "precip-cumulative"
-      title: "Cumulative precip over time"
-      alttext: "Cumulative precip over time"
-    -
-      id: watershed-map-orig
-      location: figures/watershed-map-orig.png
-      mimetype: image/png
-      visualizer: watershed_map
-      scripts: scripts/visualize/visualize.watershed_map.R
-      depends: 
-        region: "watershed-orig"
-      title: ""
-      alttext: ""
-    -
-      id: watershed-map-new
-      location: figures/watershed-map-new.png
-      mimetype: image/png
-      visualizer: watershed_map
-      scripts: scripts/visualize/visualize.watershed_map.R
-      depends: 
-        region: "watershed-new"
-      title: ""
-      alttext: ""
-    -
-      id: gdp-method-animation
-      location: figures/method_animation.png
-      mimetype: image/png
-      visualizer: method_animation
-      scripts: scripts/visualize/visualize.method_animation.R
-      depends: "precip-cumulative"
-      title: ""
-      alttext: ""
+  - 
+    id: storm-transpose
+    location: figures/storm-transpose.png
+    mimetype: image/png
+    visualizer: storm_transpose
+    scripts: scripts/visualize/visualize.storm_transpose.R
+    depends: "precip-cumulative"
+    title: "Transposing storm precip"
+    alttext: "Transposing storm precip"
+  - 
+    id: precip-timeseries-map
+    location: figures/precip-timeseries-map.png
+    mimetype: image/png
+    visualizer: precip_timeseries_map
+    scripts: scripts/visualize/visualize.precip_timeseries_map.R
+    depends: "precip-cumulative"
+    title: "Cumulative precip over time"
+    alttext: "Cumulative precip over time"
+  -
+    id: watershed-map-orig
+    location: figures/watershed-map-orig.png
+    mimetype: image/png
+    visualizer: watershed_map
+    scripts: scripts/visualize/visualize.watershed_map.R
+    depends: 
+      region: "watershed-orig"
+    title: ""
+    alttext: ""
+  -
+    id: watershed-map-new
+    location: figures/watershed-map-new.png
+    mimetype: image/png
+    visualizer: watershed_map
+    scripts: scripts/visualize/visualize.watershed_map.R
+    depends: 
+      region: "watershed-new"
+    title: ""
+    alttext: ""
+  -
+    id: gdp-method-animation
+    location: figures/method_animation.png
+    mimetype: image/png
+    visualizer: method_animation
+    scripts: scripts/visualize/visualize.method_animation.R
+    depends: "precip-cumulative"
+    title: ""
+    alttext: ""
 publish:
-    -
-      id: usgs-logo
-      location: images/usgsLogo.png
-      mimetype: image/png
-      title: "USGS Logo"
-      alttext: "USGS Logo"
-    -
-      id: processing-schematic
-      location: images/processing_old.png
-      mimetype: image/png
-      title: "GDP Processing Schematic"
-      alttext: "GDP Processing Schematic"
-    -
-      id: algorithm-schematic
-      location: images/algorithm_old.png
-      mimetype: image/png
-      title: "GDP Algorithm Schematic"
-      alttext: "GDP Algorithm Schematic"
-    -  
-      id: gdp-figure-css
-      location: layout/css/gdp-figure.css
-      mimetype: text/css
-    -
-      id: sourcesanspro
-      publisher: googlefont
-      family: Source Sans Pro
-      weight: [300, 400, 600]
-    - 
+  -
+    id: usgs-logo
+    location: images/usgsLogo.png
+    mimetype: image/png
+    title: "USGS Logo"
+    alttext: "USGS Logo"
+  -
+    id: processing-schematic
+    location: images/processing_old.png
+    mimetype: image/png
+    title: "GDP Processing Schematic"
+    alttext: "GDP Processing Schematic"
+  -
+    id: algorithm-schematic
+    location: images/algorithm_old.png
+    mimetype: image/png
+    title: "GDP Algorithm Schematic"
+    alttext: "GDP Algorithm Schematic"
+  -  
+    id: gdp-figure-css
+    location: layout/css/gdp-figure.css
+    mimetype: text/css
+  -
+    id: sourcesanspro
+    publisher: googlefont
+    family: Source Sans Pro
+    weight: [300, 400, 600]
+  - 
+    id: header
+    publisher: section
+    template: header-template
+    depends: "usgs-logo"
+    context:
       id: header
-      publisher: section
-      template: header-template
-      depends: "usgs-logo"
-      context:
-        id: header
-        title: How the Geo Data Portal works
-        logo: usgs-logo
-        caption: Expalanation of how the GDP works
-    -
-      id: footer
-      publisher: section
-      template: footer-template
-      depends: "usgs-logo"
-      context:
-        blogsInFooter: FALSE
-        usgsLogo: usgs-logo
-        github-url: https://github.com/USGS-VIZLAB/how-gdp
-    - 
-      id: gdp-overview-text
-      publisher: section
-      template: layout/templates/gdp-text.mustache
-      depends: "page-text"
-      context:
-        id: gdp-text
-        text: page-text.gdp-overview
-    - 
-      id: processing-section
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["processing-schematic", "page-text"]
-      context:
-        id: gdp-fig
-        title: "Bandwidth and processing savings with GDP"
-        figure: processing-schematic
-        figure-caption: >-
-          Schematic of how processing and bandwidth are saved using the GDP
-        text-before: page-text.processing-before
-        text-after: page-text.processing-after
-    - 
-      id: algorithm-section
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["algorithm-schematic", "page-text"]
-      context:
-        id: gdp-fig
-        title: "GDP algorithm support"
-        figure: algorithm-schematic
-        figure-caption: ""
-        text-before: page-text.algorithm-before
-        text-after: page-text.algorithm-after
-    -
-      id: use-case-intro
-      publisher: section
-      template: layout/templates/gdp-text.mustache
-      depends: "page-text"
-      context:
-        id: gdp-text
-        title: 
-        text: page-text.use-case-intro
-    -
-      id: storm-transpose-animation
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["storm-transpose", "page-text"]
-      context:
-        id: gdp-fig
-        title: Animation of storm transposition
-        figure: storm-transpose
-        text-before: page-text.storm-transpose-before
-        text-after: page-text.storm-transpose-after
-    - 
-      id: inputs-precip
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["precip-timeseries-map", "page-text"]
-      context:
-        id: gdp-fig
-        title: "Precip overtime for original storm location"
-        figure: precip-timeseries-map
-        text-before: page-text.inputs-precip-before
-        text-after: page-text.inputs-precip-after
-    - 
-      id: inputs-geometry
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["watershed-map-orig", "watershed-map-new", "page-text"]
-      context:
-        id: gdp-fig-two
-        title: 
-        figure: ["watershed-map-orig", "watershed-map-new"]
-        text-before: page-text.inputs-geometry-before
-        text-after: page-text.inputs-geometry-after
-    -
-      id: method-animation
-      publisher: section
-      template: layout/templates/gdp-figure.mustache
-      depends: ["gdp-method-animation", "page-text"]
-      context:
-        id: gdp-fig
-        title:
-        figure: gdp-method-animation
-        text-before: page-text.method-animation-before
-        text-after: page-text.method-animation-after
-    -
-      id: conclusion-text
-      publisher: section
-      template: layout/templates/gdp-text.mustache
-      depends: "page-text"
-      context:
-        id: gdp-text
-        text: page-text.conclusion
-    - 
-      id: gdp-page
-      name: index
-      publisher: page
-      template: fullpage
-      depends: ["header", "footer", "gdp-figure-css", "lib-header-css",
-        "lib-footer-css", "lib-vizlab-favicon", "sourcesanspro", 
-        "gdp-overview-text", "processing-section", "algorithm-section", 
+      title: How the Geo Data Portal works
+      logo: usgs-logo
+      caption: Expalanation of how the GDP works
+  -
+    id: footer
+    publisher: section
+    template: footer-template
+    depends: "usgs-logo"
+    context:
+      blogsInFooter: FALSE
+      usgsLogo: usgs-logo
+      github-url: https://github.com/USGS-VIZLAB/how-gdp
+  - 
+    id: gdp-overview-text
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page-text"
+    context:
+      id: gdp-text
+      text: page-text.gdp-overview
+  - 
+    id: processing-section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["processing-schematic", "page-text"]
+    context:
+      id: gdp-fig
+      title: "Bandwidth and processing savings with GDP"
+      figure: processing-schematic
+      figure-caption: >-
+        Schematic of how processing and bandwidth are saved using the GDP
+      text-before: page-text.processing-before
+      text-after: page-text.processing-after
+  - 
+    id: algorithm-section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["algorithm-schematic", "page-text"]
+    context:
+      id: gdp-fig
+      title: "GDP algorithm support"
+      figure: algorithm-schematic
+      figure-caption: ""
+      text-before: page-text.algorithm-before
+      text-after: page-text.algorithm-after
+  -
+    id: use-case-intro
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page-text"
+    context:
+      id: gdp-text
+      title: 
+      text: page-text.use-case-intro
+  -
+    id: storm-transpose-animation
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["storm-transpose", "page-text"]
+    context:
+      id: gdp-fig
+      title: Animation of storm transposition
+      figure: storm-transpose
+      text-before: page-text.storm-transpose-before
+      text-after: page-text.storm-transpose-after
+  - 
+    id: inputs-precip
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["precip-timeseries-map", "page-text"]
+    context:
+      id: gdp-fig
+      title: "Precip overtime for original storm location"
+      figure: precip-timeseries-map
+      text-before: page-text.inputs-precip-before
+      text-after: page-text.inputs-precip-after
+  - 
+    id: inputs-geometry
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["watershed-map-orig", "watershed-map-new", "page-text"]
+    context:
+      id: gdp-fig-two
+      title: 
+      figure: ["watershed-map-orig", "watershed-map-new"]
+      text-before: page-text.inputs-geometry-before
+      text-after: page-text.inputs-geometry-after
+  -
+    id: method-animation
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["gdp-method-animation", "page-text"]
+    context:
+      id: gdp-fig
+      title:
+      figure: gdp-method-animation
+      text-before: page-text.method-animation-before
+      text-after: page-text.method-animation-after
+  -
+    id: conclusion-text
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page-text"
+    context:
+      id: gdp-text
+      text: page-text.conclusion
+  - 
+    id: gdp-page
+    name: index
+    publisher: page
+    template: fullpage
+    depends: ["header", "footer", "gdp-figure-css", "lib-header-css",
+      "lib-footer-css", "lib-vizlab-favicon", "sourcesanspro", 
+      "gdp-overview-text", "processing-section", "algorithm-section", 
+      "use-case-intro", "storm-transpose-animation", "inputs-precip", 
+      "inputs-geometry", "method-animation", "conclusion-text"]
+    context:
+      header: header
+      resources: [gdp-figure-css, lib-header-css, lib-footer-css, lib-vizlab-favicon, sourcesanspro]
+      sections: ["gdp-overview-text", "processing-section", "algorithm-section", 
         "use-case-intro", "storm-transpose-animation", "inputs-precip", 
         "inputs-geometry", "method-animation", "conclusion-text"]
-      context:
-        header: header
-        resources: [gdp-figure-css, lib-header-css, lib-footer-css, lib-vizlab-favicon, sourcesanspro]
-        sections: ["gdp-overview-text", "processing-section", "algorithm-section", 
-          "use-case-intro", "storm-transpose-animation", "inputs-precip", 
-          "inputs-geometry", "method-animation", "conclusion-text"]
