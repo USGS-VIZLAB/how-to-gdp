@@ -55,5 +55,5 @@ for(d in seq_along(dates)){
     theme_minimal() + 
     theme(axis.text = element_blank(), axis.title = element_blank(), panel.grid = element_blank())
   
-  ggsave(paste0("images", fn, ".png"), map_plot, width = 8, height = 7, units = "in")
+  ggsave(paste0("images/", fn, ".png"), map_plot, width = 8, height = 7, units = "in")
 }
