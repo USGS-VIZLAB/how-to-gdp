@@ -70,7 +70,6 @@ contributors:
     affiliation: U.S. Geological Survey
 
 fetch:
-<<<<<<< HEAD
     - 
       id: storm-poly
       location: cache/storm_poly.rds
@@ -154,7 +153,6 @@ process:
     scripts: [scripts/process/process.utils.R, scripts/process/process.precip_cumulative.R]
     depends: ["precip-data", "precip-breaks"]
 visualize:
-<<<<<<< HEAD
     - 
       id: storm-transpose
       location: figures/storm-transpose.png
