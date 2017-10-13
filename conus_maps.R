@@ -1,3 +1,7 @@
+## Create map figures to use in algorithm fig
+## Takes approximately 5 minutes to run.
+## Saves them in `images/`
+
 library(geoknife)
 library(rgdal)
 library(rasterVis)
@@ -18,36 +22,38 @@ for(d in seq_along(dates)){
   
   dates_d <- dates[[d]]
 
+  # execute geoknife job
   fabric <- webdata(url = 'https://cida.usgs.gov/thredds/dodsC/prism_v2', 
-                    variables = "ppt", 
+                    variables = "tmx", 
                     times = dates_d)
   job <- geoknife(stencil, fabric, knife, wait=TRUE, OUTPUT_TYPE = "geotiff")
   
-  # fn <- paste0("precip", names(dates[d]))
-  # fn <- paste0("tmx_rainbow", names(dates[d]))
-  fn <- paste0("ppt_rainbow", names(dates[d]))
-  
+  # get raster file and location
+  fn <- paste0("tmx", names(dates[d]))
   file <- download(job, destination = file.path(tempdir(), paste0(fn, '_data.zip')), overwrite=TRUE)
   unzip(file, exdir=file.path(tempdir(), fn))
   tiff.dir <- file.path(tempdir(), fn)
   
-  crs <- CRS("+proj=laea +lat_0=45 +lon_0=-100 +x_0=0 +y_0=0 +a=6370997 +b=6370997 +units=m +no_defs")
-  precip <- raster(file.path(tiff.dir , dir(tiff.dir)), crs = crs)
+  # reproject the raster
+  crs <- "+init=EPSG:5070"
+  temp <- raster(file.path(tiff.dir , dir(tiff.dir)))
+  temp_projected <- projectRaster(temp, crs=crs)
   
-  # col_vector <- c("white", blues9[4:9])
-  # col_vector <- c("white", rev(heat.colors(6)))
-  col_vector <- c("white", rev(rainbow(10)))
+  # create conus sp object to clip precip raster to just conus & not ocean
+  conus_sf <- st_as_sf(maps::map("state", plot = FALSE, fill=TRUE))
+  conus_sf_transf <- st_transform(conus_sf, crs = crs)
+  conus_sp <- as(conus_sf_transf, "Spatial")
   
-  conus <- map_data("usa")
+  # actually subset data to conus
+  temp_crop <- crop(temp_projected, extent(conus_sp))
+  temp_mask <- mask(temp_crop, conus_sp)
   
-  map_plot <- gplot(precip, maxpixels = 5e5) + 
+  map_plot <- gplot(temp_mask, maxpixels = 5e5) + 
     geom_tile(aes(fill = value), alpha=1) +
-    geom_polygon(data=conus, aes(x=long, y=lat, group=group), color="grey", fill='transparent') +
-    scale_fill_gradientn("Precipitation, mm", colours=col_vector, 
-                         guide = FALSE) +
+    scale_fill_gradientn(colours=c("white", rev(rainbow(10))), na.value = "transparent", guide = FALSE) +
     coord_equal() + 
     theme_minimal() + 
     theme(axis.text = element_blank(), axis.title = element_blank(), panel.grid = element_blank())
   
-  ggsave(paste0(fn, ".png"), map_plot, width = 8, height = 7, units = "in")
+  ggsave(paste0("images", fn, ".png"), map_plot, width = 8, height = 7, units = "in")
 }
