@@ -151,7 +151,7 @@ process:
     reader: rds
     processor: precip_cumulative
     scripts: [scripts/process/process.utils.R, scripts/process/process.precip_cumulative.R]
-    depends: ["precip-data", "precip-breaks"]
+    depends: ["precip-data", "precip-breaks", "precip-colors"]
 visualize:
     - 
       id: storm-transpose

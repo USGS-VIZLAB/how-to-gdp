@@ -28,14 +28,14 @@ calc_cumulative_precip <- function(precip_df){
 #' this function assumes column names `DateTime`, 
 #' `id` (location of precip summarization), and `precipVal`
 #' 
-bin_precip <- function(precip_df, breaks){
+bin_precip <- function(precip_df, breaks, colors){
   `%>%` <- magrittr::`%>%`
   
-  precip <- dplyr::mutate(precip_df, cols = cut(precipVal, breaks = breaks, labels = FALSE)) %>%
-    dplyr::mutate(cols = ifelse(precipVal > tail(breaks,1), length(breaks), cols)) %>%
-    dplyr::mutate(cols = ifelse(is.na(cols), 1, cols)) %>% 
-    dplyr::mutate(cols = as.character(cols)) %>% 
-    dplyr::select(id, DateTime, cols)
+  precip <- dplyr::mutate(precip_df, cols_i = cut(precipVal, breaks = breaks, labels = FALSE)) %>%
+    dplyr::mutate(cols_i = ifelse(precipVal > tail(breaks,1), length(breaks), cols_i)) %>%
+    dplyr::mutate(cols_i = ifelse(is.na(cols_i), 1, cols_i)) %>% 
+    dplyr::mutate(cols = colors[cols_i]) %>% 
+    dplyr::select(id, DateTime, precipVal, cols)
   
   return(precip)
 }
