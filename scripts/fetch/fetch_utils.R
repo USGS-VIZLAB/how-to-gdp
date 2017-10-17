@@ -18,8 +18,9 @@ county_to_sf <- function(counties){
 #' 
 poly_to_grid <- function(sf_poly, cell_size, crs){
   
-  cell_grid <- sf::st_make_grid(sf_poly, cellsize = cell_size, crs = crs)
-  cell_poly <- sf::st_intersection(sf::st_union(sf_poly), cell_grid)
+  sf_poly_buffer <- sf::st_buffer(sf_poly, 0)
+  cell_grid <- sf::st_make_grid(sf_poly_buffer, cellsize = cell_size, crs = crs)
+  cell_poly <- sf::st_intersection(sf::st_union(sf_poly_buffer, by_feature=TRUE), cell_grid)
   
   return(cell_poly)
 }
