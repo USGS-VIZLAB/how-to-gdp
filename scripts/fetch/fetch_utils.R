@@ -44,7 +44,11 @@ get_gdp_precip <- function(stencil, start_date, end_date, fabric = NULL){
   
   precip <- geoknife::result(job, with.units=TRUE) %>% 
     dplyr::select(-variable, -statistic, -units) %>% 
-    tidyr::gather(key = id, value = precipVal, -DateTime) 
+    tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
+    # arrange by code, since geoknife returns out of order
+    dplyr::mutate(id_code = as.numeric(gsub("ID", "", id))) %>% 
+    dplyr::arrange(id_code) %>% 
+    dplyr::select(-id_code)
   
   return(precip)
 }
