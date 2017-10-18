@@ -79,24 +79,9 @@ fetch:
       reader: rds
       fetcher: storm_poly
       scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
-      regions: ["wisconsin,adams", "wisconsin,ashland", "wisconsin,barron", "wisconsin,bayfield",
-                "wisconsin,brown", "wisconsin,buffalo", "wisconsin,burnett", "wisconsin,calumet",
-                "wisconsin,chippewa", "wisconsin,clark", "wisconsin,columbia", "wisconsin,crawford",
-                "wisconsin,dane", "wisconsin,dodge", "wisconsin,door", "wisconsin,douglas",
-                "wisconsin,dunn", "wisconsin,eau claire", "wisconsin,florence", "wisconsin,fond du lac",
-                "wisconsin,forest", "wisconsin,grant", "wisconsin,green", "wisconsin,green lake",
-                "wisconsin,iowa", "wisconsin,iron", "wisconsin,jackson", "wisconsin,jefferson",
-                "wisconsin,juneau", "wisconsin,kenosha", "wisconsin,kewaunee", "wisconsin,la crosse",
-                "wisconsin,lafayette", "wisconsin,langlade", "wisconsin,lincoln", "wisconsin,manitowoc",
-                "wisconsin,marathon", "wisconsin,marinette", "wisconsin,marquette", "wisconsin,menominee",
-                "wisconsin,milwaukee", "wisconsin,monroe", "wisconsin,oconto", "wisconsin,oneida",
-                "wisconsin,outagamie", "wisconsin,ozaukee", "wisconsin,pepin", "wisconsin,pierce",
-                "wisconsin,polk", "wisconsin,portage", "wisconsin,price", "wisconsin,racine",
-                "wisconsin,richland", "wisconsin,rock", "wisconsin,rusk", "wisconsin,st croix",
-                "wisconsin,sauk", "wisconsin,sawyer", "wisconsin,shawano", "wisconsin,sheboygan",
-                "wisconsin,taylor", "wisconsin,trempealeau", "wisconsin,vernon", "wisconsin,vilas",
-                "wisconsin,walworth", "wisconsin,washburn", "wisconsin,washington", "wisconsin,waukesha",
-                "wisconsin,waupaca", "wisconsin,waushara", "wisconsin,winnebago", "wisconsin,wood"]
+      regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,dane", 
+                "wisconsin,green lake", "wisconsin,iowa", "wisconsin,fond du lac",
+                "wisconsin,adams", "wisconsin,juneau", "wisconsin,marquette"]
       crs: "+init=EPSG:5070"
     - 
       id: storm-cell-poly
