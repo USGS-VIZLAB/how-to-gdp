@@ -51,6 +51,9 @@ required-packages:
   maps:
     repo: CRAN
     version: 3.2.0
+  ggplot2:
+    repo: CRAN
+    version: 2.2.1
 contributors:
   - 
     name: Dave Blodgett
@@ -133,16 +136,18 @@ fetch:
       id: watershed-orig
       location: cache/watershed_orig.rds
       reader: rds
-      fetcher: watershed_geometry
-      scripts: scripts/fetch/fetch.watershed_geometry.R
-      region: "wisconsin,portage" 
+      fetcher: shapefile
+      scripts: scripts/fetch/fetch.shapefile.R
+      filepath: "data/watersheds/baraboo.shp"
+      crs: "+init=EPSG:5070"
     - 
       id: watershed-new
       location: cache/watershed_new.rds
       reader: rds
-      fetcher: watershed_geometry
-      scripts: scripts/fetch/fetch.watershed_geometry.R
-      region: "wisconsin,dane" 
+      fetcher: shapefile
+      scripts: scripts/fetch/fetch.shapefile.R
+      filepath: "data/watersheds/yahara.shp"
+      crs: "+init=EPSG:5070"
 process:
   -
     id: precip-colors
@@ -169,6 +174,13 @@ process:
     processor: precip_cumulative
     scripts: [scripts/process/process.utils.R, scripts/process/process.precip_cumulative.R]
     depends: ["precip-data", "precip-breaks", "precip-colors"]
+  - 
+    id: storm-cell-df
+    location: cache/storm_cell_df.rds
+    reader: rds
+    processor: precip_cells_df
+    scripts: scripts/process/process.precip_cells_df.R
+    depends: ["storm-cell-poly"]
 visualize:
     - 
       id: storm-transpose
@@ -176,7 +188,8 @@ visualize:
       mimetype: image/png
       visualizer: storm_transpose
       scripts: scripts/visualize/visualize.storm_transpose.R
-      depends: "precip-cumulative"
+      depends: ["precip-cumulative", "precip-colors", "precip-breaks", 
+        "watershed-orig", "watershed-new", "storm-cell-df"]
       title: "Transposing storm precip"
       alttext: "Transposing storm precip"
     - 
