@@ -208,7 +208,7 @@ visualize:
       visualizer: watershed_map
       scripts: scripts/visualize/visualize.watershed_map.R
       depends: 
-        region_sf: "storm-poly"
+        sp_poly: "watershed-orig"
       title: ""
       alttext: ""
     -
@@ -218,7 +218,7 @@ visualize:
       visualizer: watershed_map
       scripts: scripts/visualize/visualize.watershed_map.R
       depends: 
-        region_sf: "transpose-poly"
+        sp_poly: "watershed-new"
       title: ""
       alttext: ""
     -
