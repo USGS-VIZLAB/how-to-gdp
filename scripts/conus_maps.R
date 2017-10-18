@@ -52,9 +52,10 @@ for(r in seq(nrow(dates_df))){
   temp_mask <- mask(temp_crop, conus_sp)
   
   map_plot <- gplot(temp_mask, maxpixels = 5e5) + 
-    geom_tile(aes(fill = value), alpha=1) +
+    geom_tile(aes(fill = value, alpha=ifelse(is.na(value), 0, 1))) +
     scale_fill_gradientn(colours=rev(rainbow(15)), na.value = "transparent",
                          limits = c(-15, 50), guide = FALSE) +
+    scale_alpha(guide = FALSE) +
     coord_equal() + 
     theme_minimal() + 
     theme(axis.text = element_blank(), axis.title = element_blank(), panel.grid = element_blank())
