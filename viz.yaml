@@ -1,59 +1,59 @@
 cvizlab: "0.2.0"
 info:
-id: how-gdp
-name: How GDP Works 
-date: 2017-09-19
-publish-date: 2018-10-12
-path: /how-gdp
-analytics-id: 
-description: >-
-  Explanation of how the Geo Data Portal works.
-keywords: >-
-  USGS, VIZLAB, GDP
-audience: GDP current and future users
-url: 
-twitter: "@USGS-R"
-thumbnail-facebook:
+  id: how-gdp
+  name: How GDP Works 
+  date: 2017-09-19
+  publish-date: 2018-10-12
+  path: /how-gdp
+  analytics-id: 
+  description: >-
+    Explanation of how the Geo Data Portal works.
+  keywords: >-
+    USGS, VIZLAB, GDP
+  audience: GDP current and future users
   url: 
-  width: 1560
-  height: 820
-  alttext: ""
-  type: image/png
-thumbnail-twitter:
-  url: 
-  width: 560
-  height: 300
-  alttext: ""
-thumbnail-landing:
-  url: images/vizlab06.png
-  width: 400
-  height: 400
-  alttext: ""
-required-packages:
-  vizlab:
-    repo: CRAN
-    version: 0.2.0
-  sf:
-    repo: CRAN
-    version: 0.5-4
-  sp: 
-    repo: CRAN
-    version: 1.2.5
-  geoknife:
-    repo: CRAN
-    version: 1.5.5
-  dplyr:
-    repo: CRAN
-    version: 0.7.2
-  tidyr:
-    repo: CRAN
-    version: 0.7.1
-  maps:
-    repo: CRAN
-    version: 3.2.0
-  ggplot2:
-    repo: CRAN
-    version: 2.2.1
+  twitter: "@USGS-R"
+  thumbnail-facebook:
+    url: 
+    width: 1560
+    height: 820
+    alttext: ""
+    type: image/png
+  thumbnail-twitter:
+    url: 
+    width: 560
+    height: 300
+    alttext: ""
+  thumbnail-landing:
+    url: images/vizlab06.png
+    width: 400
+    height: 400
+    alttext: ""
+  required-packages:
+    vizlab:
+      repo: CRAN
+      version: 0.2.0
+    sf:
+      repo: CRAN
+      version: 0.5-4
+    sp: 
+      repo: CRAN
+      version: 1.2.5
+    geoknife:
+      repo: CRAN
+      version: 1.5.5
+    dplyr:
+      repo: CRAN
+      version: 0.7.2
+    tidyr:
+      repo: CRAN
+      version: 0.7.1
+    maps:
+      repo: CRAN
+      version: 3.2.0
+    ggplot2:
+      repo: CRAN
+      version: 2.2.1
 contributors:
   - 
     name: Dave Blodgett
