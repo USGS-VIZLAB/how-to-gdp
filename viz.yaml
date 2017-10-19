@@ -202,7 +202,8 @@ publish:
   -
     id: processing-schematic
     location: images/processing_schematic.gif
-    mimetype: image/gif
+    mimetype: image/png
+    export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
