@@ -224,8 +224,9 @@ publish:
     alttext: "USGS Logo"
   -
     id: processing-schematic
-    location: images/processing_old.png
+    location: images/processing_schematic.gif
     mimetype: image/png
+    export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
