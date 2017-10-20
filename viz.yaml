@@ -81,7 +81,9 @@ fetch:
       scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
       regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,dane", 
                 "wisconsin,green lake", "wisconsin,iowa", "wisconsin,fond du lac",
-                "wisconsin,adams", "wisconsin,juneau", "wisconsin,marquette"]
+                "wisconsin,adams", "wisconsin,juneau", "wisconsin,marquette",
+                "wisconsin,waushara", "wisconsin,winnebago", "wisconsin,richland",
+                "wisconsin,jefferson"]
       crs: "+init=EPSG:5070"
     - 
       id: storm-cell-poly
