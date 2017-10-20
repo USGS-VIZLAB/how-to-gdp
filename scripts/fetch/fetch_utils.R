@@ -32,6 +32,8 @@ poly_to_grid <- function(sf_poly, cell_size, crs){
 #' 
 get_gdp_precip <- function(stencil, start_date, end_date, fabric = NULL){
   
+  `%>%` <- magrittr::`%>%`
+  
   if(is.null(fabric)){
     fabric <- geoknife::webdata(url = 'https://cida.usgs.gov/thredds/dodsC/stageiv_combined', 
                                 variables = "Total_precipitation_surface_1_Hour_Accumulation", 
@@ -41,7 +43,7 @@ get_gdp_precip <- function(stencil, start_date, end_date, fabric = NULL){
   stopifnot(class(fabric) == "webdata")
   
   job <- geoknife::geoknife(stencil, fabric, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
-  
+
   precip <- geoknife::result(job, with.units=TRUE) %>% 
     dplyr::select(-variable, -statistic, -units) %>% 
     tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
