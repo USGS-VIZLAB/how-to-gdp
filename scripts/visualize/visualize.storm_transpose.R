@@ -14,10 +14,7 @@ visualize.storm_transpose <- function(viz){
     geom_polygon(data=ws_orig, aes(x=long,y=lat,group=group), fill="lightpink") +
     geom_polygon(data=ws_new, aes(x=long,y=lat,group=group), fill="lightgreen") +
     coord_fixed() +
-    scale_fill_manual(values = precip_colors, labels = precip_breaks, 
-                      name = "Cumulative precip (in)", 
-                      guide = guide_legend(direction = "horizontal", title.position = "top",
-                                           nrow = 1, label.position = "bottom", label.hjust = 0.5)) +
+    scale_fill_gradientn(colours = blues9) +
     theme_minimal() + 
     theme(axis.title = element_blank(), panel.grid = element_blank(), axis.text = element_blank(),
           legend.position="bottom") 
@@ -26,8 +23,7 @@ visualize.storm_transpose <- function(viz){
   
   precip_df_sp_final <- dplyr::left_join(storm_cell_df, precip_df_final, by="id") # merge w/ precip totals
   precip_plot <- baseplot + 
-    geom_polygon(data=precip_df_sp_final, aes(x=long, y=lat, group=group, fill=cols), color=NA, alpha=0.9)
+    geom_polygon(data=precip_df_sp_final, aes(x=long, y=lat, group=group, fill=precipVal), color=NA, alpha=0.9)
   
   ggsave(filename = viz[["location"]], plot = precip_plot)
-  
 }
