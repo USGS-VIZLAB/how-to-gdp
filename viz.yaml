@@ -144,7 +144,7 @@ process:
     export: true
     processor: precip_colors
     scripts: [scripts/process/process.utils.R, scripts/process/process.precip_bins.R]
-    bins: 9
+    bins: 10
     palette: "Blues"
   -
     id: precip-breaks
