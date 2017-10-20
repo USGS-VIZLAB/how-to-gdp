@@ -4,15 +4,14 @@ user/
 figures/
 vizlab/
 makefile
-
 # RStudio files
 *.Rproj
 .Rproj.user
 .RData
 .Ruserdata
-
 # History files
 .Rhistory
 .Rapp.history
 # Session Data files
 .RData
+.httr-oauth

@@ -1,12 +1,14 @@
 visualize.watershed_map <- function(viz){
+  library(ggplot2)
+  
   deps <- readDepends(viz)
-  region <- deps[['region']]
+  sp_poly <- deps[['sp_poly']]
   
-  library(maps)
+  watershed_map <- ggplot() + 
+    geom_polygon(data=sp_poly, aes(x=long, y=lat, group=group), fill="grey90", color="black") +
+    coord_fixed() +
+    theme_minimal() + 
+    theme(axis.title = element_blank(), panel.grid = element_blank(), axis.text = element_blank()) 
   
-  png(viz[['location']])
-  map("state", "wisconsin")
-  map("county", region="wisconsin", add=TRUE)
-  map("county", region = region, fill=TRUE, col="cornflowerblue", add=TRUE)
-  dev.off()
+  ggsave(filename = viz[["location"]], plot = watershed_map)
 }
