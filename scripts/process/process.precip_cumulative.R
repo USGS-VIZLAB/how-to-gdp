@@ -2,7 +2,7 @@ process.precip_cumulative <- function(viz){
   `%>%` <- magrittr::`%>%`
   
   deps <- readDepends(viz)
-  precip_data <- deps[['precip-data']]
+  precip_data <- deps[['precip_data']]
   
   precip_data <- dplyr::group_by(precip_data, id) %>% #convert mm to inches
     dplyr::mutate(summ = cumsum(precipVal)) %>% 
