@@ -1,18 +1,30 @@
 fetch.precip_data <- function(viz){
-  
-  library(sf)
+  `%>%` <- magrittr::`%>%`
   
   deps <- readDepends(viz)
-  sf_poly <- deps[["sf-poly"]]
-  crs <- viz[["crs"]]
+  geom_sp <- deps[["geom_sp"]]
+  date_range <- deps[["date_range"]]
   
-  sp_poly <- as(sf_poly, "Spatial")
-  sp_poly <- sp::spTransform(sp_poly, sp::CRS(crs))
+  stencil <- geoknife::simplegeom(geom_sp)
+  fabric <- geoknife::webdata(url = 'https://cida.usgs.gov/thredds/dodsC/stageiv_combined', 
+                              variables = "Total_precipitation_surface_1_Hour_Accumulation", 
+                              times = c(date_range$start_date, date_range$end_date))
+  knife <- geoknife::webprocess(viz[["algorithm"]])
   
-  stencil <- geoknife::simplegeom(sp_poly)
-  precip <- get_gdp_precip(stencil, viz[['start.date']], viz[['end.date']])
+  if(viz[["algorithm"]] == "subset"){
+    job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, 
+                              REQUIRE_FULL_COVERAGE=FALSE, OUTPUT_TYPE = "geotiff")
+  } else {
+    job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
+  }
   
-  saveRDS(precip, viz[['location']])
+  precip <- geoknife::result(job, with.units=TRUE)
+  precip_clean <- precip %>% 
+    dplyr::select(-variable, -statistic, -units) %>% 
+    tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
+    dplyr::mutate(precipVal = precipVal/25.4) #convert mm to inches
+  
+  saveRDS(precip_clean, viz[['location']])
 }
 
 fetchTimestamp.precip_data <- vizlab:::fetchTimestamp.file
