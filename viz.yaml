@@ -272,6 +272,7 @@ visualize:
     id: storm_transpose	
     comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
     location: figures/storm_transpose.png
+    mimetype: image/png
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
