@@ -1,4 +1,4 @@
-visualize.map_precip_data <- function(viz){
+visualize.map_precip <- function(viz){
   
   deps <- readDepends(viz)
   precip_data <- deps[["precip_data"]]

@@ -1,4 +1,4 @@
-visualize.watershed_map <- function(viz){
+visualize.map_geometry <- function(viz){
   
   deps <- readDepends(viz)
   geom_feature <- deps[['geom_feature']]
