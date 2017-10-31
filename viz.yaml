@@ -203,7 +203,7 @@ process:
     location: cache/yahara_precip_avg_timestep.rds
     reader: rds
     processor: precip_timestep
-    scripts: scripts/visualize/precip_timestep.R
+    scripts: scripts/process/process.precip_timestep.R
     depends: 
       precip_data: "yahara_precip_avg"
       timestep: "example_dateTime"
@@ -243,7 +243,7 @@ visualize:
     location: figures/inputs_geometry.png
     mimetype: image/png
     visualizer: map_geometry
-    scripts: scripts/visualize/map_geometry.R
+    scripts: scripts/visualize/visualize.map_geometry.R
     depends:
       geom_feature: "yahara_geom_transposed"
       geom_context: "context_geom"
@@ -261,8 +261,8 @@ visualize:
     comment: map w. avg gdp data for yahara transpose at one timestep	
     location: figures/yahara_precip_melt.png
     mimetype: image/png
-    visualizer: map_precip_data
-    scripts: scripts/visualize/map_precip_data.R
+    visualizer: map_precip
+    scripts: scripts/visualize/visualize.map_precip.R
     depends:
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
@@ -270,8 +270,8 @@ visualize:
     id: storm_transpose	
     comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
     location: figures/storm_transpose.png
-    visualizer: map_precip_data
-    scripts: scripts/visualize/map_precip_data.R
+    visualizer: map_precip
+    scripts: scripts/visualize/visualize.map_precip.R
     depends:
       precip_data: "yahara_precip_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
