@@ -8,6 +8,6 @@ visualize.map_geometry <- function(viz){
   
   png(viz[['location']])
   plot(geom_context, col="grey")
-  plot(geom_feature, col="lightyellow")
+  plot(geom_feature, col="lightyellow", add=TRUE)
   dev.off()
 }
