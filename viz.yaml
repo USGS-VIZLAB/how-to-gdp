@@ -45,6 +45,9 @@ info:
     raster:
       repo: CRAN
       version: 2.5-8
+    RColorBrewer:
+      repo: CRAN
+      version: 1.1-2
     sf:
       repo: CRAN
       version: 0.5-4
