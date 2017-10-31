@@ -11,14 +11,33 @@ a{
   text-decoration:none;
 }
 
-#gdp-fig-two h1 h2 h3 p text,
-#gdp-text h1 h2 h3 p text,
-#gdp-fig h1 h2 h3 p text{
-  padding:10px;
-  font-family: "Source Sans Pro", sans-serif;
-  margin: 10px auto 20px auto;
-  font-size:1.1em;
-  line-height:1.5em;
+figure img{
+  margin:20px 0;
+}
+
+#gdp-fig-two p,
+#gdp-text p,
+#gdp-fig p{
+  margin-bottom:10px;
+  font-size:1em;
+}
+
+#gdp-fig-two h1,
+#gdp-text h1,
+#gdp-fig h1{
+  margin-bottom:5px;
+}
+
+#gdp-fig-two h3,
+#gdp-text h3,
+#gdp-fig h3{
+  margin-bottom:5px;
+}
+
+#gdp-fig-two text,
+#gdp-text text,
+#gdp-fig text{
+  background:orange;
 }
 
 #gdp-fig figure {
