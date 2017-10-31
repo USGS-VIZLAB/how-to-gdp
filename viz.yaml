@@ -94,6 +94,12 @@ parameter:
     comment: number of bins for precip scale
     bins: 10
 fetch:
+  -
+    id: page_text
+    comment: identify yaml file w/ site text
+    location: data/page_text.yaml
+    reader: md
+    mimetype: text/yaml
   - 
     id: precip_colors
     comment: colors to use for precip gradient in maps
@@ -181,12 +187,6 @@ fetch:
       geom_sp: "context_geom"
       date_range: "storm_dates"
     algorithm: "subset"
-  -
-    id: page_text
-    comment: identify yaml file w/ site text
-    location: data/page_text.yaml
-    reader: md
-    mimetype: text/yaml
 process:
   -
     id: yahara_precip_avg_cumulative
