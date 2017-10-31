@@ -51,6 +51,12 @@ info:
     maps:
       repo: CRAN
       version: 3.2.0
+    maptools:
+      repo: CRAN
+      version: 0.9-2
+    raster:
+      repo: CRAN
+      version:
 contributors:
   - 
     name: Dave Blodgett
@@ -68,285 +74,377 @@ contributors:
     name: David Watkins
     email: wwatkins@usgs.gov
     affiliation: U.S. Geological Survey
-
-fetch:
-  - 
-    id: storm-poly
-    location: cache/storm_poly.rds
-    reader: rds
-    fetcher: storm_poly
-    scripts: [scripts/fetch/fetch.storm_poly.R, scripts/fetch/fetch_utils.R]
-    regions: ["wisconsin,sauk", "wisconsin,columbia", "wisconsin,dodge", "wisconsin,green lake"]
-    crs: "+init=EPSG:3086"
-  - 
-    id: storm-cell-poly
-    location: cache/storm_cell_poly.rds
-    reader: rds
-    fetcher: precip_cells 
-    scripts: [scripts/fetch/fetch.precip_cells.R, scripts/fetch/fetch_utils.R]
-    depends: ["storm-poly"]
-    cell-size: 1500
-    crs: "+init=EPSG:3086"
-  - 
-    id: precip-data
-    location: cache/precip_data.rds
-    reader: rds
-    fetcher: precip_data
-    scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
-    depends: 
-      sf-poly: "storm-cell-poly"
-    crs: "+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0"
-    start.date: "2008-06-02"
-    end.date: "2008-06-13"
+parameter:
   -
-    id: page-text
+    id: storm_dates
+    comment: dates to timebox storm for getting data
+    start_date: "2008-06-02"
+    end_date: "2008-06-13"
+  -
+    id: display_crs	
+    comment: projecting into
+    crs_str: "+init=epsg:5070"
+  - 
+    id: geoknife_crs
+    comment: needed to create a simplegeom for geoknife
+    crs_str: "+proj=longlat +datum=WGS84"
+  -
+    id: example_dateTime
+    comment: use one timestep to illustrate geoknife processing
+    date: "2008-06-12 22:00:00 UTC"
+  -
+    id: precip_bins
+    comment: number of bins for precip scale
+    bins: 10
+fetch:
+  -
+    id: page_text
+    comment: identify yaml file w/ site text
     location: data/page_text.yaml
     reader: md
     mimetype: text/yaml
-    scripts:
   - 
-    id: watershed-orig
-    location: cache/watershed_orig.rds
+    id: precip_colors
+    comment: colors to use for precip gradient in maps
+    location: cache/precip_colors.rds
     reader: rds
-    fetcher: watershed_geometry
-    scripts: scripts/fetch/fetch.watershed_geometry.R
-    region: "wisconsin,portage" 
-  - 
-    id: watershed-new
-    location: cache/watershed_new.rds
-    reader: rds
-    fetcher: watershed_geometry
-    scripts: scripts/fetch/fetch.watershed_geometry.R
-    region: "wisconsin,dane" 
-process:
-  -
-    id: precip-colors
-    location: cache/precip_colors.json
-    reader: json
-    mimetype: application/javascript
-    export: true
-    processor: precip_colors
-    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_bins.R]
-    bins: 9
+    fetcher: precip_colors
+    scripts: scripts/fetch/fetch.precip_bins.R
+    depends: 
+      bins: "precip_bins"
     palette: "Blues"
   -
-    id: precip-breaks
+    id: precip_breaks
+    comment: precip breaks based on lowest & highest precip val in scale
     location: cache/precip_breaks.rds
     reader: rds
-    processor: precip_breaks
-    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_bins.R]
-    depends: ["precip-colors"]
-    step-size: 1.5
+    fetcher: precip_breaks
+    scripts: scripts/fetch/fetch.precip_bins.R
+    depends: 
+      bins: "precip_bins"
+    low_precip: 0
+    high_precip: 14
+  -
+    id: yahara_geom
+    comment: get shapefile as R object
+    location: cache/yahara.rds
+    reader: rds
+    fetcher: geom_shp
+    scripts: scripts/fetch/fetch.geom_shp.R
+    depends: 
+      crs: "geoknife_crs"
+    filepath: "data/yahara.shp"
   - 
-    id: precip-cumulative
-    location: cache/precip_cumulative.rds
+    id: yahara_geom_transposed
+    comment: moves yahara north (more process than fetch, but precip fetch depends on this)
+    location: cache/yahara_transposed.rds
+    reader: rds
+    fetcher: geom_transpose
+    scripts: scripts/fetch/fetch.geom_transpose.R
+    depends: 
+      geom_sp: "yahara_geom"
+    vertical_trans_va: 0.15
+  -
+    id: context_geom
+    comment: create spatial object of area around yahara (maybe just make bbox)	
+    location: cache/context_geom.rds
+    reader: rds
+    fetcher: bbox_geom
+    scripts: scripts/fetch/fetch.bbox_geom.R
+    depends: 
+      crs: "geoknife_crs"
+    west: -89.663676
+    east: -89.034590
+    south: 42.887609
+    north: 43.809561
+  -
+    id: yahara_precip_avg
+    comment: use transposed yahara as stencil (need dates)
+    location: cache/yahara_precip_avg.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom_transposed"
+      date_range: "storm_dates"
+    algorithm: "unweighted summary"
+#  -
+#    id: yahara_precip
+#    comment: use transposed yahara, use subset algorithm
+#    location: cache/yahara_precip.rds
+#    reader: rds
+#    fetcher: precip_data
+#    scripts: scripts/fetch/fetch.precip_data.R
+#    depends:
+#      geom_sp: "yahara_geom_transposed"
+#      date_range: "storm_dates"
+#    algorithm: "subset"
+#  -
+#    id: context_precip
+#    comment: subset data from gdp for area around yahara
+#    location: cache/context_precip.rds
+#    reader: rds
+#    fetcher: precip_data
+#    scripts: scripts/fetch/fetch.precip_data.R
+#    depends:
+#      geom_sp: "context_geom"
+#      date_range: "storm_dates"
+#    algorithm: "subset"
+process:
+  -
+    id: yahara_precip_avg_cumulative
+    comment: get cumulative avg precip
+    location: cache/yahara_precip_avg_cumulative.rds
     reader: rds
     processor: precip_cumulative
-    scripts: [scripts/process/process.utils.R, scripts/process/process.precip_cumulative.R]
-    depends: ["precip-data", "precip-breaks"]
+    scripts: scripts/process/process.precip_cumulative.R
+    depends: 
+      precip_data: "yahara_precip_avg"
+  -
+    id: yahara_precip_avg_timestep
+    comment: filter to get just one precip value of the averaged precip data
+    location: cache/yahara_precip_avg_timestep.rds
+    reader: rds
+    processor: precip_timestep
+    scripts: scripts/process/process.precip_timestep.R
+    depends: 
+      precip_data: "yahara_precip_avg"
+      timestep: "example_dateTime"
+#  -
+#    id: yahara_precip_timestep
+#    comment: filter to get just one precip value
+#    location: cache/yahara_precip_timestep.rds
+#    reader: rds
+#    processor: precip_timestep
+#    scripts: scripts/process/process.precip_timestep.R
+#    depends: 
+#      precip_data: "yahara_precip"
+#      timestep: "example_dateTime"
+#  -
+#    id: context_precip_timestep
+#    comment: filter to get just one precip value
+#    location: cache/context_precip_timestep.rds
+#    reader: rds
+#    processor: precip_timestep
+#    scripts: scripts/process/process.precip_timestep.R
+#    depends: 
+#      precip_data: "context_precip"
+#      timestep: "example_dateTime"
 visualize:
-  - 
-    id: storm-transpose
-    location: figures/storm-transpose.png
-    mimetype: image/png
-    visualizer: storm_transpose
-    scripts: scripts/visualize/visualize.storm_transpose.R
-    depends: "precip-cumulative"
-    title: "Transposing storm precip"
-    alttext: "Transposing storm precip"
-  - 
-    id: precip-timeseries-map
-    location: figures/precip-timeseries-map.png
-    mimetype: image/png
-    visualizer: precip_timeseries_map
-    scripts: scripts/visualize/visualize.precip_timeseries_map.R
-    depends: "precip-cumulative"
-    title: "Cumulative precip over time"
-    alttext: "Cumulative precip over time"
+#  -
+#    id: inputs_data	
+#    comment: raster map of subset gdp data at one timestep for area around yahara	
+#    location: figures/inputs_data.png
+#    mimetype: image/png
+#    visualizer: raster_map_precip
+#    scripts: scripts/visualize/visualize.raster_map_precip.R
+#    depends:
+#      precip_data: "context_precip_timestep"
+#    title: 
+#    alttext:
   -
-    id: watershed-map-orig
-    location: figures/watershed-map-orig.png
+    id: inputs_geometry	
+    comment: map of subset gdp transposed yahara data w. surrounding area for context	
+    location: figures/inputs_geometry.png
     mimetype: image/png
-    visualizer: watershed_map
-    scripts: scripts/visualize/visualize.watershed_map.R
-    depends: 
-      region: "watershed-orig"
-    title: ""
-    alttext: ""
+    visualizer: map_geometry
+    scripts: scripts/visualize/visualize.map_geometry.R
+    depends:
+      geom_feature: "yahara_geom_transposed"
+      geom_context: "context_geom"
+    title: Geometry of feature of interest
+    alttext: Spatial extent of the data you're interested in
+#  -
+#    id: yahara_precip_clip
+#    comment: raster map w. subset gdp transposed yahara data at one timestep	
+#    location: figures/yahara_precip_clip.png
+#    mimetype: image/png
+#    visualizer: raster_map_precip
+#    scripts: scripts/visualize/visualize.raster_map_precip.R
+#    depends:
+#      precip_data: "yahara_precip_timestep"
+#    title: 
+#    alttext: 
   -
-    id: watershed-map-new
-    location: figures/watershed-map-new.png
+    id: yahara_precip_melt
+    comment: map w. avg gdp data for yahara transpose at one timestep	
+    location: figures/yahara_precip_melt.png
     mimetype: image/png
-    visualizer: watershed_map
-    scripts: scripts/visualize/visualize.watershed_map.R
-    depends: 
-      region: "watershed-new"
-    title: ""
-    alttext: ""
+    visualizer: map_precip
+    scripts: scripts/visualize/visualize.map_precip.R
+    depends:
+      precip_data: "yahara_precip_avg_timestep"
+      geom_sp: "yahara_geom_transposed"
+    title: Processed GDP results for one timestep
+    alttext: Processed GDP results for one timestep
   -
-    id: gdp-method-animation
-    location: figures/method_animation.png
+    id: storm_transpose	
+    comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
+    location: figures/storm_transpose.png
     mimetype: image/png
-    visualizer: method_animation
-    scripts: scripts/visualize/visualize.method_animation.R
-    depends: "precip-cumulative"
-    title: ""
-    alttext: ""
+    visualizer: map_precip
+    scripts: scripts/visualize/visualize.map_precip.R
+    depends:
+      precip_data: "yahara_precip_avg_cumulative"
+      geom_sp: "yahara_geom_transposed"
+      geom_sp_orig: "yahara_geom"
+    title: Storm transposition
+    alttext: Storm transposition
 publish:
   -
-    id: usgs-logo
+    id: publish_usgs_logo
     location: images/usgsLogo.png
     mimetype: image/png
     title: "USGS Logo"
     alttext: "USGS Logo"
   -
-    id: processing-schematic
+    id: publish_processing_schematic
     location: images/processing_schematic.gif
-    mimetype: image/png
+    mimetype: image/gif
     export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
-    id: algorithm-schematic
-    location: images/algorithm_old.png
-    mimetype: image/png
+    id: publish_algorithm_schematic
+    location: images/map.gif
+    mimetype: image/gif
     title: "GDP Algorithm Schematic"
     alttext: "GDP Algorithm Schematic"
   -  
-    id: gdp-figure-css
+    id: publish_gdp_figure_css
     location: layout/css/gdp-figure.css
     mimetype: text/css
   -
-    id: sourcesanspro
+    id: publish_sourcesanspro
     publisher: googlefont
     family: Source Sans Pro
     weight: [300, 400, 600]
   - 
-    id: header
+    id: publish_header
     publisher: section
     template: header-template
-    depends: "usgs-logo"
+    depends: "publish_usgs_logo"
     context:
       id: header
       title: How the Geo Data Portal works
-      logo: usgs-logo
+      logo: publish_usgs_logo
       caption: Expalanation of how the GDP works
   -
-    id: footer
+    id: publish_footer
     publisher: section
     template: footer-template
-    depends: "usgs-logo"
+    depends: "publish_usgs_logo"
     context:
       blogsInFooter: FALSE
-      usgsLogo: usgs-logo
+      usgsLogo: publish_usgs_logo
       github-url: https://github.com/USGS-VIZLAB/how-gdp
   - 
-    id: gdp-overview-text
+    id: publish_gdp_overview
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "page-text"
+    depends: "page_text"
     context:
       id: gdp-text
-      text: page-text.gdp-overview
+      text: page_text.gdp_overview
   - 
-    id: processing-section
+    id: publish_gdp_processing
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["processing-schematic", "page-text"]
+    depends: ["publish_processing_schematic", "page_text"]
     context:
       id: gdp-fig
       title: "Bandwidth and processing savings with GDP"
-      figure: processing-schematic
+      figure: publish_processing_schematic
       figure-caption: >-
         Schematic of how processing and bandwidth are saved using the GDP
-      text-before: page-text.processing-before
-      text-after: page-text.processing-after
+      text-before: page_text.gdp_processing_before
+      text-after: page_text.gdp_processing_after
   - 
-    id: algorithm-section
+    id: publish_gdp_algorithm
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["algorithm-schematic", "page-text"]
+    depends: ["publish_algorithm_schematic", "page_text"]
     context:
       id: gdp-fig
       title: "GDP algorithm support"
-      figure: algorithm-schematic
+      figure: publish_algorithm_schematic
       figure-caption: ""
-      text-before: page-text.algorithm-before
-      text-after: page-text.algorithm-after
+      text-before: page_text.gdp_algorithm_before
+      text-after: page_text.gdp_algorithm_after
   -
-    id: use-case-intro
+    id: publish_use_case_intro
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "page-text"
+    depends: "page_text"
     context:
       id: gdp-text
       title: 
-      text: page-text.use-case-intro
+      text: page_text.use_case_intro
   -
-    id: storm-transpose-animation
+    id: publish_storm_transpose
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["storm-transpose", "page-text"]
+    depends: ["storm_transpose", "page_text"]
     context:
       id: gdp-fig
-      title: Animation of storm transposition
-      figure: storm-transpose
-      text-before: page-text.storm-transpose-before
-      text-after: page-text.storm-transpose-after
+      figure: storm_transpose
+      text-before: page_text.storm_transpose_before
+      text-after: page_text.storm_transpose_after
+#  - 
+#    id: publish_inputs_data
+#    publisher: section
+#    template: layout/templates/gdp-figure.mustache
+#    depends: ["inputs_data", "page_text"]
+#    context:
+#      id: gdp-fig
+#      title: "Precip overtime for original storm location"
+#      figure: precip-timeseries-map
+#      text-before: page_text.inputs_data_before
+#      text-after: page_text.inputs_data_after
   - 
-    id: inputs-precip
+    id: publish_inputs_geometry
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["precip-timeseries-map", "page-text"]
+    depends: ["inputs_geometry", "page_text"]
     context:
       id: gdp-fig
-      title: "Precip overtime for original storm location"
-      figure: precip-timeseries-map
-      text-before: page-text.inputs-precip-before
-      text-after: page-text.inputs-precip-after
-  - 
-    id: inputs-geometry
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["watershed-map-orig", "watershed-map-new", "page-text"]
-    context:
-      id: gdp-fig-two
-      title: 
-      figure: ["watershed-map-orig", "watershed-map-new"]
-      text-before: page-text.inputs-geometry-before
-      text-after: page-text.inputs-geometry-after
+      figure: inputs_geometry
+      text-before: page_text.inputs_geometry_before
+      text-after: page_text.inputs_geometry_after
+#  -
+#    id: publish_yahara_precip
+#    publisher: section
+#    template: layout/templates/gdp-figure.mustache
+#    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
+#    context:
+#      id: gdp-fig-two
+#      title:
+#      figure: ["yahara_precip_clip", "yahara_precip_melt"]
+#      text-before: page_text.yahara_precip_before
+#      text-after: page_text.yahara_precip_after
   -
-    id: method-animation
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["gdp-method-animation", "page-text"]
-    context:
-      id: gdp-fig
-      title:
-      figure: gdp-method-animation
-      text-before: page-text.method-animation-before
-      text-after: page-text.method-animation-after
-  -
-    id: conclusion-text
+    id: publish_conclusion_text
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "page-text"
+    depends: "page_text"
     context:
       id: gdp-text
-      text: page-text.conclusion
+      text: page_text.conclusion
   - 
-    id: gdp-page
+    id: publish_gdp_page
     name: index
     publisher: page
     template: fullpage
-    depends: ["header", "footer", "gdp-figure-css", "lib-header-css",
-      "lib-footer-css", "lib-vizlab-favicon", "sourcesanspro", 
-      "gdp-overview-text", "processing-section", "algorithm-section", 
-      "use-case-intro", "storm-transpose-animation", "inputs-precip", 
-      "inputs-geometry", "method-animation", "conclusion-text"]
+    depends: ["publish_header", "publish_footer", "publish_gdp_figure_css", 
+      "lib-header-css", "lib-footer-css", "lib-vizlab-favicon", "publish_sourcesanspro", 
+      "publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
+      "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
+      "publish_inputs_geometry", #"publish_yahara_precip", 
+      "publish_conclusion_text"]
     context:
       header: header
-      resources: [gdp-figure-css, lib-header-css, lib-footer-css, lib-vizlab-favicon, sourcesanspro]
-      sections: ["gdp-overview-text", "processing-section", "algorithm-section", 
-        "use-case-intro", "storm-transpose-animation", "inputs-precip", 
-        "inputs-geometry", "method-animation", "conclusion-text"]
+      resources: [publish_gdp_figure_css, lib-header-css, lib-footer-css, lib-vizlab-favicon, publish_sourcesanspro]
+      sections: ["publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
+        "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
+        "publish_inputs_geometry", #"publish_yahara_precip", 
+        "publish_conclusion_text"]

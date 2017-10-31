@@ -1,5 +1,5 @@
 ---
-gdp-overview: >-
+gdp_overview: >-
   # The Geo Data Portal
   
   Increasing complexity of natural resource management questions requires computations 
@@ -12,26 +12,26 @@ gdp-overview: >-
    
   The following will explain how the Geo Data Portal works.
 
-processing-before: >-
+gdp_processing_before: >-
   ### Bandwidth and processing savings with GDP
   
   The GDP moves computationally intensive processing steps from a researcher's computer to
   the web. This means researchers have more computational power at their fingertips, and 
   do not need to need their computer tied up during a lengthy processing step.
-processing-after: >-
+gdp_processing_after: >-
   
   This differs from traditional geoprocessing workflows which require downloads of an 
   immense amount of data to then process. The GDP requires users to download only the 
   processed data.
-algorithm-before: >-
+gdp_algorithm_before: >-
   ### GDP algorithm support
 
   [[Here is where I would type information about algorithm support.]]
   
-algorithm-after: >-
+gdp_algorithm_after: >-
   
   [[Here is some info about the pic.]]
-use-case-intro: >-
+use_case_intro: >-
   # Extreme Storm Transposition Use-case
   
   We are using an extreme storm transposition analysis to show off how the GDP works. Storm
@@ -43,37 +43,37 @@ use-case-intro: >-
   [Potter et al](http://onlinelibrary.wiley.com/doi/10.1111/1752-1688.12441/abstract)
   extreme storm transposition for a storm in 2008 that impacted Baraboo, WI and moving it to Madison, WI.
 
-storm-transpose-before: >-
+storm_transpose_before: >-
   ### Result of Storm Transposition
 
   Here is a visualization product showing the extreme storm transposition from Baraboo to
   Madison, Wisconsin.
   
-storm-transpose-after: >-
+storm_transpose_after: >-
   
   The data were selected and processed through the GDP. The following will break down how the 
   GDP processed the data. The resulting impact on the watershed is out of scope for this 
   visualization.
   
-inputs-precip-before: >-
+inputs_data_before: >-
   ### GDP Inputs - data
   
   For this analysis, we will be looking at precipitation data. The data are gridded and have 
   multiple timesteps. Below is an animated map of the gridded data through time.
 
-inputs-precip-after: >-
+inputs_data_after: >-
   
   [[More text about geoknife precip data.]]
-inputs-geometry-before: >-
+inputs_geometry_before: >-
   ### GDP Inputs - geometry
   
   The GDP summarizes the gridded data based on given geometries and algorithms. We are looking
   at two different geometries - the Baraboo River watershed and the Yahara River watershed.
   
-inputs-geometry-after: >-
+inputs_geometry_after: >-
   
   [[Some more text about geometries.]]
-method-animation-before: >-
+yahara_precip_before: >-
   ### GDP Processing
   
   The real power of GDP is summarizing all of this data. For each timestep, the GDP clips the 
@@ -81,7 +81,7 @@ method-animation-before: >-
   on your chosen algorithm. The result is one value per timestep per geometry, so in this 
   example, one value per timestep in the Baraboo River watershed and one in the Yahara.
   
-method-animation-after: >-
+yahara_precip_after: >-
   
   [[More info about the GDP processing step animation]]
 conclusion: >-
