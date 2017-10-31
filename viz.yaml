@@ -90,24 +90,93 @@ parameter:
     id: precip_bins
     comment: number of bins for precip scale
 fetch:
+  - 
+    id: precip_colors
+    comment: colors to use for precip gradient in maps
+    location: cache/precip_colors.rds
+    reader: rds
+    depends:
+    palette: "Blues"
   -
-    id: fetch_yahara_shp
+    id: precip_breaks
+    comment: precip breaks based on lowest & highest precip val in scale
+    location: cache/precip_breaks.rds
+    reader: rds
+    depends:
+    low_precip: 0
+    high_precip: 14
+  -
+    id: yahara_geom
     comment: get shapefile as R object
+    location: cache/yahara.rds
+    reader: rds
+    fetcher: geom_shp
+    scripts: scripts/fetch/fetch.geom_shp.R
+    depends: 
+      crs: "geoknife_crs"
+    filepath: "data/yahara.shp"
+  - 
+    id: yahara_geom_transposed
+    comment: moves yahara north (more process than fetch, but precip fetch depends on this)
+    location: cache/yahara_transposed.rds
+    reader: rds
+    fetcher: geom_transpose
+    scripts: scripts/fetch/fetch.geom_transpose.R
+    depends: 
+      geom_sp: "yahara_geom"
+    vertical_trans_va: 0.15
   -
-    id: fetch_yahara_precip
-    comment: use transposed yahara as stencil (need dates)	
-  -
-    id: fetch_yahara_precip_raw
-    comment: use transposed yahara, don't process to each area
-  -
-    id: fetch_context_geometry
+    id: context_geom
     comment: create spatial object of area around yahara (maybe just make bbox)	
+    location: cache/context_geom.rds
+    reader: rds
+    fetcher: bbox_geom
+    scripts: scripts/fetch/fetch.bbox_geom.R
+    depends: 
+      crs: "geoknife_crs"
+    west: -89.663676
+    east: -89.034590
+    south: 42.887609
+    north: 43.809561
   -
-    id: fetch_context_precip_raw
-    comment: get raw precip data from gdp for area around yahara
+    id: yahara_precip_avg
+    comment: use transposed yahara as stencil (need dates)
+    location: cache/yahara_precip_avg.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom_transposed"
+      date_range: "storm_dates"
+    algorithm: "unweighted summary"
   -
-    id: fetch_page_text
+    id: yahara_precip
+    comment: use transposed yahara, use subset algorithm
+    location: cache/yahara_precip.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom_transposed"
+      date_range: "storm_dates"
+    algorithm: "subset"
+  -
+    id: context_precip
+    comment: subset data from gdp for area around yahara
+    location: cache/context_precip.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "context_geom"
+      date_range: "storm_dates"
+    algorithm: "subset"
+  -
+    id: page_text
     comment: identify yaml file w/ site text
+    location: data/page_text.yaml
+    reader: md
+    mimetype: text/yaml
 process:
   -
     id: process_yahara_transpose
