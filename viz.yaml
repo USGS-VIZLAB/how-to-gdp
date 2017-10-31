@@ -68,19 +68,27 @@ contributors:
     name: David Watkins
     email: wwatkins@usgs.gov
     affiliation: U.S. Geological Survey
-parameters:
+parameter:
   -
-    id: parameter_dates
+    id: storm_dates
     comment: dates to timebox storm for getting data
+    start_date: "2008-06-02"
+    end_date: "2008-06-13"
   -
-    id: parameter_crs	
+    id: display_crs	
     comment: projecting into
+    crs_str: "+init=epsg:5070"
+  - 
+    id: geoknife_crs
+    comment: needed to create a simplegeom for geoknife
+    crs_str: "+proj=longlat +datum=WGS84"
   -
-    id: parameter_color_palette	
-    comment: declare color palette to use for precip gradient in maps
+    id: example_dateTime
+    comment: use one timestep to illustrate geoknife processing
+    date: "2008-06-07 20:00:00 UTC"
   -
-    id: parameter_color_scale	
-    comment: identify precip bin limits (lowest & highest precip val in scale)
+    id: precip_bins
+    comment: number of bins for precip scale
 fetch:
   -
     id: fetch_yahara_shp
