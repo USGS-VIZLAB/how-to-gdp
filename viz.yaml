@@ -222,20 +222,53 @@ process:
       timestep: "example_dateTime"
 visualize:
   -
-    id: visualize_inputs_data	
-    comment: map of raw gdp data through time for area around yahara	
+    id: inputs_data	
+    comment: raster map of subset gdp data at one timestep for area around yahara	
+    location: figures/inputs_data.png
+    mimetype: image/png
+    visualizer: raster_map_precip
+    scripts: scripts/visualize/raster_map_precip.R
+    depends:
+      precip_data: "context_precip_timestep"
   -
-    id: visualize_inputs_geometry	
-    comment: map of transposed yahara w. surrounding area for context
+    id: inputs_geometry	
+    comment: map of subset gdp transposed yahara data w. surrounding area for context	
+    location: figures/inputs_geometry.png
+    mimetype: image/png
+    visualizer: map_geometry
+    scripts: scripts/visualize/map_geometry.R
+    depends:
+      geom_feature: "yahara_geom_transposed"
+      geom_context: "context_geom"
   -
-    id: visualize_yahara_precip_raw	
-    comment: map w. raw gdp data for yahara transpose only
+    id: yahara_precip_clip
+    comment: raster map w. subset gdp transposed yahara data at one timestep	
+    location: figures/yahara_precip_clip.png
+    mimetype: image/png
+    visualizer: raster_map_precip
+    scripts: scripts/visualize/raster_map_precip.R
+    depends:
+      precip_data: "yahara_precip_timestep"
   -
-    id: visualize_yahara_precip_melt
-    comment: map w. raw gdp data for yahara transpose only
+    id: yahara_precip_melt
+    comment: map w. avg gdp data for yahara transpose at one timestep	
+    location: figures/yahara_precip_melt.png
+    mimetype: image/png
+    visualizer: map_precip_data
+    scripts: scripts/visualize/map_precip_data.R
+    depends:
+      precip_data: "yahara_precip_avg_timestep"
+      geom_sp: "yahara_geom_transposed"
   -
-    id: visualize_storm_transpose	
-    comment: map showing yahara shape move up to yahara-shaped precip
+    id: storm_transpose	
+    comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
+    location: figures/storm_transpose.png
+    visualizer: map_precip_data
+    scripts: scripts/visualize/map_precip_data.R
+    depends:
+      precip_data: "yahara_precip_avg_cumulative"
+      geom_sp: "yahara_geom_transposed"
+      geom_sp_orig: "yahara_geom"
 publish:
   -
     id: publish_usgs_logo
@@ -288,96 +321,96 @@ publish:
     id: publish_gdp_overview
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "fetch_page_text"
+    depends: "page_text"
     context:
       id: gdp-text
-      text: fetch_page_text.gdp_overview
+      text: page_text.gdp_overview
   - 
     id: publish_gdp_processing
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["publish_processing_schematic", "fetch_page_text"]
+    depends: ["publish_processing_schematic", "page_text"]
     context:
       id: gdp-fig
       title: "Bandwidth and processing savings with GDP"
       figure: publish_processing_schematic
       figure-caption: >-
         Schematic of how processing and bandwidth are saved using the GDP
-      text-before: fetch_page_text.gdp_processing_before
-      text-after: fetch_page_text.gdp_processing_after
+      text-before: page_text.gdp_processing_before
+      text-after: page_text.gdp_processing_after
   - 
     id: publish_gdp_algorithm
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["publish_algorithm_schematic", "fetch_page_text"]
+    depends: ["publish_algorithm_schematic", "page_text"]
     context:
       id: gdp-fig
       title: "GDP algorithm support"
       figure: publish_algorithm_schematic
       figure-caption: ""
-      text-before: fetch_page_text.gdp_algorithm_before
-      text-after: fetch_page_text.gdp_algorithm_after
+      text-before: page_text.gdp_algorithm_before
+      text-after: page_text.gdp_algorithm_after
   -
     id: publish_use_case_intro
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "fetch_page_text"
+    depends: "page_text"
     context:
       id: gdp-text
       title: 
-      text: fetch_page_text.use_case_intro
+      text: page_text.use_case_intro
   -
     id: publish_storm_transpose
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["visualize_storm_transpose", "fetch_page_text"]
+    depends: ["storm_transpose", "page_text"]
     context:
       id: gdp-fig
       title: Animation of storm transposition
       figure: storm-transpose
-      text-before: fetch_page_text.storm_transpose_before
-      text-after: fetch_page_text.storm_transpose_after
+      text-before: page_text.storm_transpose_before
+      text-after: page_text.storm_transpose_after
   - 
     id: publish_inputs_data
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["visualize_inputs_data", "fetch_page_text"]
+    depends: ["inputs_data", "page_text"]
     context:
       id: gdp-fig
       title: "Precip overtime for original storm location"
       figure: precip-timeseries-map
-      text-before: fetch_page_text.inputs_data_before
-      text-after: fetch_page_text.inputs_data_after
+      text-before: page_text.inputs_data_before
+      text-after: page_text.inputs_data_after
   - 
     id: publish_inputs_geometry
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["visualize_inputs_geometry", "fetch_page_text"]
+    depends: ["inputs_geometry", "page_text"]
     context:
       id: gdp-fig
       title: 
-      figure: "visualize_inputs_geometry"
-      text-before: fetch_page_text.inputs_geometry_before
-      text-after: fetch_page_text.inputs_geometry_after
+      figure: "inputs_geometry"
+      text-before: page_text.inputs_geometry_before
+      text-after: page_text.inputs_geometry_after
   -
     id: publish_yahara_precip
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["visualize_yahara_precip_raw", "visualize_yahara_precip_melt", "fetch_page_text"]
+    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
     context:
       id: gdp-fig-two
       title:
-      figure: ["visualize_yahara_precip_raw", "visualize_yahara_precip_melt"]
-      text-before: fetch_page_text.yahara_precip_before
-      text-after: fetch_page_text.yahara_precip_after
+      figure: ["yahara_precip_clip", "yahara_precip_melt"]
+      text-before: page_text.yahara_precip_before
+      text-after: page_text.yahara_precip_after
   -
     id: publish_conclusion_text
     publisher: section
     template: layout/templates/gdp-text.mustache
-    depends: "fetch_page_text"
+    depends: "page_text"
     context:
       id: gdp-text
-      text: fetch_page_text.conclusion
+      text: page_text.conclusion
   - 
     id: publish_gdp_page
     name: index
