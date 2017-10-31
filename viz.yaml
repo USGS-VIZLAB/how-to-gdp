@@ -297,14 +297,14 @@ publish:
   -
     id: publish_processing_schematic
     location: images/processing_schematic.gif
-    mimetype: image/png
+    mimetype: image/gif
     export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
     id: publish_algorithm_schematic
-    location: images/algorithm_old.png
-    mimetype: image/png
+    location: images/map.gif
+    mimetype: image/gif
     title: "GDP Algorithm Schematic"
     alttext: "GDP Algorithm Schematic"
   -  
