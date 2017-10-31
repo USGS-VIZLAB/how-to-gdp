@@ -179,20 +179,44 @@ fetch:
     mimetype: text/yaml
 process:
   -
-    id: process_yahara_transpose
-    comment: move yahara north	
+    id: yahara_precip_avg_cumulative
+    comment: get cumulative avg precip
+    location: cache/yahara_precip_avg_cumulative.rds
+    reader: rds
+    processor: precip_cumulative
+    scripts: scripts/process/process.precip_cumulative.R
+    depends: 
+      precip_data: "yahara_precip_avg"
   -
-    id: process_yahara_precip	
-    comment: order ids for mapping + keep all timesteps	
+    id: yahara_precip_avg_timestep
+    comment: filter to get just one precip value of the averaged precip data
+    location: cache/yahara_precip_avg_timestep.rds
+    reader: rds
+    processor: precip_timestep
+    scripts: scripts/visualize/precip_timestep.R
+    depends: 
+      precip_data: "yahara_precip_avg"
+      timestep: "example_dateTime"
   -
-    id: process_yahara_precip_raw	
-    comment: order ids for mapping + keep all timesteps	
+    id: yahara_precip_timestep
+    comment: filter to get just one precip value
+    location: cache/yahara_precip_timestep.rds
+    reader: rds
+    processor: precip_timestep
+    scripts: scripts/visualize/precip_timestep.R
+    depends: 
+      precip_data: "yahara_precip"
+      timestep: "example_dateTime"
   -
-    id: process_yahara_precip_cumulative
-    comment: order ids for mapping + calculate & keep cumulative
-  -
-    id: process_context_precip
-    comment: order ids for mapping + keep all timesteps		
+    id: context_precip_timestep
+    comment: filter to get just one precip value
+    location: cache/context_precip_timestep.rds
+    reader: rds
+    processor: precip_timestep
+    scripts: scripts/visualize/precip_timestep.R
+    depends: 
+      precip_data: "context_precip"
+      timestep: "example_dateTime"
 visualize:
   -
     id: visualize_inputs_data	
