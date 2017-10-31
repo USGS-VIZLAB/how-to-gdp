@@ -266,6 +266,8 @@ visualize:
     depends:
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
+    title: Processed GDP results for one timestep
+    alttext: Processed GDP results for one timestep
   -
     id: storm_transpose	
     comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
@@ -276,6 +278,8 @@ visualize:
       precip_data: "yahara_precip_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
+    title: Storm transposition
+    alttext: Storm transposition
 publish:
   -
     id: publish_usgs_logo
@@ -373,8 +377,7 @@ publish:
     depends: ["storm_transpose", "page_text"]
     context:
       id: gdp-fig
-      title: Animation of storm transposition
-      figure: storm-transpose
+      figure: storm_transpose
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
   - 
@@ -395,8 +398,7 @@ publish:
     depends: ["inputs_geometry", "page_text"]
     context:
       id: gdp-fig
-      title: 
-      figure: "inputs_geometry"
+      figure: inputs_geometry
       text-before: page_text.inputs_geometry_before
       text-after: page_text.inputs_geometry_after
   -
