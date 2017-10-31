@@ -92,20 +92,27 @@ parameter:
   -
     id: precip_bins
     comment: number of bins for precip scale
+    bins: 10
 fetch:
   - 
     id: precip_colors
     comment: colors to use for precip gradient in maps
     location: cache/precip_colors.rds
     reader: rds
-    depends:
+    fetcher: precip_colors
+    scripts: scripts/fetch/fetch.precip_bins.R
+    depends: 
+      bins: "precip_bins"
     palette: "Blues"
   -
     id: precip_breaks
     comment: precip breaks based on lowest & highest precip val in scale
     location: cache/precip_breaks.rds
     reader: rds
-    depends:
+    fetcher: precip_breaks
+    scripts: scripts/fetch/fetch.precip_bins.R
+    depends: 
+      bins: "precip_bins"
     low_precip: 0
     high_precip: 14
   -
