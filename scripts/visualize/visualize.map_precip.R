@@ -5,12 +5,17 @@ visualize.map_precip <- function(viz){
   geom_sp <- deps[["geom_sp"]]
   geom_sp_orig <- deps[["geom_sp_orig"]]
   
-  if(is.null(geom_sp_orig)){
-    # don't plot it!
+  png(viz[['location']])
+  
+  if(!is.null(geom_sp_orig)){
+    sp::plot(geom_sp_orig, col="lightgrey")
+    add_to_map <- TRUE
+  } else {
+    add_to_map <- FALSE
   }
   
-  png(viz[['location']])
-  map('state', 'wisconsin', fill=TRUE, col="darkred")
+  sp::plot(geom_sp, col="darkgrey", add=add_to_map)
+  
   dev.off()
   
 }

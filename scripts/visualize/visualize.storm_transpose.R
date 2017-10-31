@@ -1,10 +1,11 @@
 visualize.storm_transpose <- function(viz){
   deps <- readDepends(viz)
   
-  library(maps)
+  library(sp)
   
   png(viz[['location']])
-  map('state', fill=TRUE, col="cornflowerblue")
+  plot(deps[["geom_sp_orig"]], col="lightgrey")
+  plot(deps[["geom_sp"]], col="darkgrey", add=TRUE)
   dev.off()
   
 }
