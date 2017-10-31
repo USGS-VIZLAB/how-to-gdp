@@ -30,24 +30,12 @@ info:
     height: 400
     alttext: ""
   required-packages:
-    vizlab:
-      repo: CRAN
-      version: 0.2.0
-    sf:
-      repo: CRAN
-      version: 0.5-4
-    sp: 
-      repo: CRAN
-      version: 1.2.5
-    geoknife:
-      repo: CRAN
-      version: 1.5.5
     dplyr:
       repo: CRAN
       version: 0.7.2
-    tidyr:
+    geoknife:
       repo: CRAN
-      version: 0.7.1
+      version: 1.5.5
     maps:
       repo: CRAN
       version: 3.2.0
@@ -57,6 +45,18 @@ info:
     raster:
       repo: CRAN
       version: 2.5-8
+    sf:
+      repo: CRAN
+      version: 0.5-4
+    sp: 
+      repo: CRAN
+      version: 1.2.5
+    tidyr:
+      repo: CRAN
+      version: 0.7.1
+    vizlab:
+      repo: CRAN
+      version: 0.2.0
 contributors:
   - 
     name: Dave Blodgett
