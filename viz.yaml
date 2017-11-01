@@ -295,12 +295,6 @@ visualize:
     alttext: Storm transposition
 publish:
   -
-    id: publish_usgs_logo
-    location: images/usgsLogo.png
-    mimetype: image/png
-    title: "USGS Logo"
-    alttext: "USGS Logo"
-  -
     id: publish_processing_schematic
     location: images/processing_schematic.gif
     mimetype: image/gif
