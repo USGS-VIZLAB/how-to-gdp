@@ -293,7 +293,36 @@ visualize:
       geom_sp_orig: "yahara_geom"
     title: Storm transposition
     alttext: Storm transposition
-publish:
+publish:  
+  - 
+    id: gdp_page
+    name: index
+    publisher: page
+    template: fullpage
+    depends: 
+      header: "header-section"
+      footer: "footer-section"
+      gdp_css: "publish_gdp_figure_css"
+      header_css: "lib-header-css"
+      footer_css: "lib-footer-css"
+      font: "publish_sourcesanspro"
+      text_overview: "publish_gdp_overview"
+      section_process: "publish_gdp_processing"
+      section_algorithm: "publish_gdp_algorithm"
+      text_usecase: "publish_use_case_intro"
+      section_storm_transpose: "publish_storm_transpose"
+      #section_data_input: "publish_inputs_data"
+      section_geometry_input: "publish_inputs_geometry"
+      #section_clip_melt: "publish_yahara_precip"
+      text_conclusion: "publish_conclusion_text"
+    context:
+      header: "header"
+      footer: "footer"
+      resources: ["gdp_css", "header_css", "footer_css", "font"]
+      sections: [ "text_overview", "section_process", "section_algorithm", "text_usecase",
+                  "section_storm_transpose", #"section_data_input",
+                  "section_geometry_input", #"section_clip_melt",
+                  "text_conclusion" ]
   -
     id: publish_processing_schematic
     location: images/processing_schematic.gif
@@ -425,22 +454,3 @@ publish:
     context:
       id: gdp-text
       text: page_text.conclusion
-  - 
-    id: gdp_page
-    name: index
-    publisher: page
-    template: fullpage
-    depends: ["header-section", "footer-section", "publish_gdp_figure_css", 
-      "lib-header-css", "lib-footer-css", "lib-vizlab-favicon", "publish_sourcesanspro", 
-      "publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
-      "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
-      "publish_inputs_geometry", #"publish_yahara_precip", 
-      "publish_conclusion_text"]
-    context:
-      header: "header-section"
-      footer: "footer-section"
-      resources: [publish_gdp_figure_css, lib-header-css, lib-footer-css, lib-vizlab-favicon, publish_sourcesanspro]
-      sections: ["publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
-        "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
-        "publish_inputs_geometry", #"publish_yahara_precip", 
-        "publish_conclusion_text"]
