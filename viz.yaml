@@ -276,6 +276,8 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
+      precip_colors: "precip_colors"
+      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
     title: Processed GDP results for one timestep
@@ -288,6 +290,8 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
+      precip_colors: "precip_colors"
+      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
