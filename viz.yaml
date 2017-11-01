@@ -317,24 +317,22 @@ publish:
     family: Source Sans Pro
     weight: [300, 400, 600]
   - 
-    id: publish_header
-    publisher: section
+    id: header-section
+    publisher: header
     template: header-template
-    depends: "publish_usgs_logo"
+    depends: "lib-header-css"
     context:
-      id: header
       title: How the Geo Data Portal works
-      logo: publish_usgs_logo
-      caption: Expalanation of how the GDP works
   -
-    id: publish_footer
-    publisher: section
+    id: footer-section
+    publisher: footer
     template: footer-template
-    depends: "publish_usgs_logo"
-    context:
-      blogsInFooter: FALSE
-      usgsLogo: publish_usgs_logo
-      github-url: https://github.com/USGS-VIZLAB/how-gdp
+    depends: "lib-footer-css"
+    blogsInFooter: FALSE
+    vizzies:
+      - name: Hurricane Irma's Water Footprint
+        org: USGS-VIZLAB
+        repo: hurricane-irma
   - 
     id: publish_gdp_overview
     publisher: section
@@ -428,18 +426,19 @@ publish:
       id: gdp-text
       text: page_text.conclusion
   - 
-    id: publish_gdp_page
+    id: gdp_page
     name: index
     publisher: page
     template: fullpage
-    depends: ["publish_header", "publish_footer", "publish_gdp_figure_css", 
+    depends: ["header-section", "footer-section", "publish_gdp_figure_css", 
       "lib-header-css", "lib-footer-css", "lib-vizlab-favicon", "publish_sourcesanspro", 
       "publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
       "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
       "publish_inputs_geometry", #"publish_yahara_precip", 
       "publish_conclusion_text"]
     context:
-      header: header
+      header: "header-section"
+      footer: "footer-section"
       resources: [publish_gdp_figure_css, lib-header-css, lib-footer-css, lib-vizlab-favicon, publish_sourcesanspro]
       sections: ["publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
         "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
