@@ -302,19 +302,19 @@ publish:
     depends: 
       header: "header-section"
       footer: "footer-section"
-      gdp_css: "publish_gdp_figure_css"
+      gdp_css: "gdp_figure_css"
       header_css: "lib-header-css"
       footer_css: "lib-footer-css"
-      font: "publish_sourcesanspro"
-      text_overview: "publish_gdp_overview"
-      section_process: "publish_gdp_processing"
-      section_algorithm: "publish_gdp_algorithm"
-      text_usecase: "publish_use_case_intro"
-      section_storm_transpose: "publish_storm_transpose"
-      #section_data_input: "publish_inputs_data"
-      section_geometry_input: "publish_inputs_geometry"
-      #section_clip_melt: "publish_yahara_precip"
-      text_conclusion: "publish_conclusion_text"
+      font: "sourcesanspro"
+      text_overview: "gdp_overview"
+      section_process: "gdp_processing_section"
+      section_algorithm: "gdp_algorithm_section"
+      text_usecase: "use_case_intro"
+      section_storm_transpose: "storm_transpose_section"
+      #section_data_input: "inputs_data_section"
+      section_geometry_input: "inputs_geometry_section"
+      #section_clip_melt: "yahara_clip_process_section"
+      text_conclusion: "conclusion_text"
     context:
       header: "header"
       footer: "footer"
@@ -324,24 +324,116 @@ publish:
                   "section_geometry_input", #"section_clip_melt",
                   "text_conclusion" ]
   -
-    id: publish_processing_schematic
+    id: processing_gif
     location: images/processing_schematic.gif
     mimetype: image/gif
     export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
-    id: publish_algorithm_schematic
+    id: algorithm_gif
     location: images/map.gif
     mimetype: image/gif
     title: "GDP Algorithm Schematic"
     alttext: "GDP Algorithm Schematic"
+  - 
+    id: gdp_overview
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page_text"
+    context:
+      id: gdp-text
+      text: page_text.gdp_overview
+  - 
+    id: gdp_processing_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["processing_gif", "page_text"]
+    context:
+      id: gdp-fig
+      title: "Bandwidth and processing savings with GDP"
+      figure: processing_gif
+      figure-caption: >-
+        Schematic of how processing and bandwidth are saved using the GDP
+      text-before: page_text.gdp_processing_before
+      text-after: page_text.gdp_processing_after
+  - 
+    id: gdp_algorithm_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["algorithm_gif", "page_text"]
+    context:
+      id: gdp-fig
+      title: "GDP algorithm support"
+      figure: algorithm_gif
+      figure-caption: ""
+      text-before: page_text.gdp_algorithm_before
+      text-after: page_text.gdp_algorithm_after
+  -
+    id: use_case_intro
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page_text"
+    context:
+      id: gdp-text
+      title: 
+      text: page_text.use_case_intro
+  -
+    id: storm_transpose_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["storm_transpose", "page_text"]
+    context:
+      id: gdp-fig
+      figure: storm_transpose
+      text-before: page_text.storm_transpose_before
+      text-after: page_text.storm_transpose_after
+#  - 
+#    id: inputs_data_section
+#    publisher: section
+#    template: layout/templates/gdp-figure.mustache
+#    depends: ["inputs_data", "page_text"]
+#    context:
+#      id: gdp-fig
+#      title: "Precip overtime for original storm location"
+#      figure: precip-timeseries-map
+#      text-before: page_text.inputs_data_before
+#      text-after: page_text.inputs_data_after
+  - 
+    id: inputs_geometry_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["inputs_geometry", "page_text"]
+    context:
+      id: gdp-fig
+      figure: inputs_geometry
+      text-before: page_text.inputs_geometry_before
+      text-after: page_text.inputs_geometry_after
+#  -
+#    id: yahara_clip_melt_section
+#    publisher: section
+#    template: layout/templates/gdp-figure.mustache
+#    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
+#    context:
+#      id: gdp-fig-two
+#      title:
+#      figure: ["yahara_precip_clip", "yahara_precip_melt"]
+#      text-before: page_text.yahara_precip_before
+#      text-after: page_text.yahara_precip_after
+  -
+    id: conclusion_text
+    publisher: section
+    template: layout/templates/gdp-text.mustache
+    depends: "page_text"
+    context:
+      id: gdp-text
+      text: page_text.conclusion
   -  
-    id: publish_gdp_figure_css
+    id: gdp_figure_css
     location: layout/css/gdp-figure.css
     mimetype: text/css
   -
-    id: publish_sourcesanspro
+    id: sourcesanspro
     publisher: googlefont
     family: Source Sans Pro
     weight: [300, 400, 600]
@@ -362,95 +454,3 @@ publish:
       - name: Hurricane Irma's Water Footprint
         org: USGS-VIZLAB
         repo: hurricane-irma
-  - 
-    id: publish_gdp_overview
-    publisher: section
-    template: layout/templates/gdp-text.mustache
-    depends: "page_text"
-    context:
-      id: gdp-text
-      text: page_text.gdp_overview
-  - 
-    id: publish_gdp_processing
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["publish_processing_schematic", "page_text"]
-    context:
-      id: gdp-fig
-      title: "Bandwidth and processing savings with GDP"
-      figure: publish_processing_schematic
-      figure-caption: >-
-        Schematic of how processing and bandwidth are saved using the GDP
-      text-before: page_text.gdp_processing_before
-      text-after: page_text.gdp_processing_after
-  - 
-    id: publish_gdp_algorithm
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["publish_algorithm_schematic", "page_text"]
-    context:
-      id: gdp-fig
-      title: "GDP algorithm support"
-      figure: publish_algorithm_schematic
-      figure-caption: ""
-      text-before: page_text.gdp_algorithm_before
-      text-after: page_text.gdp_algorithm_after
-  -
-    id: publish_use_case_intro
-    publisher: section
-    template: layout/templates/gdp-text.mustache
-    depends: "page_text"
-    context:
-      id: gdp-text
-      title: 
-      text: page_text.use_case_intro
-  -
-    id: publish_storm_transpose
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["storm_transpose", "page_text"]
-    context:
-      id: gdp-fig
-      figure: storm_transpose
-      text-before: page_text.storm_transpose_before
-      text-after: page_text.storm_transpose_after
-#  - 
-#    id: publish_inputs_data
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["inputs_data", "page_text"]
-#    context:
-#      id: gdp-fig
-#      title: "Precip overtime for original storm location"
-#      figure: precip-timeseries-map
-#      text-before: page_text.inputs_data_before
-#      text-after: page_text.inputs_data_after
-  - 
-    id: publish_inputs_geometry
-    publisher: section
-    template: layout/templates/gdp-figure.mustache
-    depends: ["inputs_geometry", "page_text"]
-    context:
-      id: gdp-fig
-      figure: inputs_geometry
-      text-before: page_text.inputs_geometry_before
-      text-after: page_text.inputs_geometry_after
-#  -
-#    id: publish_yahara_precip
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
-#    context:
-#      id: gdp-fig-two
-#      title:
-#      figure: ["yahara_precip_clip", "yahara_precip_melt"]
-#      text-before: page_text.yahara_precip_before
-#      text-after: page_text.yahara_precip_after
-  -
-    id: publish_conclusion_text
-    publisher: section
-    template: layout/templates/gdp-text.mustache
-    depends: "page_text"
-    context:
-      id: gdp-text
-      text: page_text.conclusion
