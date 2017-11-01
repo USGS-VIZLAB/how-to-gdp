@@ -325,14 +325,14 @@ publish:
                   "text_conclusion" ]
   -
     id: processing_gif
-    location: images/processing_schematic.gif
+    location: images/gdp_process.gif
     mimetype: image/gif
     export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
     id: algorithm_gif
-    location: images/map.gif
+    location: images/gdp_algorithm.gif
     mimetype: image/gif
     title: "GDP Algorithm Schematic"
     alttext: "GDP Algorithm Schematic"
