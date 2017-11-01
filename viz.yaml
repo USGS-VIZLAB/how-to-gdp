@@ -293,56 +293,51 @@ visualize:
       geom_sp_orig: "yahara_geom"
     title: Storm transposition
     alttext: Storm transposition
-publish:
+publish:  
+  - 
+    id: gdp_page
+    name: index
+    publisher: page
+    template: fullpage
+    depends: 
+      header: "header-section"
+      footer: "footer-section"
+      gdp_css: "gdp_figure_css"
+      header_css: "lib-header-css"
+      footer_css: "lib-footer-css"
+      font: "sourcesanspro"
+      text_overview: "gdp_overview"
+      section_process: "gdp_processing_section"
+      section_algorithm: "gdp_algorithm_section"
+      text_usecase: "use_case_intro"
+      section_storm_transpose: "storm_transpose_section"
+      #section_data_input: "inputs_data_section"
+      section_geometry_input: "inputs_geometry_section"
+      #section_clip_melt: "yahara_clip_process_section"
+      text_conclusion: "conclusion_text"
+    context:
+      header: "header"
+      footer: "footer"
+      resources: ["gdp_css", "header_css", "footer_css", "font"]
+      sections: [ "text_overview", "section_process", "section_algorithm", "text_usecase",
+                  "section_storm_transpose", #"section_data_input",
+                  "section_geometry_input", #"section_clip_melt",
+                  "text_conclusion" ]
   -
-    id: publish_usgs_logo
-    location: images/usgsLogo.png
-    mimetype: image/png
-    title: "USGS Logo"
-    alttext: "USGS Logo"
-  -
-    id: publish_processing_schematic
-    location: images/processing_schematic.gif
+    id: processing_gif
+    location: images/gdp_process.gif
     mimetype: image/gif
     export: true
     title: "GDP Processing Schematic"
     alttext: "GDP Processing Schematic"
   -
-    id: publish_algorithm_schematic
-    location: images/map.gif
+    id: algorithm_gif
+    location: images/gdp_algorithm.gif
     mimetype: image/gif
     title: "GDP Algorithm Schematic"
     alttext: "GDP Algorithm Schematic"
-  -  
-    id: publish_gdp_figure_css
-    location: layout/css/gdp-figure.css
-    mimetype: text/css
-  -
-    id: publish_sourcesanspro
-    publisher: googlefont
-    family: Source Sans Pro
-    weight: [300, 400, 600]
   - 
-    id: publish_header
-    publisher: section
-    template: header-template
-    depends: "publish_usgs_logo"
-    context:
-      id: header
-      title: How the Geo Data Portal works
-      logo: publish_usgs_logo
-      caption: Expalanation of how the GDP works
-  -
-    id: publish_footer
-    publisher: section
-    template: footer-template
-    depends: "publish_usgs_logo"
-    context:
-      blogsInFooter: FALSE
-      usgsLogo: publish_usgs_logo
-      github-url: https://github.com/USGS-VIZLAB/how-gdp
-  - 
-    id: publish_gdp_overview
+    id: gdp_overview
     publisher: section
     template: layout/templates/gdp-text.mustache
     depends: "page_text"
@@ -350,32 +345,32 @@ publish:
       id: gdp-text
       text: page_text.gdp_overview
   - 
-    id: publish_gdp_processing
+    id: gdp_processing_section
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["publish_processing_schematic", "page_text"]
+    depends: ["processing_gif", "page_text"]
     context:
       id: gdp-fig
       title: "Bandwidth and processing savings with GDP"
-      figure: publish_processing_schematic
+      figure: processing_gif
       figure-caption: >-
         Schematic of how processing and bandwidth are saved using the GDP
       text-before: page_text.gdp_processing_before
       text-after: page_text.gdp_processing_after
   - 
-    id: publish_gdp_algorithm
+    id: gdp_algorithm_section
     publisher: section
     template: layout/templates/gdp-figure.mustache
-    depends: ["publish_algorithm_schematic", "page_text"]
+    depends: ["algorithm_gif", "page_text"]
     context:
       id: gdp-fig
       title: "GDP algorithm support"
-      figure: publish_algorithm_schematic
+      figure: algorithm_gif
       figure-caption: ""
       text-before: page_text.gdp_algorithm_before
       text-after: page_text.gdp_algorithm_after
   -
-    id: publish_use_case_intro
+    id: use_case_intro
     publisher: section
     template: layout/templates/gdp-text.mustache
     depends: "page_text"
@@ -384,7 +379,7 @@ publish:
       title: 
       text: page_text.use_case_intro
   -
-    id: publish_storm_transpose
+    id: storm_transpose_section
     publisher: section
     template: layout/templates/gdp-figure.mustache
     depends: ["storm_transpose", "page_text"]
@@ -394,7 +389,7 @@ publish:
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
 #  - 
-#    id: publish_inputs_data
+#    id: inputs_data_section
 #    publisher: section
 #    template: layout/templates/gdp-figure.mustache
 #    depends: ["inputs_data", "page_text"]
@@ -405,7 +400,7 @@ publish:
 #      text-before: page_text.inputs_data_before
 #      text-after: page_text.inputs_data_after
   - 
-    id: publish_inputs_geometry
+    id: inputs_geometry_section
     publisher: section
     template: layout/templates/gdp-figure.mustache
     depends: ["inputs_geometry", "page_text"]
@@ -415,7 +410,7 @@ publish:
       text-before: page_text.inputs_geometry_before
       text-after: page_text.inputs_geometry_after
 #  -
-#    id: publish_yahara_precip
+#    id: yahara_clip_melt_section
 #    publisher: section
 #    template: layout/templates/gdp-figure.mustache
 #    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
@@ -426,28 +421,36 @@ publish:
 #      text-before: page_text.yahara_precip_before
 #      text-after: page_text.yahara_precip_after
   -
-    id: publish_conclusion_text
+    id: conclusion_text
     publisher: section
     template: layout/templates/gdp-text.mustache
     depends: "page_text"
     context:
       id: gdp-text
       text: page_text.conclusion
+  -  
+    id: gdp_figure_css
+    location: layout/css/gdp-figure.css
+    mimetype: text/css
+  -
+    id: sourcesanspro
+    publisher: googlefont
+    family: Source Sans Pro
+    weight: [300, 400, 600]
   - 
-    id: publish_gdp_page
-    name: index
-    publisher: page
-    template: fullpage
-    depends: ["publish_header", "publish_footer", "publish_gdp_figure_css", 
-      "lib-header-css", "lib-footer-css", "lib-vizlab-favicon", "publish_sourcesanspro", 
-      "publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
-      "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
-      "publish_inputs_geometry", #"publish_yahara_precip", 
-      "publish_conclusion_text"]
+    id: header-section
+    publisher: header
+    template: header-template
+    depends: "lib-header-css"
     context:
-      header: header
-      resources: [publish_gdp_figure_css, lib-header-css, lib-footer-css, lib-vizlab-favicon, publish_sourcesanspro]
-      sections: ["publish_gdp_overview", "publish_gdp_processing", "publish_gdp_algorithm", 
-        "publish_use_case_intro", "publish_storm_transpose", #"publish_inputs_data", 
-        "publish_inputs_geometry", #"publish_yahara_precip", 
-        "publish_conclusion_text"]
+      title: How the Geo Data Portal works
+  -
+    id: footer-section
+    publisher: footer
+    template: footer-template
+    depends: "lib-footer-css"
+    blogsInFooter: FALSE
+    vizzies:
+      - name: Hurricane Irma's Water Footprint
+        org: USGS-VIZLAB
+        repo: hurricane-irma
