@@ -134,9 +134,10 @@ fetch:
     reader: rds
     fetcher: geom_shp
     scripts: scripts/fetch/fetch.geom_shp.R
-    depends: 
-      crs: "geoknife_crs"
+    depends:
+      transform_crs: "geoknife_crs"
     filepath: "data/yahara.shp"
+    shp_crs: "+init=epsg:3857"
   - 
     id: yahara_geom_transposed
     comment: moves yahara north (more process than fetch, but precip fetch depends on this)
