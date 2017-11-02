@@ -1,9 +1,12 @@
 visualize.map_precip <- function(viz){
   
+  library(ggplot2)
+  
   deps <- readDepends(viz)
   precip_colors <- deps[["precip_colors"]]
   precip_breaks <- deps[["precip_breaks"]]
   precip_data <- deps[["precip_data"]]
+  precip_orig_data <- deps[["precip_orig_data"]]
   geom_sp <- deps[["geom_sp"]]
   geom_sp_orig <- deps[["geom_sp_orig"]]
   
@@ -11,29 +14,42 @@ visualize.map_precip <- function(viz){
                                   breaks = precip_breaks, 
                                   labels = FALSE)]
   
-  png(viz[['location']])
+  # prep sp data
+  geom_sp_df <- ggplot2::fortify(geom_sp)
   
-  if(!is.null(geom_sp_orig)){
+  is_second_geom <- !is.null(geom_sp_orig) & !is.null(precip_orig_data)
+  if(is_second_geom){
+    precip_orig_col <- precip_colors[cut(precip_orig_data[["precipVal"]], 
+                                         breaks = precip_breaks, 
+                                         labels = FALSE)]
     
-    # calculate the center of both polygons (combine them first)
-    # so that appropriate limits can be used for the plot
-    geom_sp_combined <- maptools::spRbind(geom_sp, geom_sp_orig)
-    geom_sp_bbox <- sp::bbox(geom_sp_combined)
+    geom_sp_orig_df <- ggplot2::fortify(geom_sp_orig) # prep sp data
     
-    sp::plot(geom_sp_orig, col="lightgrey", border = NA, 
-             xlim = geom_sp_bbox["x",], ylim = geom_sp_bbox["y",])
+    geom_combined <- maptools::spRbind(geom_sp, geom_sp_orig)
+    geom_center <- rgeos::gCentroid(geom_combined)@coords
     
-    add_to_map <- TRUE
   } else {
-    add_to_map <- FALSE
+    geom_center <- rgeos::gCentroid(geom_sp)@coords
   }
+ 
+  # create basemap
+  basemap_data <- ggmap::get_map(location = c(lon = geom_center[1], lat = geom_center[2]),
+                                 color = "bw", maptype = "toner", zoom = 10)
+  basemap <- ggmap::ggmap(basemap_data) + 
+    theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
   
+  map_geometry <- basemap + 
+    geom_polygon(data = geom_sp_df, aes(x = long, y = lat, group = group),
+                 alpha = 0.7, fill = precip_col, col = NA) 
+  
+  if(is_second_geom){
+    map_geometry <- map_geometry + 
+      geom_polygon(data = geom_sp_orig_df, aes(x = long, y = lat, group = group),
+                   alpha = 0.5, fill = precip_orig_col, col = NA)
+  }
 
-  sp::plot(geom_sp, col = precip_col, border = NA, add=add_to_map)
-  legend("bottom", legend = paste("<", round(precip_breaks[-1], 2)),
-         fill = precip_colors, border = NA, ncol = 5, box.col = NA,
-         cex = 0.8, x.intersp = 0.5, bg = "lightgrey", inset = -0.3, xpd = TRUE)
-  
+  png(viz[['location']])
+  print(map_geometry)
   dev.off()
   
 }

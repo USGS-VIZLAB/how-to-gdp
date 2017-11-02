@@ -164,13 +164,24 @@ fetch:
     north: 43.809561
   -
     id: yahara_precip_avg
-    comment: use transposed yahara as stencil (need dates)
+    comment: use transposed yahara as stencil 
     location: cache/yahara_precip_avg.rds
     reader: rds
     fetcher: precip_data
     scripts: scripts/fetch/fetch.precip_data.R
     depends:
       geom_sp: "yahara_geom_transposed"
+      date_range: "storm_dates"
+    algorithm: "unweighted summary"
+  -
+    id: yahara_precip_orig_avg
+    comment: use original yahara as stencil 
+    location: cache/yahara_precip_orig_avg.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom"
       date_range: "storm_dates"
     algorithm: "unweighted summary"
 #  -
@@ -205,6 +216,15 @@ process:
     scripts: scripts/process/process.precip_cumulative.R
     depends: 
       precip_data: "yahara_precip_avg"
+  -
+    id: yahara_precip_orig_avg_cumulative
+    comment: get cumulative avg precip from original yahara
+    location: cache/yahara_precip_orig_avg_cumulative.rds
+    reader: rds
+    processor: precip_cumulative
+    scripts: scripts/process/process.precip_cumulative.R
+    depends: 
+      precip_data: "yahara_precip_orig_avg"
   -
     id: yahara_precip_avg_timestep
     comment: filter to get just one precip value of the averaged precip data
@@ -295,6 +315,7 @@ visualize:
       precip_colors: "precip_colors"
       precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_cumulative"
+      precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
     title: Storm transposition
