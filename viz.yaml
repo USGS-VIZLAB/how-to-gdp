@@ -94,7 +94,8 @@ parameter:
   -
     id: example_dateTime
     comment: use one timestep to illustrate geoknife processing
-    date: "2008-06-12 22:00:00 UTC"
+    date: "2008-06-12 22:00:00"
+    tz: "UTC"
   -
     id: precip_bins
     comment: number of bins for precip scale
