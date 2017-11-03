@@ -4,7 +4,7 @@ fetch.precip_colors <- function(viz){
   saveRDS(cols, file = viz[['location']])
 }
 
-fetchTimestamp.precip_colors <- vizlab:::fetchTimestamp.file
+fetchTimestamp.precip_colors <- vizlab::alwaysCurrent
 
 fetch.precip_breaks <- function(viz){
   deps <- readDepends(viz)
@@ -16,4 +16,4 @@ fetch.precip_breaks <- function(viz){
   saveRDS(object = precip_breaks, file = viz[['location']])
 }
 
-fetchTimestamp.precip_breaks <- vizlab:::fetchTimestamp.file
+fetchTimestamp.precip_breaks <- vizlab::alwaysCurrent

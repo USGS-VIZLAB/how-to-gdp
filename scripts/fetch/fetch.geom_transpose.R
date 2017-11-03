@@ -7,4 +7,4 @@ fetch.geom_transpose <- function(viz){
   saveRDS(sp_poly_transpose, viz[['location']])
 }
 
-fetchTimestamp.geom_transpose <- vizlab:::fetchTimestamp.file
+fetchTimestamp.geom_transpose <- vizlab::alwaysCurrent

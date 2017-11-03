@@ -27,4 +27,4 @@ fetch.precip_data <- function(viz){
   saveRDS(precip_clean, viz[['location']])
 }
 
-fetchTimestamp.precip_data <- vizlab:::fetchTimestamp.file
+fetchTimestamp.precip_data <- vizlab::alwaysCurrent

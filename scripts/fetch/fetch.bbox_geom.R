@@ -20,4 +20,4 @@ fetch.bbox_geom <- function(viz){
   saveRDS(bbox_sp_transf, viz[["location"]])
 }
 
-fetchTimestamp.bbox_geom <- vizlab:::fetchTimestamp.file
+fetchTimestamp.bbox_geom <- vizlab::alwaysCurrent

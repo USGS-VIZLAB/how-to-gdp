@@ -300,8 +300,8 @@ publish:
     publisher: page
     template: fullpage
     depends: 
-      header: "header-section"
-      footer: "footer-section"
+      header: "header_section"
+      footer: "footer_section"
       gdp_css: "gdp_figure_css"
       header_css: "lib-header-css"
       footer_css: "lib-footer-css"
@@ -438,14 +438,14 @@ publish:
     family: Source Sans Pro
     weight: [300, 400, 600]
   - 
-    id: header-section
+    id: header_section
     publisher: header
     template: header-template
     depends: "lib-header-css"
     context:
       title: How the Geo Data Portal works
   -
-    id: footer-section
+    id: footer_section
     publisher: footer
     template: footer-template
     depends: "lib-footer-css"

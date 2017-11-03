@@ -16,4 +16,4 @@ fetch.geom_shp <- function(viz){
   saveRDS(sp_poly_transf, viz[['location']])
 }
 
-fetchTimestamp.geom_shp <- vizlab:::fetchTimestamp.file
+fetchTimestamp.geom_shp <- vizlab::alwaysCurrent
