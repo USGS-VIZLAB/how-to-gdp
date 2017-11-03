@@ -8,7 +8,8 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
     ggplot2::geom_tile(ggplot2::aes(fill = value, alpha=ifelse(is.na(value), 0, 1))) +
     ggplot2::scale_fill_gradientn(colours=rev(rainbow(15)), na.value = "transparent",
                          limits = c(-15, 50), 
-                         guide = ggplot2::guide_legend(direction = "vertical")) +
+                         guide = ggplot2::guide_legend(direction = "vertical",
+                                                       title = "Precipitation (in)")) +
     ggplot2::scale_alpha(guide = FALSE) +
     ggplot2::coord_equal() + 
     ggplot2::theme_minimal() + 
