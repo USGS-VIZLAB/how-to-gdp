@@ -1,10 +1,11 @@
-fetch.precip_data <- function(viz){
+fetch.precip_data <- function(viz = as.viz('context_precip')){
   `%>%` <- magrittr::`%>%`
   
   deps <- readDepends(viz)
-  geom_sp <- deps[["geom_sp"]]
+  geom_sp <- deps[["geom_sp"]] #yahara watershed
   date_range <- deps[["date_range"]]
-  
+  crs <- deps[['crs']]$crs_str 
+    
   stencil <- geoknife::simplegeom(geom_sp)
   fabric <- geoknife::webdata(url = 'https://cida.usgs.gov/thredds/dodsC/stageiv_combined', 
                               variables = "Total_precipitation_surface_1_Hour_Accumulation", 
@@ -13,18 +14,24 @@ fetch.precip_data <- function(viz){
   
   if(viz[["algorithm"]] == "subset"){
     job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, 
-                              REQUIRE_FULL_COVERAGE=FALSE, OUTPUT_TYPE = "geotiff")
+                              REQUIRE_FULL_COVERAGE=FALSE, 
+                              OUTPUT_TYPE="netcdf")
+    #need to download manually since no netcdf parser
+    download.file(url = geoknife::check(job)$URL, 
+                  destfile = viz[['raw_netcdf']])
+    precip_raster <- raster::raster(viz[['raw_netcdf']], band = 1,
+                            crs = crs)/25.4
+    saveRDS(precip_raster, file = viz[['location']])
   } else {
     job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
+    precip <- geoknife::result(job, with.units=TRUE)
+    precip_clean <- precip %>% 
+      dplyr::select(-variable, -statistic, -units) %>% 
+      tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
+      dplyr::mutate(precipVal = precipVal/25.4) #convert mm to inches
+    
+    saveRDS(precip_clean, viz[['location']])
   }
-  
-  precip <- geoknife::result(job, with.units=TRUE)
-  precip_clean <- precip %>% 
-    dplyr::select(-variable, -statistic, -units) %>% 
-    tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
-    dplyr::mutate(precipVal = precipVal/25.4) #convert mm to inches
-  
-  saveRDS(precip_clean, viz[['location']])
 }
 
 fetchTimestamp.precip_data <- vizlab:::fetchTimestamp.file
