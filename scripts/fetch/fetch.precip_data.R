@@ -20,7 +20,7 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
     download.file(url = geoknife::check(job)$URL, 
                   destfile = viz[['raw_netcdf']])
     precip_raster <- raster::raster(viz[['raw_netcdf']], band = 1,
-                            crs = crs)
+                            crs = crs)/25.4
     saveRDS(precip_raster, file = viz[['location']])
   } else {
     job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
