@@ -16,20 +16,20 @@ gdp_processing_before: >-
   ### Bandwidth and processing savings with GDP
   
   The GDP moves computationally intensive processing steps from a researcher's computer to
-  the web. This means researchers have more computational power at their fingertips, and 
-  do not need to need their computer tied up during a lengthy processing step.
+  the web. This means researchers have more computational power available to them and 
+  do not need to use their personal computers for lengthy and tedious processing tasks.
   
 gdp_processing_after: >-
   
-  This differs from traditional geoprocessing workflows which require downloads of an 
-  immense amount of data to then process. The GDP requires users to download only the 
+  This differs from traditional geoprocessing workflows which require download of an 
+  massive amounts of data to be subset and processed. The GDP requires users to download only the 
   processed data.
   
 gdp_algorithm_before: >-
   ### GDP algorithm support
 
   There are a number of built-in algorithms that take the gridded data and distill it. A common
-  algorithm is to calculate the unweighted average. The GDP will take the gridded dataset and for
+  algorithm is to calculate the weighted average. The GDP will take the gridded dataset and for
   each timestep, it will average the data within the given spatial extent. The processed data will
   be a timeseries with one value for each timestep and for each spatial feature.
   
@@ -66,7 +66,7 @@ storm_transpose_after: >-
   watershed was downloaded using the [National Water Census Data Portal](https://cida.usgs.gov/nwc/). To
   "transpose" the storm, the Yahara shapefile was first shifted north to the center of the extreme storm.
   This new spatial feature was used as input to the GDP, along with the storm start and end dates, and 
-  the unweighted average algorithm was used to process this data. A dataset of average precipitation 
+  the weighted average algorithm was used to process this data. A dataset of average precipitation 
   for each timestep was returned, and the cumulative sum calculated. The cumulative precipitation can now
   be used as input to flood models and other management tools to determine how this extreme storm could
   have impacted the Yahara (not covered here).
@@ -108,7 +108,7 @@ yahara_precip_before: >-
 yahara_precip_after: >-
   
   The figure on the left shows the clipped gridded data for one timestep (10:00 pm (UTC) on June 
-  12, 2008). The figure on the right shows the unweighted average of that gridded data for this
+  12, 2008). The figure on the right shows the weighted average of that gridded data for this
   particular timestep.
   
 conclusion: >-
