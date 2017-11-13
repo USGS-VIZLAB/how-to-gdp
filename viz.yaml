@@ -42,6 +42,9 @@ info:
     maptools:
       repo: CRAN
       version: 0.9-2
+    ncdf4:
+      repo: CRAN
+      version: 1.16
     raster:
       repo: CRAN
       version: 2.5-8
@@ -94,7 +97,8 @@ parameter:
   -
     id: example_dateTime
     comment: use one timestep to illustrate geoknife processing
-    date: "2008-06-12 22:00:00 UTC"
+    date: "2008-06-12 22:00:00"
+    tz: "UTC"
   -
     id: precip_bins
     comment: number of bins for precip scale
@@ -134,9 +138,10 @@ fetch:
     reader: rds
     fetcher: geom_shp
     scripts: scripts/fetch/fetch.geom_shp.R
-    depends: 
-      crs: "geoknife_crs"
+    depends:
+      transform_crs: "geoknife_crs"
     filepath: "data/yahara.shp"
+    shp_crs: "+init=epsg:3857"
   - 
     id: yahara_geom_transposed
     comment: moves yahara north (more process than fetch, but precip fetch depends on this)
@@ -146,7 +151,7 @@ fetch:
     scripts: scripts/fetch/fetch.geom_transpose.R
     depends: 
       geom_sp: "yahara_geom"
-    vertical_trans_va: 0.15
+    vertical_trans_va: 0.2
   -
     id: context_geom
     comment: create spatial object of area around yahara (maybe just make bbox)	
@@ -162,13 +167,24 @@ fetch:
     north: 43.809561
   -
     id: yahara_precip_avg
-    comment: use transposed yahara as stencil (need dates)
+    comment: use transposed yahara as stencil 
     location: cache/yahara_precip_avg.rds
     reader: rds
     fetcher: precip_data
     scripts: scripts/fetch/fetch.precip_data.R
     depends:
       geom_sp: "yahara_geom_transposed"
+      date_range: "storm_dates"
+    algorithm: "unweighted summary"
+  -
+    id: yahara_precip_orig_avg
+    comment: use original yahara as stencil 
+    location: cache/yahara_precip_orig_avg.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom"
       date_range: "storm_dates"
     algorithm: "unweighted summary"
   -
@@ -207,6 +223,15 @@ process:
     scripts: scripts/process/process.precip_cumulative.R
     depends: 
       precip_data: "yahara_precip_avg"
+  -
+    id: yahara_precip_orig_avg_cumulative
+    comment: get cumulative avg precip from original yahara
+    location: cache/yahara_precip_orig_avg_cumulative.rds
+    reader: rds
+    processor: precip_cumulative
+    scripts: scripts/process/process.precip_cumulative.R
+    depends: 
+      precip_data: "yahara_precip_orig_avg"
   -
     id: yahara_precip_avg_timestep
     comment: filter to get just one precip value of the averaged precip data
@@ -261,6 +286,8 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
+      precip_colors: "precip_colors"
+      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
     title: Processed GDP results for one timestep
@@ -273,7 +300,10 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
+      precip_colors: "precip_colors"
+      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_cumulative"
+      precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
     title: Storm transposition
