@@ -18,7 +18,8 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
                               OUTPUT_TYPE="netcdf")
     #need to download manually since no netcdf parser
     download.file(url = geoknife::check(job)$URL, 
-                  destfile = viz[['raw_netcdf']])
+                  destfile = viz[['raw_netcdf']], 
+                  mode="wb")
     precip_raster <- raster::raster(viz[['raw_netcdf']], band = 1,
                             crs = crs)/25.4
     saveRDS(precip_raster, file = viz[['location']])
