@@ -36,6 +36,9 @@ info:
     geoknife:
       repo: CRAN
       version: 1.5.5
+    ggplot2:
+      repo: CRAN
+      version: 2.2.1
     maps:
       repo: CRAN
       version: 3.2.0
@@ -48,6 +51,9 @@ info:
     raster:
       repo: CRAN
       version: 2.5-8
+    rasterVis:
+      repo: CRAN
+      version: 0.41
     RColorBrewer:
       repo: CRAN
       version: 1.1-2

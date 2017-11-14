@@ -1,5 +1,7 @@
 visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   
+  library(ggplot2) # need to actually load this or rasterVis::gplot throws an error
+  
   deps <- readDepends(viz)
   precip_data <- deps[['raster_data']]
   
