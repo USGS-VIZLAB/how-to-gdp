@@ -36,6 +36,9 @@ info:
     geoknife:
       repo: CRAN
       version: 1.5.5
+    ggmap:
+      repo: CRAN
+      version: 2.6.1
     ggplot2:
       repo: CRAN
       version: 2.2.1
@@ -60,6 +63,9 @@ info:
     rgdal:
       repo: CRAN
       version: 1.2-8
+    rgeos:
+      repo: CRAN
+      version: 0.3-23
     sp: 
       repo: CRAN
       version: 1.2.5
