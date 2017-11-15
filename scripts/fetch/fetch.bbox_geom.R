@@ -1,7 +1,5 @@
 fetch.bbox_geom <- function(viz){
   
-  library(sf) # needed to use `as` to convert
-  
   deps <- readDepends(viz)
   crs <- deps[["crs"]][["crs_str"]]
   west <- viz[["west"]]
