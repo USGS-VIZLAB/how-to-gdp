@@ -265,6 +265,7 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
+      crs: "display_crs"
     title: 
     alttext:
   -
@@ -288,6 +289,8 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
+      crs: "display_crs"
+      geom_feature: "yahara_geom_transposed"
     title: 
     alttext: 
   -
