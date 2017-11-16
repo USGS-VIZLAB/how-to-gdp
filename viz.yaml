@@ -270,6 +270,7 @@ visualize:
     depends:
       raster_data: "context_precip"
       crs: "display_crs"
+      bbox: "context_bbox"
     title: 
     alttext:
   -
