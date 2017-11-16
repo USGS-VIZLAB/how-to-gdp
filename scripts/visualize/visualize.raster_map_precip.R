@@ -17,8 +17,14 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   max_precip <- ceiling(precip_raster@data@max)
   
   png(viz[['location']])
-  precip_sp <- as(precip_raster_data, "SpatialPixelsDataFrame")
-  precip_sp_projected <- sp::spTransform(precip_sp, crs)
+  
+  # get raster into correct projection
+  raster::extent(precip_raster) <- c(west, east, south, north)
+  raster::projection(precip_raster) <- sp::CRS(data_crs)
+  
+  # convert raster to sp object then re-project
+  precip_sp <- as(precip_raster, "SpatialPixelsDataFrame")
+  precip_sp_projected <- sp::spTransform(precip_sp, plot_crs)
   precip_sp_df <- as.data.frame(precip_sp_projected) # prep sp data
   names(precip_sp_df) <- c("value", "x", "y")
   
@@ -37,7 +43,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
                    panel.grid = ggplot2::element_blank())
   
   if(!is.null(geom_feature)){
-    projected_sp <- sp::spTransform(geom_feature, crs)
+    projected_sp <- sp::spTransform(geom_feature, plot_crs)
     projected_sp_df <- ggplot2::fortify(projected_sp) # prep sp data
     map_plot <- map_plot +
       geom_polygon(data = projected_sp_df, 
