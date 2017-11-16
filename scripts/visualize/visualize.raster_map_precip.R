@@ -4,7 +4,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   library(sp) # need to use `as(. , "SpatialPixelsDataFrame")` so the whole library loads
   
   deps <- readDepends(viz)
-  precip_raster_data <- deps[['raster_data']]
+  precip_raster <- deps[['raster_data']]
   plot_crs <- deps[["plot_crs"]][["crs_str"]]
   data_crs <- deps[["data_crs"]][["crs_str"]]
   geom_feature <- deps[['geom_feature']]
@@ -13,8 +13,8 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   north <- deps[["bbox"]][["north"]]
   south <- deps[["bbox"]][["south"]]
   
-  min_precip <- floor(precip_raster_data@data@min)
-  max_precip <- ceiling(precip_raster_data@data@max)
+  min_precip <- floor(precip_raster@data@min)
+  max_precip <- ceiling(precip_raster@data@max)
   
   png(viz[['location']])
   precip_sp <- as(precip_raster_data, "SpatialPixelsDataFrame")
