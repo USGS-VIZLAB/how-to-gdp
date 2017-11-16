@@ -293,8 +293,7 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
-      plot_crs: "display_crs"
-      data_crs: "geoknife_crs"
+      crs: "geoknife_crs"
       geom_feature: "yahara_geom_transposed"
       bbox: "context_bbox"
     title: 

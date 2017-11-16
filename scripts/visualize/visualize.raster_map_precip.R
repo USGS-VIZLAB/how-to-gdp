@@ -5,8 +5,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   
   deps <- readDepends(viz)
   precip_raster <- deps[['raster_data']]
-  plot_crs <- deps[["plot_crs"]][["crs_str"]]
-  data_crs <- deps[["data_crs"]][["crs_str"]]
+  crs <- deps[["crs"]][["crs_str"]]
   geom_feature <- deps[['geom_feature']]
   west <- deps[["bbox"]][["west"]]
   east <- deps[["bbox"]][["east"]]
@@ -20,12 +19,18 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   
   # get raster into correct projection
   raster::extent(precip_raster) <- c(west, east, south, north)
-  raster::projection(precip_raster) <- sp::CRS(data_crs)
+  raster::projection(precip_raster) <- sp::CRS(crs)
   
   # convert raster to sp object then re-project
   precip_sp <- as(precip_raster, "SpatialPixelsDataFrame")
-  precip_sp_projected <- sp::spTransform(precip_sp, plot_crs)
-  precip_sp_df <- as.data.frame(precip_sp_projected) # prep sp data
+  
+  # precip_sp_projected <- sp::spTransform(precip_sp, plot_crs)
+  #   bumped up against a warning about warping, looked at a stackoverflow comment
+  #   and decided to just not reproject into the plotting crs
+  #   warning: Grid warping not available, coercing to points
+  #   stackoverflow: https://stackoverflow.com/questions/15258582/re-project-sgdf-with-5-km5km-resolution-to-0-050-05
+  
+  precip_sp_df <- as.data.frame(precip_sp) # prep sp data
   names(precip_sp_df) <- c("value", "x", "y")
   
   map_plot <- ggplot() + 
@@ -43,10 +48,11 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
                    panel.grid = ggplot2::element_blank())
   
   if(!is.null(geom_feature)){
-    projected_sp <- sp::spTransform(geom_feature, plot_crs)
-    projected_sp_df <- ggplot2::fortify(projected_sp) # prep sp data
+    # see comments about for why we are no longer reprojecting.
+    # projected_sp <- sp::spTransform(geom_feature, data_crs)
+    geom_feature_sp_df <- ggplot2::fortify(geom_feature) # prep sp data
     map_plot <- map_plot +
-      geom_polygon(data = projected_sp_df, 
+      geom_polygon(data = geom_feature_sp_df, 
                    ggplot2::aes(x=long, y=lat, group=group),
                    fill = NA, color = "black", size=1.5)
   }
