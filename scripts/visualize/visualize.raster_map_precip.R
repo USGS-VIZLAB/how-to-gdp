@@ -30,6 +30,11 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   #   warning: Grid warping not available, coercing to points
   #   stackoverflow: https://stackoverflow.com/questions/15258582/re-project-sgdf-with-5-km5km-resolution-to-0-050-05
   
+  if(!is.null(geom_feature)){
+    #crop the precip data to the watershed polygon
+    precip_sp <- raster::crop(precip_sp, geom_feature)
+  }
+  
   precip_sp_df <- as.data.frame(precip_sp) # prep sp data
   names(precip_sp_df) <- c("value", "x", "y")
   
