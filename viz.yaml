@@ -170,7 +170,7 @@ fetch:
     scripts: scripts/fetch/fetch.geom_transpose.R
     depends: 
       geom_sp: "yahara_geom"
-    vertical_trans_va: 0.2
+    vertical_trans_va: 0.3
   -
     id: context_geom
     comment: create spatial object of area around yahara (maybe just make bbox)	
