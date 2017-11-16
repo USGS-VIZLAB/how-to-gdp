@@ -5,8 +5,13 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   
   deps <- readDepends(viz)
   precip_raster_data <- deps[['raster_data']]
-  crs <- deps[["crs"]][["crs_str"]]
+  plot_crs <- deps[["plot_crs"]][["crs_str"]]
+  data_crs <- deps[["data_crs"]][["crs_str"]]
   geom_feature <- deps[['geom_feature']]
+  west <- deps[["bbox"]][["west"]]
+  east <- deps[["bbox"]][["east"]]
+  north <- deps[["bbox"]][["north"]]
+  south <- deps[["bbox"]][["south"]]
   
   min_precip <- floor(precip_raster_data@data@min)
   max_precip <- ceiling(precip_raster_data@data@max)

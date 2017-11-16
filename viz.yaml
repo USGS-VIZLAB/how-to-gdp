@@ -115,6 +115,13 @@ parameter:
     id: precip_bins
     comment: number of bins for precip scale
     bins: 10
+  - 
+    id: "context_bbox"
+    comment: bbox for context around watershed
+    west: -89.97
+    east: -88.74
+    south: 42.89
+    north: 43.81
 fetch:
   -
     id: page_text
@@ -173,10 +180,7 @@ fetch:
     scripts: scripts/fetch/fetch.bbox_geom.R
     depends: 
       crs: "geoknife_crs"
-    west: -89.663676
-    east: -89.034590
-    south: 42.887609
-    north: 43.809561
+      bbox: "context_bbox"
   -
     id: yahara_precip_avg
     comment: use transposed yahara as stencil 
@@ -289,8 +293,10 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
-      crs: "display_crs"
+      plot_crs: "display_crs"
+      data_crs: "geoknife_crs"
       geom_feature: "yahara_geom_transposed"
+      bbox: "context_bbox"
     title: 
     alttext: 
   -
