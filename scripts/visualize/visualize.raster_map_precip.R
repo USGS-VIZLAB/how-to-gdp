@@ -15,8 +15,6 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   min_precip <- floor(precip_raster@data@min)
   max_precip <- ceiling(precip_raster@data@max)
   
-  png(viz[['location']])
-  
   # get raster into correct projection
   raster::extent(precip_raster) <- c(west, east, south, north)
   raster::projection(precip_raster) <- sp::CRS(crs)
@@ -62,6 +60,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
                    fill = NA, color = "black", size=1.5)
   }
   
+  png(viz[['location']])
   print(map_plot)
   dev.off()
   
