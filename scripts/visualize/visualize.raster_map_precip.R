@@ -22,11 +22,10 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   # convert raster to sp object then re-project
   precip_sp <- as(precip_raster, "SpatialPixelsDataFrame")
   
-  # precip_sp_projected <- sp::spTransform(precip_sp, plot_crs)
-  #   bumped up against a warning about warping, looked at a stackoverflow comment
-  #   and decided to just not reproject into the plotting crs
-  #   warning: Grid warping not available, coercing to points
-  #   stackoverflow: https://stackoverflow.com/questions/15258582/re-project-sgdf-with-5-km5km-resolution-to-0-050-05
+  #   Bumped up against a warning about warping when using sp::spTransform.
+  #   "warning: Grid warping not available, coercing to points"
+  #   Looked at a stackoverflow comment and decided to not reproject into the plotting crs.
+  #   Stackoverflow: https://stackoverflow.com/questions/15258582/re-project-sgdf-with-5-km5km-resolution-to-0-050-05
   
   if(!is.null(geom_feature)){
     #crop the precip data to the watershed polygon
@@ -51,8 +50,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
                    panel.grid = ggplot2::element_blank())
   
   if(!is.null(geom_feature)){
-    # see comments about for why we are no longer reprojecting.
-    # projected_sp <- sp::spTransform(geom_feature, data_crs)
+    # see comments above for why we are no longer reprojecting.
     geom_feature_sp_df <- ggplot2::fortify(geom_feature) # prep sp data
     map_plot <- map_plot +
       geom_polygon(data = geom_feature_sp_df, 
