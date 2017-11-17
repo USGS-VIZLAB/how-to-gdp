@@ -4,12 +4,16 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
   deps <- readDepends(viz)
   geom_sp <- deps[["geom_sp"]] #yahara watershed
   date_range <- deps[["date_range"]]
+  date <- deps[["date"]]
   crs <- deps[['crs']]$crs_str 
     
+  start_date <- ifelse(is.null(date_range), date$date, date_range$start_date)
+  end_date <- ifelse(is.null(date_range), date$date, date_range$end_date)
+  
   stencil <- geoknife::simplegeom(geom_sp)
   fabric <- geoknife::webdata(url = 'https://cida.usgs.gov/thredds/dodsC/stageiv_combined', 
                               variables = "Total_precipitation_surface_1_Hour_Accumulation", 
-                              times = c(date_range$start_date, date_range$end_date))
+                              times = c(start_date, end_date))
   knife <- geoknife::webprocess(viz[["algorithm"]])
   
   if(viz[["algorithm"]] == "subset"){

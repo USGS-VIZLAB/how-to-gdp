@@ -36,6 +36,9 @@ info:
     geoknife:
       repo: CRAN
       version: 1.5.5
+    ggmap:
+      repo: CRAN
+      version: 2.6.1
     ggplot2:
       repo: CRAN
       version: 2.2.1
@@ -60,6 +63,9 @@ info:
     rgdal:
       repo: CRAN
       version: 1.2-8
+    rgeos:
+      repo: CRAN
+      version: 0.3-23
     sp: 
       repo: CRAN
       version: 1.2.5
@@ -109,6 +115,13 @@ parameter:
     id: precip_bins
     comment: number of bins for precip scale
     bins: 10
+  - 
+    id: "context_bbox"
+    comment: bbox for context around watershed
+    west: -89.97
+    east: -88.74
+    south: 42.89
+    north: 43.81
 fetch:
   -
     id: page_text
@@ -157,7 +170,7 @@ fetch:
     scripts: scripts/fetch/fetch.geom_transpose.R
     depends: 
       geom_sp: "yahara_geom"
-    vertical_trans_va: 0.2
+    vertical_trans_va: 0.35
   -
     id: context_geom
     comment: create spatial object of area around yahara (maybe just make bbox)	
@@ -167,10 +180,7 @@ fetch:
     scripts: scripts/fetch/fetch.bbox_geom.R
     depends: 
       crs: "geoknife_crs"
-    west: -89.663676
-    east: -89.034590
-    south: 42.887609
-    north: 43.809561
+      bbox: "context_bbox"
   -
     id: yahara_precip_avg
     comment: use transposed yahara as stencil 
@@ -203,7 +213,7 @@ fetch:
     scripts: scripts/fetch/fetch.precip_data.R
     depends:
       geom_sp: "yahara_geom_transposed"
-      date_range: "storm_dates"
+      date: "example_dateTime"
       crs: "display_crs"
     algorithm: "subset"
   -
@@ -215,7 +225,7 @@ fetch:
     scripts: scripts/fetch/fetch.precip_data.R
     depends:
       geom_sp: "context_geom"
-      date_range: "storm_dates"
+      date: "example_dateTime"
       crs: "display_crs"
     algorithm: "subset"
     raw_netcdf: cache/context_precip.nc
@@ -259,6 +269,8 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
+      crs: "display_crs"
+      bbox: "context_bbox"
     title: 
     alttext:
   -
@@ -282,6 +294,9 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
+      crs: "geoknife_crs"
+      geom_feature: "yahara_geom_transposed"
+      bbox: "context_bbox"
     title: 
     alttext: 
   -
