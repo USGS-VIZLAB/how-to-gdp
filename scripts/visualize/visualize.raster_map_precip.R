@@ -40,7 +40,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   
   map_plot <- ggplot() + 
     ggplot2::geom_tile(data = precip_sp_df,
-                       ggplot2::aes(x=x, y=y, fill = value, alpha=ifelse(is.na(value), 0, 1))) +
+                       ggplot2::aes(x=x, y=y, fill = value)) +
     ggplot2::scale_fill_gradientn(colours=blues9, na.value = "transparent",
                          limits = c(min_precip, max_precip), 
                          guide = ggplot2::guide_legend(direction = "vertical",
