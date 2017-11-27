@@ -245,6 +245,14 @@ process:
       timestep: "example_dateTime"
 
 visualize:
+  - id: basemap
+    comment: map that will sit underneath everything else to give context
+    location: cache/basemap.rds
+    reader: rds
+    visualizer: create_basemap
+    scripts: scripts/visualize/visualize.create_basemap.R
+    depends:
+      geom_sp: "context_geom"
   -
     id: inputs_data	
     comment: raster map of subset gdp data at one timestep for area around yahara	
@@ -256,6 +264,7 @@ visualize:
       raster_data: "context_precip"
       crs: "display_crs"
       bbox: "context_bbox"
+      basemap: "basemap"
       precip_limits: "timestep_precip_limits"
     title: "Gridded precipitation from GDP."
     alttext: "Pre-processing gridded data for interested storm area."
@@ -269,6 +278,7 @@ visualize:
     depends:
       geom_feature: "yahara_geom_transposed"
       geom_context: "context_geom"
+      basemap: "basemap"
     title: "Geometry of feature of interest"
     alttext: "Spatial extent of the data you're interested in"
   -
@@ -283,6 +293,7 @@ visualize:
       crs: "geoknife_crs"
       geom_feature: "yahara_geom_transposed"
       bbox: "context_bbox"
+      basemap: "basemap"
       precip_limits: "timestep_precip_limits"
     title: "Gridded precipitation only shown for watershed shape"
     alttext: "Subset of gridded precipitation for only the transposed watershed boundary."
@@ -296,6 +307,7 @@ visualize:
     depends:
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
+      basemap: "basemap"
       precip_limits: "timestep_precip_limits"
     title: "Processed GDP results for one timestep"
     alttext: "Processed GDP results for one timestep"
@@ -311,6 +323,7 @@ visualize:
       precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
+      basemap: "basemap"
       precip_limits: "cumulative_precip_limits"
     title: "Storm transposition"
     alttext: "Original watershed with lower precipitation and transposed watershed with higher precipitation."

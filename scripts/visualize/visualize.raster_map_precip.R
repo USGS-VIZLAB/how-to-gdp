@@ -11,6 +11,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   east <- deps[["bbox"]][["east"]]
   north <- deps[["bbox"]][["north"]]
   south <- deps[["bbox"]][["south"]]
+  basemap <- deps[["basemap"]]
   min_precip <- deps[["precip_limits"]][["min"]]
   max_precip <- deps[["precip_limits"]][["max"]]
 
@@ -34,19 +35,14 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   precip_sp_df <- as.data.frame(precip_sp) # prep sp data
   names(precip_sp_df) <- c("value", "x", "y")
   
-  map_plot <- ggplot() + 
+  map_plot <- basemap + 
     ggplot2::geom_tile(data = precip_sp_df,
-                       ggplot2::aes(x=x, y=y, fill = value)) +
+                       ggplot2::aes(x=x, y=y, fill = value), alpha = 0.8) +
     ggplot2::scale_fill_gradientn(colours=blues9, na.value = "transparent",
                          limits = c(min_precip, max_precip), 
                          guide = ggplot2::guide_legend(direction = "vertical",
                                                        title = "Precipitation (in)")) +
-    ggplot2::scale_alpha(guide = FALSE) +
-    ggplot2::coord_equal() + 
-    ggplot2::theme_minimal() + 
-    ggplot2::theme(axis.text = ggplot2::element_blank(), 
-                   axis.title = ggplot2::element_blank(), 
-                   panel.grid = ggplot2::element_blank())
+    ggplot2::scale_alpha(guide = FALSE) 
   
   if(!is.null(geom_feature)){
     # see comments above for why we are no longer reprojecting.
@@ -54,7 +50,7 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
     map_plot <- map_plot +
       geom_polygon(data = geom_feature_sp_df, 
                    ggplot2::aes(x=long, y=lat, group=group),
-                   fill = NA, color = "black", size=1.5)
+                   alpha = 0.8, fill = NA, color = "black", size=1.25)
   }
   
   png(viz[['location']])
