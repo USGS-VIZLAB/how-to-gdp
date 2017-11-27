@@ -11,10 +11,9 @@ visualize.raster_map_precip <- function(viz = as.viz('yahara_precip_clip')){
   east <- deps[["bbox"]][["east"]]
   north <- deps[["bbox"]][["north"]]
   south <- deps[["bbox"]][["south"]]
-  
-  min_precip <- floor(precip_raster@data@min)
-  max_precip <- ceiling(precip_raster@data@max)
-  
+  min_precip <- deps[["precip_limits"]][["min"]]
+  max_precip <- deps[["precip_limits"]][["max"]]
+
   # get raster into correct projection
   raster::extent(precip_raster) <- c(west, east, south, north)
   raster::projection(precip_raster) <- sp::CRS(crs)

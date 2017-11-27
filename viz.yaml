@@ -112,9 +112,15 @@ parameter:
     date: "2008-06-12 22:00:00"
     tz: "UTC"
   -
-    id: precip_bins
-    comment: number of bins for precip scale
-    bins: 10
+    id: timestep_precip_limits
+    comment: min and max for cumulative precip scale
+    min: 0
+    max: 2
+  -
+    id: cumulative_precip_limits
+    comment: min and max for cumulative precip scale
+    min: 0
+    max: 11
   - 
     id: "context_bbox"
     comment: bbox for context around watershed
@@ -129,27 +135,6 @@ fetch:
     location: data/page_text.yaml
     reader: md
     mimetype: text/yaml
-  - 
-    id: precip_colors
-    comment: colors to use for precip gradient in maps
-    location: cache/precip_colors.rds
-    reader: rds
-    fetcher: precip_colors
-    scripts: scripts/fetch/fetch.precip_bins.R
-    depends: 
-      bins: "precip_bins"
-    palette: "Blues"
-  -
-    id: precip_breaks
-    comment: precip breaks based on lowest & highest precip val in scale
-    location: cache/precip_breaks.rds
-    reader: rds
-    fetcher: precip_breaks
-    scripts: scripts/fetch/fetch.precip_bins.R
-    depends: 
-      bins: "precip_bins"
-    low_precip: 0
-    high_precip: 14
   -
     id: yahara_geom
     comment: get shapefile as R object
@@ -271,6 +256,7 @@ visualize:
       raster_data: "context_precip"
       crs: "display_crs"
       bbox: "context_bbox"
+      precip_limits: "timestep_precip_limits"
     title: "Gridded precipitation from GDP."
     alttext: "Pre-processing gridded data for interested storm area."
   -
@@ -297,6 +283,7 @@ visualize:
       crs: "geoknife_crs"
       geom_feature: "yahara_geom_transposed"
       bbox: "context_bbox"
+      precip_limits: "timestep_precip_limits"
     title: "Gridded precipitation only shown for watershed shape"
     alttext: "Subset of gridded precipitation for only the transposed watershed boundary."
   -
@@ -307,10 +294,9 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
-      precip_colors: "precip_colors"
-      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
+      precip_limits: "timestep_precip_limits"
     title: "Processed GDP results for one timestep"
     alttext: "Processed GDP results for one timestep"
   -
@@ -321,12 +307,11 @@ visualize:
     visualizer: map_precip
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
-      precip_colors: "precip_colors"
-      precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_cumulative"
       precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
+      precip_limits: "cumulative_precip_limits"
     title: "Storm transposition"
     alttext: "Original watershed with lower precipitation and transposed watershed with higher precipitation."
 publish:  
