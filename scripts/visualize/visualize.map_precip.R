@@ -29,18 +29,9 @@ visualize.map_precip <- function(viz){
     geom_sp_orig_df <- ggplot2::fortify(geom_sp_orig) # prep sp data
     geom_sp_orig_df[["precipVal"]] <- precip_orig_data[["precipVal"]]
 
-    label_df <- data.frame(
-      label = c(paste("Pre-transpose:", round(precip_orig_data[["precipVal"]], 2), "in"),
-                paste("Post-transpose:", round(precip_data[["precipVal"]], 2), "in")),
-      vjust = c(1, 2),
-      stringsAsFactors = FALSE)
-    
     map_geometry <- map_geometry + 
       geom_polygon(data = geom_sp_orig_df, aes(x = long, y = lat, group = group, fill = precipVal),
-                   alpha = 0.8, col = NA) +
-      geom_text(data = label_df, aes(label = label, vjust = vjust),
-                x = min(basemap$data$lon), y = max(basemap$data$lat), 
-                size = 5, fontface = 2, hjust = -0.05)
+                   alpha = 0.8, col = NA)
   }
 
   png(viz[['location']])
