@@ -271,8 +271,8 @@ visualize:
       raster_data: "context_precip"
       crs: "display_crs"
       bbox: "context_bbox"
-    title: 
-    alttext:
+    title: "Gridded precipitation from GDP."
+    alttext: "Pre-processing gridded data for interested storm area."
   -
     id: inputs_geometry	
     comment: map of subset gdp transposed yahara data w. surrounding area for context	
@@ -283,8 +283,8 @@ visualize:
     depends:
       geom_feature: "yahara_geom_transposed"
       geom_context: "context_geom"
-    title: Geometry of feature of interest
-    alttext: Spatial extent of the data you're interested in
+    title: "Geometry of feature of interest"
+    alttext: "Spatial extent of the data you're interested in"
   -
     id: yahara_precip_clip
     comment: raster map w. subset gdp transposed yahara data at one timestep	
@@ -297,8 +297,8 @@ visualize:
       crs: "geoknife_crs"
       geom_feature: "yahara_geom_transposed"
       bbox: "context_bbox"
-    title: 
-    alttext: 
+    title: "Gridded precipitation only shown for watershed shape"
+    alttext: "Subset of gridded precipitation for only the transposed watershed boundary."
   -
     id: yahara_precip_melt
     comment: map w. avg gdp data for yahara transpose at one timestep	
@@ -311,8 +311,8 @@ visualize:
       precip_breaks: "precip_breaks"
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
-    title: Processed GDP results for one timestep
-    alttext: Processed GDP results for one timestep
+    title: "Processed GDP results for one timestep"
+    alttext: "Processed GDP results for one timestep"
   -
     id: storm_transpose	
     comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
@@ -327,8 +327,8 @@ visualize:
       precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
-    title: Storm transposition
-    alttext: Storm transposition
+    title: "Storm transposition"
+    alttext: "Original watershed with lower precipitation and transposed watershed with higher precipitation."
 publish:  
   - 
     id: gdp_page
@@ -347,17 +347,17 @@ publish:
       section_algorithm: "gdp_algorithm_section"
       text_usecase: "use_case_intro"
       section_storm_transpose: "storm_transpose_section"
-      #section_data_input: "inputs_data_section"
+      section_data_input: "inputs_data_section"
       section_geometry_input: "inputs_geometry_section"
-      #section_clip_melt: "yahara_clip_process_section"
+      section_clip_melt: "yahara_clip_melt_section"
       text_conclusion: "conclusion_text"
     context:
       header: "header"
       footer: "footer"
       resources: ["gdp_css", "header_css", "footer_css", "font"]
       sections: [ "text_overview", "section_process", "section_algorithm", "text_usecase",
-                  "section_storm_transpose", #"section_data_input",
-                  "section_geometry_input", #"section_clip_melt",
+                  "section_storm_transpose", "section_data_input",
+                  "section_geometry_input", "section_clip_melt",
                   "text_conclusion" ]
   -
     id: processing_gif
@@ -424,17 +424,17 @@ publish:
       figure: storm_transpose
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
-#  - 
-#    id: inputs_data_section
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["inputs_data", "page_text"]
-#    context:
-#      id: gdp-fig
-#      title: "Precip overtime for original storm location"
-#      figure: precip-timeseries-map
-#      text-before: page_text.inputs_data_before
-#      text-after: page_text.inputs_data_after
+  - 
+    id: inputs_data_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["inputs_data", "page_text"]
+    context:
+      id: gdp-fig
+      title: "Precip overtime for original storm location"
+      figure: inputs_data
+      text-before: page_text.inputs_data_before
+      text-after: page_text.inputs_data_after
   - 
     id: inputs_geometry_section
     publisher: section
@@ -445,17 +445,18 @@ publish:
       figure: inputs_geometry
       text-before: page_text.inputs_geometry_before
       text-after: page_text.inputs_geometry_after
-#  -
-#    id: yahara_clip_melt_section
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
-#    context:
-#      id: gdp-fig-two
-#      title:
-#      figure: ["yahara_precip_clip", "yahara_precip_melt"]
-#      text-before: page_text.yahara_precip_before
-#      text-after: page_text.yahara_precip_after
+  -
+    id: yahara_clip_melt_section
+    publisher: section
+    template: layout/templates/gdp-figure-sidebyside.mustache
+    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
+    context:
+      id: gdp-fig-two
+      title:
+      figure1: yahara_precip_clip
+      figure2: yahara_precip_melt
+      text-before: page_text.yahara_precip_before
+      text-after: page_text.yahara_precip_after
   -
     id: conclusion_text
     publisher: section
