@@ -62,6 +62,10 @@ storm_transpose_before: >-
   
 storm_transpose_after: >-
   
+  The cumulative precipitation for both the original Yahara (7.6 in) and the transposed Yahara (10.4 in)
+  were calculated, and are shown on the figure above. Transposing the storm north 24 miles resulted 
+  in an increased of almost 3 inches of rain. 
+  
   The storm dates were selected between June 2, 2008 to June 13, 2008. A shapefile of the Yahara River
   watershed was downloaded using the [National Water Census Data Portal](https://cida.usgs.gov/nwc/). To
   "transpose" the storm, the Yahara shapefile was first shifted north to the center of the extreme storm.
