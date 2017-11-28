@@ -99,7 +99,8 @@ inputs_geometry_before: >-
   
 inputs_geometry_after: >-
   
-  This figure shows the original and transposed Yahara River watershed.
+  This figure shows the original and transposed Yahara River watershed. The watershed was 
+  moved north by 24 miles.
   
 yahara_precip_before: >-
   ### GDP Processing
@@ -118,9 +119,19 @@ yahara_precip_after: >-
 conclusion: >-
   ### GDP Results
   
-  [[What can you do with the processed data from GDP? Perform peak flow analyses (see potter?) 
-  for more info.]] 
+  Transposing the Yahara watershed north by 24 miles to capture the highest intensity of
+  the 2008 storm resulted in an increase of 3 inches of rainfall. These precipitation 
+  data could now be used in a watershed model, data visualization, or statistical 
+  analysis, to calculate runoff and streamflow or evaluate the characteristics of the 
+  storm. Any of these could also be compared between the storm that did occur over the 
+  Yahara river and/or the transposed storm that could have occurred over the Yahara.
   
   # Other applications of GDP
   
-  [[Also include information about other GDP applications.]]
+  Results from the GDP can be used for any application that needs input data on a 
+  per-polygon basis. Environmental modeling applications as well as data summaries 
+  and visualizations can use GDP output with little to no additional processing. 
+  Examples of analyses that have used the GDP include 
+  [lake temperature modeling](http://www.sciencedirect.com/science/article/pii/S0304380014003664), 
+  [surface water modeling](https://www.hydrol-earth-syst-sci.net/19/209/2015/), and 
+  [beach water quality modeling](https://pubs.er.usgs.gov/publication/sir20135166).
