@@ -5,40 +5,39 @@ gdp_overview: >-
   Increasing complexity of natural resource management questions requires computations 
   involving a variety of data. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
   enables more efficient climate modeling and data acquisition to answer regional- or 
-  national-scale questions by conducting data processing on the web. Web-enabled 
-  processing has given researchers and managers access to powerful processing capabilities
-  with minimal effort; thus, producing important modeling or decision support results for 
+  national-scale questions by conducting data processing on the web. Web-based 
+  processing gives researchers and managers access to powerful processing capabilities
+  with minimal effort, producing important modeling or decision support results for 
   nominal cost.
    
-  The following will explain how the Geo Data Portal works.
-
 gdp_processing_before: >-
   ### Bandwidth and processing savings with GDP
   
   The GDP moves computationally intensive processing steps from a researcher's computer to
-  the web. This means researchers have more computational power available to them and 
-  do not need to use their personal computers for lengthy and tedious processing tasks.
+  the web. Rather than moving the data to the processing power, the GDP moves the processing power to the data.
+  This means researchers have more computational power available to them and 
+  do not need to use their personal computers for lengthy downloads and tedious processing tasks.
   
 gdp_processing_after: >-
   
-  This differs from traditional geoprocessing workflows which require download of an 
-  massive amounts of data to be subset and processed. The GDP requires users to download only the 
-  processed data.
+  This differs from traditional geoprocessing workflows which often require users to download 
+  massive, often terabyte-scale datasets to subset and process. The GDP allows users to download only the 
+  subset of the data they need.
   
 gdp_algorithm_before: >-
   ### GDP algorithm support
 
   There are a number of built-in algorithms that take the gridded data and distill it. A common
   algorithm is to calculate area-weighted spatial averages. The GDP will take the gridded dataset and for
-  each timestep, it will average the data within the given spatial extent. The processed data will
-  be a timeseries with one value for each timestep and for each spatial feature.
+  each time step, it will average the data within the given spatial extent. The processed data will
+  be a time series with one value for each time step and for each spatial feature.
   
 gdp_algorithm_after: >-
   
   In the figure above, a user is requesting monthly temperature data from January to August 2015 
   for a feature around Minnesota and Wisconsin. Each month has a grid of data associated with it 
   which is clipped to the spatial feature. Each clipped grid is then averaged, leaving one 
-  value for each timestep. 
+  value for each time step. 
   
 use_case_intro: >-
   # Extreme Storm Transposition Use-case
@@ -71,7 +70,7 @@ storm_transpose_after: >-
   "transpose" the storm, the Yahara shapefile was first shifted north to the center of the extreme storm.
   This new spatial feature was used as input to the GDP, along with the storm start and end dates, and 
   the area-weighted average algorithm was used to process this data. A dataset of average precipitation 
-  for each timestep was returned, and the cumulative sum calculated. The cumulative precipitation can now
+  for each time step was returned, and the cumulative sum calculated. The cumulative precipitation can now
   be used as input to flood models and other management tools to determine how this extreme storm could
   have impacted the Yahara (not covered here).
   
@@ -82,12 +81,11 @@ inputs_data_before: >-
   
   For this analysis, we used precipitation data available in the "United States Stage 
   IV Quantitative Precipitation Archive" dataset from the GDP. The data are gridded and 
-  have multiple timesteps. Below is an example of the gridded dataset before GDP processing. 
+  have multiple time steps. Below is an example of the gridded dataset before GDP processing. 
 
 inputs_data_after: >-
   
-  For simplicity, we are showing the gridded data by using a single timestep. The map below 
-  shows the gridded data at 10:00 pm (UTC) on June 12, 2008. 
+  For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008). 
   
 inputs_geometry_before: >-
   ### GDP Inputs - geometry
@@ -99,22 +97,22 @@ inputs_geometry_before: >-
   
 inputs_geometry_after: >-
   
-  This figure shows the original and transposed Yahara River watershed. The watershed was 
-  moved north by 24 miles.
+  This figure shows the transposed Yahara River watershed. The watershed was 
+  moved north by 24 miles.  
   
 yahara_precip_before: >-
   ### GDP Processing
   
-  The real power of GDP is summarizing all of this data. For each timestep, the GDP clips the 
+  The real power of the GDP is summarizing all of this data. For each time step, the GDP clips the 
   data to the given geometry, and then "melts" the data for that geometry into one value based
-  on your chosen algorithm. The result is one value per timestep per geometry, so in this 
-  example, one value per timestep in the transposed Yahara watershed.
+  on your chosen algorithm. The result is one value per time step per geometry, so in this 
+  example, one value per time step in the transposed Yahara watershed.
   
 yahara_precip_after: >-
   
-  The figure on the left shows the clipped gridded data for one timestep (10:00 pm (UTC) on June 
+  The figure on the left shows the clipped gridded data for one time step (10:00 pm (UTC) on June 
   12, 2008). The figure on the right shows the area-weighted average of that gridded data for this
-  particular timestep.
+  particular time step.
   
 conclusion: >-
   ### GDP Results
