@@ -27,10 +27,11 @@ gdp_processing_after: >-
 gdp_algorithm_before: >-
   ### GDP algorithm support
 
-  There are a number of built-in algorithms that take the gridded data and distill it. A common
-  algorithm is to calculate area-weighted spatial averages. The GDP will take the gridded dataset and for
-  each time step, it will average the data within the given spatial extent. The processed data will
-  be a time series with one value for each time step and for each spatial feature.
+  There are a number of built-in algorithms that take the gridded data and distill it. A commonly-used
+  algorithm is area-weighted spatial averages. The GDP will take the gridded dataset and average the data 
+  within the given spatial extent. If the dataset has multiple time steps, the GDP will compute a 
+  per-feature average for each. The final processed data will be a time series with a value for each 
+  time step and each spatial feature.
   
 gdp_algorithm_after: >-
   
