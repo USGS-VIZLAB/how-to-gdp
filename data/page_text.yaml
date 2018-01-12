@@ -129,7 +129,7 @@ conclusion: >-
   # Other applications of GDP
   
   Results from the GDP can be used for any application that needs input data on a 
-  per-polygon basis. Environmental modeling applications as well as data summaries 
+  per-feature basis. Environmental modeling applications as well as data summaries 
   and visualizations can use GDP output with little to no additional processing. 
   Examples of analyses that have used the GDP include 
   [lake temperature modeling](http://www.sciencedirect.com/science/article/pii/S0304380014003664), 
