@@ -39,4 +39,4 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
   }
 }
 
-fetchTimestamp.precip_data <- vizlab:::fetchTimestamp.file
+fetchTimestamp.precip_data <- vizlab::alwaysCurrent

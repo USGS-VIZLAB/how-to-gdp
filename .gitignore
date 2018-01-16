@@ -4,6 +4,8 @@ user/
 figures/
 vizlab/
 makefile
+.remake/
+remake.yaml
 
 # RStudio files
 *.Rproj
