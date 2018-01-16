@@ -36,21 +36,36 @@ info:
     geoknife:
       repo: CRAN
       version: 1.5.5
+    ggmap:
+      repo: CRAN
+      version: 2.6.1
+    ggplot2:
+      repo: CRAN
+      version: 2.2.1
     maps:
       repo: CRAN
       version: 3.2.0
     maptools:
       repo: CRAN
       version: 0.9-2
+    ncdf4:
+      repo: CRAN
+      version: 1.16
     raster:
       repo: CRAN
       version: 2.5-8
+    rasterVis:
+      repo: CRAN
+      version: 0.41
     RColorBrewer:
       repo: CRAN
       version: 1.1-2
     rgdal:
       repo: CRAN
       version: 1.2-8
+    rgeos:
+      repo: CRAN
+      version: 0.3-23
     sp: 
       repo: CRAN
       version: 1.2.5
@@ -94,11 +109,25 @@ parameter:
   -
     id: example_dateTime
     comment: use one timestep to illustrate geoknife processing
-    date: "2008-06-12 22:00:00 UTC"
+    date: "2008-06-12 22:00:00"
+    tz: "UTC"
   -
-    id: precip_bins
-    comment: number of bins for precip scale
-    bins: 10
+    id: timestep_precip_limits
+    comment: min and max for cumulative precip scale
+    min: 0
+    max: 2
+  -
+    id: cumulative_precip_limits
+    comment: min and max for cumulative precip scale
+    min: 0
+    max: 11
+  - 
+    id: "context_bbox"
+    comment: bbox for context around watershed
+    west: -89.97
+    east: -88.74
+    south: 42.89
+    north: 43.81
 fetch:
   -
     id: page_text
@@ -106,27 +135,6 @@ fetch:
     location: data/page_text.yaml
     reader: md
     mimetype: text/yaml
-  - 
-    id: precip_colors
-    comment: colors to use for precip gradient in maps
-    location: cache/precip_colors.rds
-    reader: rds
-    fetcher: precip_colors
-    scripts: scripts/fetch/fetch.precip_bins.R
-    depends: 
-      bins: "precip_bins"
-    palette: "Blues"
-  -
-    id: precip_breaks
-    comment: precip breaks based on lowest & highest precip val in scale
-    location: cache/precip_breaks.rds
-    reader: rds
-    fetcher: precip_breaks
-    scripts: scripts/fetch/fetch.precip_bins.R
-    depends: 
-      bins: "precip_bins"
-    low_precip: 0
-    high_precip: 14
   -
     id: yahara_geom
     comment: get shapefile as R object
@@ -134,9 +142,10 @@ fetch:
     reader: rds
     fetcher: geom_shp
     scripts: scripts/fetch/fetch.geom_shp.R
-    depends: 
-      crs: "geoknife_crs"
+    depends:
+      transform_crs: "geoknife_crs"
     filepath: "data/yahara.shp"
+    shp_crs: "+init=epsg:3857"
   - 
     id: yahara_geom_transposed
     comment: moves yahara north (more process than fetch, but precip fetch depends on this)
@@ -146,7 +155,7 @@ fetch:
     scripts: scripts/fetch/fetch.geom_transpose.R
     depends: 
       geom_sp: "yahara_geom"
-    vertical_trans_va: 0.15
+    vertical_trans_va: 0.35
   -
     id: context_geom
     comment: create spatial object of area around yahara (maybe just make bbox)	
@@ -156,13 +165,10 @@ fetch:
     scripts: scripts/fetch/fetch.bbox_geom.R
     depends: 
       crs: "geoknife_crs"
-    west: -89.663676
-    east: -89.034590
-    south: 42.887609
-    north: 43.809561
+      bbox: "context_bbox"
   -
     id: yahara_precip_avg
-    comment: use transposed yahara as stencil (need dates)
+    comment: use transposed yahara as stencil 
     location: cache/yahara_precip_avg.rds
     reader: rds
     fetcher: precip_data
@@ -171,28 +177,43 @@ fetch:
       geom_sp: "yahara_geom_transposed"
       date_range: "storm_dates"
     algorithm: "unweighted summary"
-#  -
-#    id: yahara_precip
-#    comment: use transposed yahara, use subset algorithm
-#    location: cache/yahara_precip.rds
-#    reader: rds
-#    fetcher: precip_data
-#    scripts: scripts/fetch/fetch.precip_data.R
-#    depends:
-#      geom_sp: "yahara_geom_transposed"
-#      date_range: "storm_dates"
-#    algorithm: "subset"
-#  -
-#    id: context_precip
-#    comment: subset data from gdp for area around yahara
-#    location: cache/context_precip.rds
-#    reader: rds
-#    fetcher: precip_data
-#    scripts: scripts/fetch/fetch.precip_data.R
-#    depends:
-#      geom_sp: "context_geom"
-#      date_range: "storm_dates"
-#    algorithm: "subset"
+  -
+    id: yahara_precip_orig_avg
+    comment: use original yahara as stencil 
+    location: cache/yahara_precip_orig_avg.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom"
+      date_range: "storm_dates"
+    algorithm: "unweighted summary"
+  -
+    id: yahara_precip
+    comment: use transposed yahara, use subset algorithm
+    location: cache/yahara_precip_raster.rds
+    raw_netcdf: cache/yahara_precip.nc
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "yahara_geom_transposed"
+      date: "example_dateTime"
+      crs: "display_crs"
+    algorithm: "subset"
+  -
+    id: context_precip
+    comment: subset data from gdp for area around yahara
+    location: cache/context_precip_raster.rds
+    reader: rds
+    fetcher: precip_data
+    scripts: scripts/fetch/fetch.precip_data.R
+    depends:
+      geom_sp: "context_geom"
+      date: "example_dateTime"
+      crs: "display_crs"
+    algorithm: "subset"
+    raw_netcdf: cache/context_precip.nc
 process:
   -
     id: yahara_precip_avg_cumulative
@@ -204,6 +225,15 @@ process:
     depends: 
       precip_data: "yahara_precip_avg"
   -
+    id: yahara_precip_orig_avg_cumulative
+    comment: get cumulative avg precip from original yahara
+    location: cache/yahara_precip_orig_avg_cumulative.rds
+    reader: rds
+    processor: precip_cumulative
+    scripts: scripts/process/process.precip_cumulative.R
+    depends: 
+      precip_data: "yahara_precip_orig_avg"
+  -
     id: yahara_precip_avg_timestep
     comment: filter to get just one precip value of the averaged precip data
     location: cache/yahara_precip_avg_timestep.rds
@@ -213,38 +243,31 @@ process:
     depends: 
       precip_data: "yahara_precip_avg"
       timestep: "example_dateTime"
-#  -
-#    id: yahara_precip_timestep
-#    comment: filter to get just one precip value
-#    location: cache/yahara_precip_timestep.rds
-#    reader: rds
-#    processor: precip_timestep
-#    scripts: scripts/process/process.precip_timestep.R
-#    depends: 
-#      precip_data: "yahara_precip"
-#      timestep: "example_dateTime"
-#  -
-#    id: context_precip_timestep
-#    comment: filter to get just one precip value
-#    location: cache/context_precip_timestep.rds
-#    reader: rds
-#    processor: precip_timestep
-#    scripts: scripts/process/process.precip_timestep.R
-#    depends: 
-#      precip_data: "context_precip"
-#      timestep: "example_dateTime"
+
 visualize:
-#  -
-#    id: inputs_data	
-#    comment: raster map of subset gdp data at one timestep for area around yahara	
-#    location: figures/inputs_data.png
-#    mimetype: image/png
-#    visualizer: raster_map_precip
-#    scripts: scripts/visualize/visualize.raster_map_precip.R
-#    depends:
-#      precip_data: "context_precip_timestep"
-#    title: 
-#    alttext:
+  - id: basemap
+    comment: map that will sit underneath everything else to give context
+    location: cache/basemap.rds
+    reader: rds
+    visualizer: create_basemap
+    scripts: scripts/visualize/visualize.create_basemap.R
+    depends:
+      geom_sp: "context_geom"
+  -
+    id: inputs_data	
+    comment: raster map of subset gdp data at one timestep for area around yahara	
+    location: figures/inputs_data.png
+    mimetype: image/png
+    visualizer: raster_map_precip
+    scripts: scripts/visualize/visualize.raster_map_precip.R
+    depends:
+      raster_data: "context_precip"
+      crs: "display_crs"
+      bbox: "context_bbox"
+      basemap: "basemap"
+      precip_limits: "timestep_precip_limits"
+    title: "Gridded precipitation from GDP."
+    alttext: "Pre-processing gridded data for interested storm area."
   -
     id: inputs_geometry	
     comment: map of subset gdp transposed yahara data w. surrounding area for context	
@@ -255,19 +278,25 @@ visualize:
     depends:
       geom_feature: "yahara_geom_transposed"
       geom_context: "context_geom"
-    title: Geometry of feature of interest
-    alttext: Spatial extent of the data you're interested in
-#  -
-#    id: yahara_precip_clip
-#    comment: raster map w. subset gdp transposed yahara data at one timestep	
-#    location: figures/yahara_precip_clip.png
-#    mimetype: image/png
-#    visualizer: raster_map_precip
-#    scripts: scripts/visualize/visualize.raster_map_precip.R
-#    depends:
-#      precip_data: "yahara_precip_timestep"
-#    title: 
-#    alttext: 
+      basemap: "basemap"
+    title: "Geometry of feature of interest"
+    alttext: "Spatial extent of the data you're interested in"
+  -
+    id: yahara_precip_clip
+    comment: raster map w. subset gdp transposed yahara data at one timestep	
+    location: figures/yahara_precip_clip.png
+    mimetype: image/png
+    visualizer: raster_map_precip
+    scripts: scripts/visualize/visualize.raster_map_precip.R
+    depends:
+      raster_data: "context_precip"
+      crs: "geoknife_crs"
+      geom_feature: "yahara_geom_transposed"
+      bbox: "context_bbox"
+      basemap: "basemap"
+      precip_limits: "timestep_precip_limits"
+    title: "Gridded precipitation only shown for watershed shape"
+    alttext: "Subset of gridded precipitation for only the transposed watershed boundary."
   -
     id: yahara_precip_melt
     comment: map w. avg gdp data for yahara transpose at one timestep	
@@ -278,8 +307,10 @@ visualize:
     depends:
       precip_data: "yahara_precip_avg_timestep"
       geom_sp: "yahara_geom_transposed"
-    title: Processed GDP results for one timestep
-    alttext: Processed GDP results for one timestep
+      basemap: "basemap"
+      precip_limits: "timestep_precip_limits"
+    title: "Processed GDP results for one timestep"
+    alttext: "Processed GDP results for one timestep"
   -
     id: storm_transpose	
     comment: map showing yahara shape w. cumulative yahara-shaped precip in transposed location	
@@ -289,10 +320,13 @@ visualize:
     scripts: scripts/visualize/visualize.map_precip.R
     depends:
       precip_data: "yahara_precip_avg_cumulative"
+      precip_orig_data: "yahara_precip_orig_avg_cumulative"
       geom_sp: "yahara_geom_transposed"
       geom_sp_orig: "yahara_geom"
-    title: Storm transposition
-    alttext: Storm transposition
+      basemap: "basemap"
+      precip_limits: "cumulative_precip_limits"
+    title: "Storm transposition"
+    alttext: "Original watershed with lower precipitation and transposed watershed with higher precipitation."
 publish:  
   - 
     id: gdp_page
@@ -311,17 +345,17 @@ publish:
       section_algorithm: "gdp_algorithm_section"
       text_usecase: "use_case_intro"
       section_storm_transpose: "storm_transpose_section"
-      #section_data_input: "inputs_data_section"
+      section_data_input: "inputs_data_section"
       section_geometry_input: "inputs_geometry_section"
-      #section_clip_melt: "yahara_clip_process_section"
+      section_clip_melt: "yahara_clip_melt_section"
       text_conclusion: "conclusion_text"
     context:
       header: "header"
       footer: "footer"
       resources: ["gdp_css", "header_css", "footer_css", "font"]
       sections: [ "text_overview", "section_process", "section_algorithm", "text_usecase",
-                  "section_storm_transpose", #"section_data_input",
-                  "section_geometry_input", #"section_clip_melt",
+                  "section_storm_transpose", "section_data_input",
+                  "section_geometry_input", "section_clip_melt",
                   "text_conclusion" ]
   -
     id: processing_gif
@@ -388,17 +422,17 @@ publish:
       figure: storm_transpose
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
-#  - 
-#    id: inputs_data_section
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["inputs_data", "page_text"]
-#    context:
-#      id: gdp-fig
-#      title: "Precip overtime for original storm location"
-#      figure: precip-timeseries-map
-#      text-before: page_text.inputs_data_before
-#      text-after: page_text.inputs_data_after
+  - 
+    id: inputs_data_section
+    publisher: section
+    template: layout/templates/gdp-figure.mustache
+    depends: ["inputs_data", "page_text"]
+    context:
+      id: gdp-fig
+      title: "Precip overtime for original storm location"
+      figure: inputs_data
+      text-before: page_text.inputs_data_before
+      text-after: page_text.inputs_data_after
   - 
     id: inputs_geometry_section
     publisher: section
@@ -409,17 +443,18 @@ publish:
       figure: inputs_geometry
       text-before: page_text.inputs_geometry_before
       text-after: page_text.inputs_geometry_after
-#  -
-#    id: yahara_clip_melt_section
-#    publisher: section
-#    template: layout/templates/gdp-figure.mustache
-#    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
-#    context:
-#      id: gdp-fig-two
-#      title:
-#      figure: ["yahara_precip_clip", "yahara_precip_melt"]
-#      text-before: page_text.yahara_precip_before
-#      text-after: page_text.yahara_precip_after
+  -
+    id: yahara_clip_melt_section
+    publisher: section
+    template: layout/templates/gdp-figure-sidebyside.mustache
+    depends: ["yahara_precip_clip", "yahara_precip_melt", "page_text"]
+    context:
+      id: gdp-fig-two
+      title:
+      figure1: yahara_precip_clip
+      figure2: yahara_precip_melt
+      text-before: page_text.yahara_precip_before
+      text-after: page_text.yahara_precip_after
   -
     id: conclusion_text
     publisher: section

@@ -1,13 +1,11 @@
 fetch.bbox_geom <- function(viz){
   
-  library(sf) # needed to use `as` to convert
-  
   deps <- readDepends(viz)
   crs <- deps[["crs"]][["crs_str"]]
-  west <- viz[["west"]]
-  east <- viz[["east"]]
-  north <- viz[["north"]]
-  south <- viz[["south"]]
+  west <- deps[["bbox"]][["west"]]
+  east <- deps[["bbox"]][["east"]]
+  north <- deps[["bbox"]][["north"]]
+  south <- deps[["bbox"]][["south"]]
   
   bbox_coords <- rbind(c(west, south), c(west, north), 
                        c(east, north), c(east, south), 
