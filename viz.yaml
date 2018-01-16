@@ -176,7 +176,7 @@ fetch:
     depends:
       geom_sp: "yahara_geom_transposed"
       date_range: "storm_dates"
-    algorithm: "unweighted summary"
+    algorithm: "summary"
   -
     id: yahara_precip_orig_avg
     comment: use original yahara as stencil 
@@ -187,7 +187,7 @@ fetch:
     depends:
       geom_sp: "yahara_geom"
       date_range: "storm_dates"
-    algorithm: "unweighted summary"
+    algorithm: "summary"
   -
     id: yahara_precip
     comment: use transposed yahara, use subset algorithm
