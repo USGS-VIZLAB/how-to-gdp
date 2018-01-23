@@ -16,13 +16,13 @@ gdp_processing_before: >-
   The GDP moves computationally intensive processing steps from a researcher's computer to
   the web. Rather than moving the data to the processing power, the GDP moves the processing power to the data.
   This means researchers have more computational power available to them and 
-  do not need to use their personal computers for lengthy downloads and tedious processing tasks.
+  do not need to use their personal computers for lengthy downloads and tedious processing tasks. 
   
 gdp_processing_after: >-
   
   This differs from traditional geoprocessing workflows which often require users to download 
   massive, often terabyte-scale datasets to subset and process. The GDP allows users to download only the 
-  subset of the data they need.
+  subset of the data they need.  The average GDP processing job reduces data sent to the user by approximately 90%.
   
 gdp_algorithm_before: >-
   ### GDP algorithm support
