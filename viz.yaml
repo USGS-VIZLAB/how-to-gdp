@@ -101,7 +101,7 @@ parameter:
   -
     id: display_crs	
     comment: projecting into
-    crs_str: "+init=epsg:5070"
+    crs_str: "+init=epsg:4326" #needed to play nice w/ ggmap?
   - 
     id: geoknife_crs
     comment: needed to create a simplegeom for geoknife
@@ -207,7 +207,7 @@ fetch:
     location: cache/context_precip_raster.rds
     reader: rds
     fetcher: precip_data
-    scripts: scripts/fetch/fetch.precip_data.R
+    scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
     depends:
       geom_sp: "context_geom"
       date: "example_dateTime"
@@ -290,7 +290,7 @@ visualize:
     scripts: scripts/visualize/visualize.raster_map_precip.R
     depends:
       raster_data: "context_precip"
-      crs: "geoknife_crs"
+      crs: "display_crs"
       geom_feature: "yahara_geom_transposed"
       bbox: "context_bbox"
       basemap: "basemap"

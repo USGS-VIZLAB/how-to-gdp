@@ -1,3 +1,6 @@
+
+fetchTimestamp.precip_data <- vizlab::alwaysCurrent
+
 fetch.precip_data <- function(viz = as.viz('context_precip')){
   `%>%` <- magrittr::`%>%`
   
@@ -20,16 +23,16 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
     job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, 
                               REQUIRE_FULL_COVERAGE=FALSE, 
                               OUTPUT_TYPE="netcdf")
-    #need to download manually since no netcdf parser
-    download.file(url = geoknife::check(job)$URL, 
-                  destfile = viz[['raw_netcdf']], 
-                  mode="wb")
-    precip_raster <- raster::raster(viz[['raw_netcdf']], band = 1,
-                            crs = crs)/25.4
-    saveRDS(precip_raster, file = viz[['location']])
+    
+    geoknife::download(job, destination = viz[['raw_netcdf']], overwrite =TRUE)
+    precip_grid_df <- netcdf_to_sp(viz[['raw_netcdf']], crs)
+    
+    saveRDS(precip_grid_df, file = viz[['location']])
+    
   } else {
     job <- geoknife::geoknife(stencil, fabric, knife, wait = TRUE, REQUIRE_FULL_COVERAGE=FALSE)
     precip <- geoknife::result(job, with.units=TRUE)
+    
     precip_clean <- precip %>% 
       dplyr::select(-variable, -statistic, -units) %>% 
       tidyr::gather(key = id, value = precipVal, -DateTime) %>% 
@@ -38,5 +41,3 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
     saveRDS(precip_clean, viz[['location']])
   }
 }
-
-fetchTimestamp.precip_data <- vizlab::alwaysCurrent
