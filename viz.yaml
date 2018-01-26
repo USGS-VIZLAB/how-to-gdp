@@ -252,7 +252,7 @@ visualize:
     visualizer: create_basemap
     scripts: scripts/visualize/visualize.create_basemap.R
     depends:
-      geom_sp: "context_geom"
+      bbox: "context_bbox"
   -
     id: inputs_data	
     comment: raster map of subset gdp data at one timestep for area around yahara	
