@@ -128,6 +128,10 @@ parameter:
     east: -88.74
     south: 42.89
     north: 43.81
+  -
+    id: "cell_size"
+    comment: cell size in degrees for GDP subset algorithm
+    value: 0.06
 fetch:
   -
     id: page_text
@@ -200,7 +204,7 @@ fetch:
       geom_sp: "yahara_geom_transposed"
       date: "example_dateTime"
       crs: "display_crs"
-      cell_size: 0.06
+      cell_size: "cell_size"
     algorithm: "subset"
   -
     id: context_precip
@@ -213,7 +217,7 @@ fetch:
       geom_sp: "context_geom"
       date: "example_dateTime"
       crs: "display_crs"
-      cell_size: 0.06
+      cell_size: "cell_size"
     algorithm: "subset"
     raw_netcdf: cache/context_precip.nc
 process:
