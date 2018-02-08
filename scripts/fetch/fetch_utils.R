@@ -1,10 +1,9 @@
 ## utils for fetch functions
 
-ncep_radar_to_sp <- function(filepath, crs_str) {
+# cell_size is in degrees
+ncep_radar_to_sp <- function(filepath, crs_str, cell_size) {
   
   nc <- ncdf4::nc_open(filepath)
-  
-  cell_size <- .06 # degrees
   
   # generate point sp
   x <- ncdf4::ncvar_get(nc, nc$var$lon)

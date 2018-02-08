@@ -9,6 +9,7 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
   date_range <- deps[["date_range"]]
   date <- deps[["date"]]
   crs <- deps[['crs']]$crs_str 
+  cell_size <- deps[["cell_size"]]
     
   start_date <- ifelse(is.null(date_range), date$date, date_range$start_date)
   end_date <- ifelse(is.null(date_range), date$date, date_range$end_date)
@@ -25,7 +26,7 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
                               OUTPUT_TYPE="netcdf")
     
     geoknife::download(job, destination = viz[['raw_netcdf']], overwrite =TRUE)
-    precip_grid_df <- ncep_radar_to_sp(viz[['raw_netcdf']], crs)
+    precip_grid_df <- ncep_radar_to_sp(viz[['raw_netcdf']], crs, cell_size)
     
     saveRDS(precip_grid_df, file = viz[['location']])
     

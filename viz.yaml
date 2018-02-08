@@ -200,6 +200,7 @@ fetch:
       geom_sp: "yahara_geom_transposed"
       date: "example_dateTime"
       crs: "display_crs"
+      cell_size: 0.06
     algorithm: "subset"
   -
     id: context_precip
@@ -212,6 +213,7 @@ fetch:
       geom_sp: "context_geom"
       date: "example_dateTime"
       crs: "display_crs"
+      cell_size: 0.06
     algorithm: "subset"
     raw_netcdf: cache/context_precip.nc
 process:
