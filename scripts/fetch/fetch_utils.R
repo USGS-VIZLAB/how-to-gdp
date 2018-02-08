@@ -9,7 +9,8 @@ ncep_radar_to_sp <- function(filepath, crs_str, cell_size) {
   x <- ncdf4::ncvar_get(nc, nc$var$lon)
   y <- ncdf4::ncvar_get(nc, nc$var$lat)
   coords <- data.frame(x=matrix(x, ncol = 1), y=matrix(y, ncol = 1))
-  geo_point_data <- sp::SpatialPoints(coords, proj4string = sp::CRS(crs_str))
+  # hard code crs for creating points, then reproject into desired crs
+  geo_point_data <- sp::SpatialPoints(coords, proj4string = "+init=epsg:4326")
   geo_point_data <- sp::spTransform(geo_point_data, sp::CRS(crs_str))
   
   # add precip data (need it to be in inches, not mm)
