@@ -15,10 +15,10 @@ ncep_radar_to_sp <- function(filepath, crs_str, cell_size) {
   # add precip data (need it to be in inches, not mm)
   prcp_data <- matrix(t(ncdf4::ncvar_get(nc, nc$var$Total_precipitation_surface_1_Hour_Accumulation)), ncol=1) # switch axis order with t()
   prcp_data_inches <- prcp_data/25.4
-  geo_p_data <- sp::SpatialPointsDataFrame(geo_point_data, data.frame(prcp=prcp_data_inches))
+  geo_p_data_inches <- sp::SpatialPointsDataFrame(geo_point_data, data.frame(prcp=prcp_data_inches))
   
   # generate grid sp
-  bbox <- sp::bbox(geo_point_data)
+  bbox <- sp::bbox(geo_p_data_inches)
   x_range <- (bbox[3] - bbox[1])/cell_size
   y_range <- (bbox[4] - bbox[2])/cell_size
   grid_topology <- sp::GridTopology(bbox[c(1:2)], cellsize = c(cell_size,cell_size), 
@@ -26,7 +26,7 @@ ncep_radar_to_sp <- function(filepath, crs_str, cell_size) {
   sp_grid <- raster::raster(sp::SpatialGrid(grid_topology, sp::CRS(crs_str)))
   
   # combine points and grid
-  sp_grid_data <- raster::rasterize(geo_p_data, sp_grid, "prcp", fun=mean)
+  sp_grid_data_inches <- raster::rasterize(geo_p_data_inches, sp_grid, "prcp", fun=mean)
   
-  return(sp_grid_data)
+  return(sp_grid_data_inches)
 }
