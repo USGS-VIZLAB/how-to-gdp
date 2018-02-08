@@ -1,6 +1,6 @@
 ## utils for fetch functions
 
-netcdf_to_sp <- function(filepath, crs_str) {
+ncep_radar_to_sp <- function(filepath, crs_str) {
   
   nc <- ncdf4::nc_open(filepath)
   

@@ -25,7 +25,7 @@ fetch.precip_data <- function(viz = as.viz('context_precip')){
                               OUTPUT_TYPE="netcdf")
     
     geoknife::download(job, destination = viz[['raw_netcdf']], overwrite =TRUE)
-    precip_grid_df <- netcdf_to_sp(viz[['raw_netcdf']], crs)
+    precip_grid_df <- ncep_radar_to_sp(viz[['raw_netcdf']], crs)
     
     saveRDS(precip_grid_df, file = viz[['location']])
     
