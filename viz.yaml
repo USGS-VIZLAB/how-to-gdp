@@ -199,7 +199,7 @@ fetch:
     raw_netcdf: cache/yahara_precip.nc
     reader: rds
     fetcher: precip_data
-    scripts: scripts/fetch/fetch.precip_data.R
+    scripts: [scripts/fetch/fetch.precip_data.R, scripts/fetch/fetch_utils.R]
     depends:
       geom_sp: "yahara_geom_transposed"
       date: "example_dateTime"
