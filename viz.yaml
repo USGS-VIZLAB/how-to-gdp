@@ -1,12 +1,12 @@
 info:
   id: how-gdp
-  name: How GDP Works 
+  name: How USGS GDP Works 
   date: 2017-09-19
   publish-date: 2018-10-12
   path: /how-gdp
   analytics-id: 
   description: >-
-    Explanation of how the Geo Data Portal works.
+    Explanation of how the USGS Geo Data Portal works.
   keywords: >-
     USGS, VIZLAB, GDP
   audience: GDP current and future users
@@ -483,7 +483,7 @@ publish:
     template: header-template
     depends: "lib-header-css"
     context:
-      title: How the Geo Data Portal works
+      title: How the USGS Geo Data Portal works
   -
     id: footer_section
     publisher: footer
