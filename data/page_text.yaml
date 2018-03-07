@@ -62,9 +62,9 @@ storm_transpose_after: >-
   
   The cumulative precipitation for both the original Yahara (7.6 in) and the transposed Yahara (10.4 in)
   were calculated, and are shown on the figure above. Transposing the storm north 24 miles resulted 
-  in an increased of almost 3 inches of rain. 
+  in an increase of almost 3 inches of rain. 
   
-  The storm dates were selected between June 2, 2008 to June 13, 2008. A shapefile of the Yahara River
+  The storm dates were selected from June 2, 2008 to June 13, 2008. A shapefile of the Yahara River
   watershed was downloaded using the [National Water Census Data Portal](https://cida.usgs.gov/nwc/). To
   "transpose" the storm, the Yahara shapefile was first shifted north to the center of the extreme storm.
   This new spatial feature was used as input to the GDP, along with the storm start and end dates, and 
@@ -90,7 +90,7 @@ inputs_geometry_before: >-
   ### GDP Inputs - geometry
   
   The GDP summarizes the gridded data based on given geometries and algorithms. We transposed the
-  Yahara River watershed north to where the most intense part of the 2008 storm. Using this as our
+  Yahara River watershed north to where the most intense part of the 2008 storm occurred. Using this as our
   spatial feature means that the GDP will be clipping the gridded dataset with the extreme storm 
   data captured in our Yahara-shaped feature.
   
@@ -119,9 +119,9 @@ conclusion: >-
   Transposing the Yahara watershed north by 24 miles to capture the highest intensity of
   the 2008 storm resulted in an increase of 3 inches of rainfall. These precipitation 
   data could now be used in a watershed model, data visualization, or statistical 
-  analysis, to calculate runoff and streamflow or evaluate the characteristics of the 
-  storm. Any of these could also be compared between the storm that did occur over the 
-  Yahara river and/or the transposed storm that could have occurred over the Yahara.
+  analysis to calculate runoff and streamflow or evaluate the characteristics of the 
+  transposed storm. Any of these could also be used to compare the storm that did occur over the 
+  Yahara River with the transposed storm.
   
   # Other applications of GDP
   
@@ -130,5 +130,5 @@ conclusion: >-
   and visualizations can use GDP output with little to no additional processing. 
   Examples of analyses that have used the GDP include 
   [lake temperature modeling](http://www.sciencedirect.com/science/article/pii/S0304380014003664), 
-  [surface water modeling](https://www.hydrol-earth-syst-sci.net/19/209/2015/), and 
-  [beach water quality modeling](https://pubs.er.usgs.gov/publication/sir20135166).
+  [surface-water modeling](https://www.hydrol-earth-syst-sci.net/19/209/2015/), and 
+  [beach water-quality modeling](https://pubs.er.usgs.gov/publication/sir20135166).
