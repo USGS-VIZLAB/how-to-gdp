@@ -1,13 +1,11 @@
 ---
 gdp_overview: >-
   
-  Increasing complexity of natural resource management questions requires computations 
-  involving a variety of data. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
-  enables more efficient environmental modeling and data acquisition to answer questions at 
-  any scale (local, regional, national) by conducting data processing on the web. Web-based 
-  processing gives researchers and managers access to powerful processing capabilities
-  with minimal effort, producing important modeling or decision support results for 
-  nominal cost.
+  Many natural resource management questions involve a variety of data that are challenging 
+  to work with using typical computer resources. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
+  removes the barrier to these large or complex data by moving processing to the web. This 
+  gives researchers and managers access to powerful computers and software tools with minimal 
+  effort, enabling them to produce important results with less investment.
    
 gdp_processing_before: >-
   ### Bandwidth and processing savings with GDP
