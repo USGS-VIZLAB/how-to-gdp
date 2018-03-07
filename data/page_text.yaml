@@ -81,11 +81,8 @@ inputs_data_before: >-
   For this analysis, we used precipitation data available in the "United States Stage 
   IV Quantitative Precipitation Archive" dataset from the GDP. The data are gridded and 
   have multiple time steps. Below is an example of the gridded dataset before GDP processing. 
+  For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008).
 
-inputs_data_after: >-
-  
-  For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008). 
-  
 inputs_geometry_before: >-
   ### GDP Inputs - geometry
   
@@ -94,7 +91,7 @@ inputs_geometry_before: >-
   spatial feature means that the GDP will be clipping the gridded dataset with the extreme storm 
   data captured in our Yahara-shaped feature.
   
-inputs_geometry_after: >-
+inputs_geometry_caption: >-
   
   This figure shows the transposed Yahara River watershed. The watershed was 
   moved north by 24 miles.  
@@ -107,10 +104,14 @@ yahara_precip_before: >-
   on your chosen algorithm. The result is one value per time step per geometry, so in this 
   example, one value per time step in the transposed Yahara watershed.
   
-yahara_precip_after: >-
+yahara_precip_caption_one: >-
   
-  The figure on the left shows the clipped gridded data for one time step (10:00 pm (UTC) on June 
-  12, 2008). The figure on the right shows the area-weighted average of that gridded data for this
+  This figure shows clipped gridded data for one time step (10:00 pm (UTC) on June 
+  12, 2008).
+  
+yahara_precip_caption_two: >-
+  
+  This figure shows the area-weighted average of that gridded data for this
   particular time step.
   
 conclusion: >-

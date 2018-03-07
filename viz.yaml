@@ -437,7 +437,6 @@ publish:
       title: "Precip overtime for original storm location"
       figure: inputs_data
       text-before: page_text.inputs_data_before
-      text-after: page_text.inputs_data_after
   - 
     id: inputs_geometry_section
     publisher: section
@@ -447,7 +446,7 @@ publish:
       id: gdp-fig
       figure: inputs_geometry
       text-before: page_text.inputs_geometry_before
-      text-after: page_text.inputs_geometry_after
+      caption: page_text.inputs_geometry_caption
   -
     id: yahara_clip_melt_section
     publisher: section
@@ -459,7 +458,8 @@ publish:
       figure1: yahara_precip_clip
       figure2: yahara_precip_melt
       text-before: page_text.yahara_precip_before
-      text-after: page_text.yahara_precip_after
+      caption-one: page_text.yahara_precip_caption_one
+      caption-two: page_text.yahara_precip_caption_two
   -
     id: conclusion_text
     publisher: section
