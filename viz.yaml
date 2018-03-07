@@ -381,7 +381,7 @@ publish:
     template: layout/templates/gdp-text.mustache
     depends: "page_text"
     context:
-      id: gdp-text
+      id: "gdp-text gdp-intro-text"
       text: page_text.gdp_overview
   - 
     id: gdp_processing_section
