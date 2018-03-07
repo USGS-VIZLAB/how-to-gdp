@@ -14,7 +14,11 @@ gdp_processing_before: >-
   the web. Rather than moving the data to the processing power, the GDP moves the processing power to the data.
   This means researchers have more computational power available to them and 
   do not need to use their personal computers for lengthy downloads and tedious processing tasks. 
-  
+
+gdp_processing_caption: >-
+
+  Figure 1. Comparison of typical data processing workflows with GDP web-based processing workflow.
+
 gdp_processing_after: >-
   
   This differs from traditional geoprocessing workflows which often require users to download 
@@ -29,7 +33,12 @@ gdp_algorithm_before: >-
   within the given spatial extent. If the dataset has multiple time steps, the GDP will compute a 
   per-feature average for each. The final processed data will be a time series with a value for each 
   time step and each spatial feature.
-  
+
+gdp_algorithm_caption: >-
+
+  Figure 2. Depiction of how GDP processes gridded datasets: it summarizes data into one
+  value per feature per timestep.
+
 gdp_algorithm_after: >-
   
   In the figure above, a user is requesting monthly temperature data from January to August 2015 
@@ -57,7 +66,12 @@ storm_transpose_before: >-
 
   Here is a visualization product showing the resulting cumulative precipitation from transposing the
   extreme storm from Baraboo to the Yahara River watershed.  
-  
+
+storm_transpose_caption: >-
+
+  Figure 3. Average precipitation for the Yahara watershed polygon in its original location (southern 
+  polygon) and after transformation to the more intense part of the storm (northern polygon).
+
 storm_transpose_after: >-
   
   The cumulative precipitation for both the original Yahara (7.6 in) and the transposed Yahara (10.4 in)
@@ -83,6 +97,10 @@ inputs_data_before: >-
   have multiple time steps. Below is an example of the gridded dataset before GDP processing. 
   For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008).
 
+inputs_data_caption: >-
+
+  Figure 4. Gridded precipitation cells before GDP processes the data.
+
 inputs_geometry_before: >-
   ## GDP Inputs - geometry
   
@@ -93,7 +111,7 @@ inputs_geometry_before: >-
   
 inputs_geometry_caption: >-
   
-  This figure shows the transposed Yahara River watershed. The watershed was 
+  Figure 5. The transposed Yahara River watershed. The watershed was 
   moved north by 24 miles.  
   
 yahara_precip_before: >-
@@ -106,12 +124,12 @@ yahara_precip_before: >-
   
 yahara_precip_caption_one: >-
   
-  This figure shows clipped gridded data for one time step (10:00 pm (UTC) on June 
+  Figure 6. The clipped gridded data for one time step (10:00 pm (UTC) on June 
   12, 2008).
   
 yahara_precip_caption_two: >-
   
-  This figure shows the area-weighted average of that gridded data for this
+  Figure 7. The area-weighted average of that gridded data for this
   particular time step.
   
 conclusion: >-

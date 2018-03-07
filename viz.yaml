@@ -392,10 +392,9 @@ publish:
       id: gdp-fig
       title: "Bandwidth and processing savings with GDP"
       figure: processing_gif
-      figure-caption: >-
-        Schematic of how processing and bandwidth are saved using the GDP
       text-before: page_text.gdp_processing_before
       text-after: page_text.gdp_processing_after
+      caption: page_text.gdp_processing_caption
   - 
     id: gdp_algorithm_section
     publisher: section
@@ -405,9 +404,9 @@ publish:
       id: gdp-fig
       title: "GDP algorithm support"
       figure: algorithm_gif
-      figure-caption: ""
       text-before: page_text.gdp_algorithm_before
       text-after: page_text.gdp_algorithm_after
+      caption: page_text.gdp_algorithm_caption
   -
     id: use_case_intro
     publisher: section
@@ -427,6 +426,7 @@ publish:
       figure: storm_transpose
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
+      caption: page_text.storm_transpose_caption
   - 
     id: inputs_data_section
     publisher: section
@@ -437,6 +437,7 @@ publish:
       title: "Precip overtime for original storm location"
       figure: inputs_data
       text-before: page_text.inputs_data_before
+      caption: page_text.inputs_data_caption
   - 
     id: inputs_geometry_section
     publisher: section
