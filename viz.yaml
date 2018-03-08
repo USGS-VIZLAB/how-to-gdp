@@ -1,13 +1,12 @@
-cvizlab: "0.2.0"
 info:
   id: how-gdp
-  name: How GDP Works 
+  name: How USGS GDP Works 
   date: 2017-09-19
   publish-date: 2018-10-12
   path: /how-gdp
   analytics-id: 
   description: >-
-    Explanation of how the Geo Data Portal works.
+    Explanation of how the USGS Geo Data Portal works.
   keywords: >-
     USGS, VIZLAB, GDP
   audience: GDP current and future users
@@ -74,7 +73,7 @@ info:
       version: 0.7.1
     vizlab:
       repo: CRAN
-      version: 0.2.0
+      version: 0.3.2
 contributors:
   - 
     name: Dave Blodgett
@@ -382,7 +381,7 @@ publish:
     template: layout/templates/gdp-text.mustache
     depends: "page_text"
     context:
-      id: gdp-text
+      id: "gdp-text gdp-intro-text"
       text: page_text.gdp_overview
   - 
     id: gdp_processing_section
@@ -393,10 +392,9 @@ publish:
       id: gdp-fig
       title: "Bandwidth and processing savings with GDP"
       figure: processing_gif
-      figure-caption: >-
-        Schematic of how processing and bandwidth are saved using the GDP
       text-before: page_text.gdp_processing_before
       text-after: page_text.gdp_processing_after
+      caption: page_text.gdp_processing_caption
   - 
     id: gdp_algorithm_section
     publisher: section
@@ -406,9 +404,9 @@ publish:
       id: gdp-fig
       title: "GDP algorithm support"
       figure: algorithm_gif
-      figure-caption: ""
       text-before: page_text.gdp_algorithm_before
       text-after: page_text.gdp_algorithm_after
+      caption: page_text.gdp_algorithm_caption
   -
     id: use_case_intro
     publisher: section
@@ -428,6 +426,7 @@ publish:
       figure: storm_transpose
       text-before: page_text.storm_transpose_before
       text-after: page_text.storm_transpose_after
+      caption: page_text.storm_transpose_caption
   - 
     id: inputs_data_section
     publisher: section
@@ -438,7 +437,7 @@ publish:
       title: "Precip overtime for original storm location"
       figure: inputs_data
       text-before: page_text.inputs_data_before
-      text-after: page_text.inputs_data_after
+      caption: page_text.inputs_data_caption
   - 
     id: inputs_geometry_section
     publisher: section
@@ -448,7 +447,7 @@ publish:
       id: gdp-fig
       figure: inputs_geometry
       text-before: page_text.inputs_geometry_before
-      text-after: page_text.inputs_geometry_after
+      caption: page_text.inputs_geometry_caption
   -
     id: yahara_clip_melt_section
     publisher: section
@@ -460,7 +459,8 @@ publish:
       figure1: yahara_precip_clip
       figure2: yahara_precip_melt
       text-before: page_text.yahara_precip_before
-      text-after: page_text.yahara_precip_after
+      caption-one: page_text.yahara_precip_caption_one
+      caption-two: page_text.yahara_precip_caption_two
   -
     id: conclusion_text
     publisher: section
@@ -484,13 +484,14 @@ publish:
     template: header-template
     depends: "lib-header-css"
     context:
-      title: How the Geo Data Portal works
+      title: How the USGS Geo Data Portal works
   -
     id: footer_section
     publisher: footer
     template: footer-template
     depends: "lib-footer-css"
     blogsInFooter: FALSE
+    github-url: https://github.com/USGS-VIZLAB/how-to-gdp
     vizzies:
       - name: Hurricane Irma's Water Footprint
         org: USGS-VIZLAB

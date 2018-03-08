@@ -1,23 +1,24 @@
 ---
 gdp_overview: >-
-  # The Geo Data Portal
   
-  Increasing complexity of natural resource management questions requires computations 
-  involving a variety of data. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
-  enables more efficient environmental modeling and data acquisition to answer questions at 
-  any scale (local, regional, national) by conducting data processing on the web. Web-based 
-  processing gives researchers and managers access to powerful processing capabilities
-  with minimal effort, producing important modeling or decision support results for 
-  nominal cost.
+  Many natural resource management questions involve a variety of data that are challenging 
+  to work with using typical computer resources. The [USGS Geo Data Portal (GDP)](https://cida.usgs.gov/gdp/) 
+  removes the barrier to these large or complex data by moving processing to the web. This 
+  gives researchers and managers access to powerful computers and software tools with minimal 
+  effort, enabling them to produce important results with less investment.
    
 gdp_processing_before: >-
-  ### Bandwidth and processing savings with GDP
+  ## Bandwidth and processing savings with GDP
   
   The GDP moves computationally intensive processing steps from a researcher's computer to
   the web. Rather than moving the data to the processing power, the GDP moves the processing power to the data.
   This means researchers have more computational power available to them and 
   do not need to use their personal computers for lengthy downloads and tedious processing tasks. 
-  
+
+gdp_processing_caption: >-
+
+  Figure 1. Comparison of typical data processing workflows with GDP web-based processing workflow.
+
 gdp_processing_after: >-
   
   This differs from traditional geoprocessing workflows which often require users to download 
@@ -25,14 +26,19 @@ gdp_processing_after: >-
   subset of the data they need.  The average GDP processing job reduces data sent to the user by approximately 90%.
   
 gdp_algorithm_before: >-
-  ### GDP algorithm support
+  ## GDP algorithm support
 
   There are a number of built-in algorithms that take the gridded data and distill it. A commonly-used
   algorithm is area-weighted spatial averages. The GDP will take the gridded dataset and average the data 
   within the given spatial extent. If the dataset has multiple time steps, the GDP will compute a 
   per-feature average for each. The final processed data will be a time series with a value for each 
   time step and each spatial feature.
-  
+
+gdp_algorithm_caption: >-
+
+  Figure 2. Depiction of how GDP processes gridded datasets: it summarizes data into one
+  value per feature per timestep.
+
 gdp_algorithm_after: >-
   
   In the figure above, a user is requesting monthly temperature data from January to August 2015 
@@ -56,18 +62,23 @@ use_case_intro: >-
   to find the cumulative precipitation, and not continue the analysis by using that value for flood modeling.
 
 storm_transpose_before: >-
-  ### Result of Storm Transposition
+  ## Result of Storm Transposition
 
   Here is a visualization product showing the resulting cumulative precipitation from transposing the
   extreme storm from Baraboo to the Yahara River watershed.  
-  
+
+storm_transpose_caption: >-
+
+  Figure 3. Average precipitation for the Yahara watershed polygon in its original location (southern 
+  polygon) and after transformation to the more intense part of the storm (northern polygon).
+
 storm_transpose_after: >-
   
   The cumulative precipitation for both the original Yahara (7.6 in) and the transposed Yahara (10.4 in)
   were calculated, and are shown on the figure above. Transposing the storm north 24 miles resulted 
-  in an increased of almost 3 inches of rain. 
+  in an increase of almost 3 inches of rain. 
   
-  The storm dates were selected between June 2, 2008 to June 13, 2008. A shapefile of the Yahara River
+  The storm dates were selected from June 2, 2008 to June 13, 2008. A shapefile of the Yahara River
   watershed was downloaded using the [National Water Census Data Portal](https://cida.usgs.gov/nwc/). To
   "transpose" the storm, the Yahara shapefile was first shifted north to the center of the extreme storm.
   This new spatial feature was used as input to the GDP, along with the storm start and end dates, and 
@@ -79,52 +90,57 @@ storm_transpose_after: >-
   The following will break down how the GDP processed this data.
   
 inputs_data_before: >-
-  ### GDP Inputs - data
+  ## GDP Inputs - data
   
   For this analysis, we used precipitation data available in the "United States Stage 
   IV Quantitative Precipitation Archive" dataset from the GDP. The data are gridded and 
   have multiple time steps. Below is an example of the gridded dataset before GDP processing. 
+  For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008).
 
-inputs_data_after: >-
-  
-  For simplicity, we are showing a single time step (10:00 pm (UTC) on June 12, 2008). 
-  
+inputs_data_caption: >-
+
+  Figure 4. Gridded precipitation cells before GDP processes the data.
+
 inputs_geometry_before: >-
-  ### GDP Inputs - geometry
+  ## GDP Inputs - geometry
   
   The GDP summarizes the gridded data based on given geometries and algorithms. We transposed the
-  Yahara River watershed north to where the most intense part of the 2008 storm. Using this as our
+  Yahara River watershed north to where the most intense part of the 2008 storm occurred. Using this as our
   spatial feature means that the GDP will be clipping the gridded dataset with the extreme storm 
   data captured in our Yahara-shaped feature.
   
-inputs_geometry_after: >-
+inputs_geometry_caption: >-
   
-  This figure shows the transposed Yahara River watershed. The watershed was 
+  Figure 5. The transposed Yahara River watershed. The watershed was 
   moved north by 24 miles.  
   
 yahara_precip_before: >-
-  ### GDP Processing
+  ## GDP Processing
   
   The real power of the GDP is summarizing all of this data. For each time step, the GDP clips the 
   data to the given geometry, and then "melts" the data for that geometry into one value based
   on your chosen algorithm. The result is one value per time step per geometry, so in this 
   example, one value per time step in the transposed Yahara watershed.
   
-yahara_precip_after: >-
+yahara_precip_caption_one: >-
   
-  The figure on the left shows the clipped gridded data for one time step (10:00 pm (UTC) on June 
-  12, 2008). The figure on the right shows the area-weighted average of that gridded data for this
+  Figure 6. The clipped gridded data for one time step (10:00 pm (UTC) on June 
+  12, 2008).
+  
+yahara_precip_caption_two: >-
+  
+  Figure 7. The area-weighted average of that gridded data for this
   particular time step.
   
 conclusion: >-
-  ### GDP Results
+  ## GDP Results
   
   Transposing the Yahara watershed north by 24 miles to capture the highest intensity of
   the 2008 storm resulted in an increase of 3 inches of rainfall. These precipitation 
   data could now be used in a watershed model, data visualization, or statistical 
-  analysis, to calculate runoff and streamflow or evaluate the characteristics of the 
-  storm. Any of these could also be compared between the storm that did occur over the 
-  Yahara river and/or the transposed storm that could have occurred over the Yahara.
+  analysis to calculate runoff and streamflow or evaluate the characteristics of the 
+  transposed storm. Any of these could also be used to compare the storm that did occur over the 
+  Yahara River with the transposed storm.
   
   # Other applications of GDP
   
@@ -133,5 +149,5 @@ conclusion: >-
   and visualizations can use GDP output with little to no additional processing. 
   Examples of analyses that have used the GDP include 
   [lake temperature modeling](http://www.sciencedirect.com/science/article/pii/S0304380014003664), 
-  [surface water modeling](https://www.hydrol-earth-syst-sci.net/19/209/2015/), and 
-  [beach water quality modeling](https://pubs.er.usgs.gov/publication/sir20135166).
+  [surface-water modeling](https://www.hydrol-earth-syst-sci.net/19/209/2015/), and 
+  [beach water-quality modeling](https://pubs.er.usgs.gov/publication/sir20135166).

@@ -32,6 +32,19 @@ visualize.map_precip <- function(viz){
     map_geometry <- map_geometry + 
       geom_polygon(data = geom_sp_orig_df, aes(x = long, y = lat, group = group, fill = precipVal),
                    alpha = 0.8, col = NA)
+    
+    ## add labels
+    geom_sp_centroid <- as.data.frame(rgeos::gCentroid(geom_sp)@coords)
+    geom_sp_orig_centroid <- as.data.frame(rgeos::gCentroid(geom_sp_orig)@coords)
+    geom_sp_labels <- dplyr::bind_rows(geom_sp_centroid, geom_sp_orig_centroid)
+    geom_sp_labels[["which_type"]] <- c("Transformed", "Original")
+    
+    map_geometry <- map_geometry + 
+      # need both to get rid of label box outline
+      geom_label(data = geom_sp_labels, aes(x, y, label=which_type),
+                 fill=rgb(1,1,1,0.5), color=NA) +
+      geom_text(data = geom_sp_labels, aes(x, y, label=which_type))
+    
   }
 
   png(viz[['location']])

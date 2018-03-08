@@ -2,57 +2,58 @@
 
 body {
   font-family: "Source Sans Pro", sans-serif;
+  padding-left: 5px;
+  padding-right: 2px;
 }
-
-a{
+ 
+a:link{
   color:rgb(0,51,102);
   font-weight:600;
   word-wrap: break-word;
   text-decoration:none;
 }
 
-figure img{
-  margin:20px 0;
-}
-
-#gdp-fig-two p,
-#gdp-text p,
-#gdp-fig p{
-  margin-bottom:10px;
-  font-size:1em;
-}
-
-#gdp-fig-two h1,
-#gdp-text h1,
-#gdp-fig h1{
-  margin-bottom:5px;
-}
-
-#gdp-fig-two h3,
-#gdp-text h3,
-#gdp-fig h3{
-  margin-bottom:5px;
-}
-
-#gdp-fig-two text,
-#gdp-text text,
-#gdp-fig text{
-  background:orange;
-}
-
-#gdp-fig figure {
-  text-align: center;
-}
-
-#gdp-fig-two img {
-  text-align: center;
-  float:left;
-}
-
-#gdp-fig-two a:hover,
-#gdp-text a:hover,
-#gdp-fig a:hover{
+a:hover{
   text-decoration:underline;
+}
+
+p {
+  font-size:1em;
+  line-height:1.5em;
+  margin:20px 35px;
+}
+
+figure {
+  margin:20px 0;
+  text-align: center;
+}
+
+figcaption {
+  padding-left:10px;
+  padding-right:80px;
+  font-size:0.9em;
+  font-style: italic;
+  text-align: left;
+}
+
+h2 {
+  margin:20px 35px;
+  font-size: 1.17em;
+}
+
+.gdp-intro-text p{
+  margin:20px 0;
+  font-size: 1.25em;
+}
+
+.gdp-flex {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.gdp-flex figure {
+  flex: 1;
 }
 
 @-webkit-keyframes rotation {
@@ -66,9 +67,9 @@ figure img{
 
 
 @media screen and (min-width:768px){
-  #gdp-fig-two,
-  #gdp-text,
-  #gdp-fig{
+  .gdp-fig-two,
+  .gdp-text,
+  .gdp-fig{
     width:760px;
     margin:10px auto 10px auto;
     font-size:1em;
@@ -76,9 +77,9 @@ figure img{
 }
 
 @media screen and (min-width:1200px){
-  #gdp-fig-two,
-  #gdp-text,
-  #gdp-fig{
+  .gdp-fig-two,
+  .gdp-text,
+  .gdp-fig{
     width:960px;
   }
 }

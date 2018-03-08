@@ -1,15 +1,16 @@
-<div id="{{id}}" caption="{{{title}}}">
-  {{{text-before}}}
+<div class="{{id}}" caption="{{{title}}}">
+  <p>{{{text-before}}}</p>
 </div>
 
-<div id="{{id}}" caption="{{{figure-caption}}}">
+<div class="{{id}} gdp-flex" caption="{{{figure-caption}}}">
   <figure>
     {{{#figure}}}
       {{{.}}}
     {{{/figure}}}
+    <figcaption>{{caption}}</figcaption>
   </figure>
 </div>
 
-<div id="{{id}}" caption="{{{title}}}">
-  {{{text-after}}}
+<div class="{{id}}" caption="{{{title}}}">
+  <p>{{{text-after}}}</p>
 </div>
