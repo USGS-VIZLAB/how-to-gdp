@@ -34,6 +34,8 @@ figcaption {
   font-size:0.9em;
   font-style: italic;
   text-align: left;
+  max-width:480px;
+  margin:0 auto;
 }
 
 h2 {
