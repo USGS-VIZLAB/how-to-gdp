@@ -2,12 +2,14 @@
   <p>{{{text-before}}}</p>
 </div>
 
-<div class="{{id}} gdp-flex" caption="{{{figure-caption}}}">
+<div class="{{id}}" caption="{{{figure-caption}}}">
   <figure>
-    {{{#figure}}}
-      {{{.}}}
-    {{{/figure}}}
-    <figcaption>{{caption}}</figcaption>
+    <div class="figureContentContainer">
+      {{{#figure}}}
+        {{{.}}}
+      {{{/figure}}}
+      <figcaption>{{caption}}</figcaption>
+    </div>
   </figure>
 </div>
 

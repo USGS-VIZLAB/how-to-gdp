@@ -28,14 +28,18 @@ figure {
   text-align: center;
 }
 
+.figureContentContainer{
+  background:red;
+  display:inline-block;
+  max-width:503px;
+}
+
 figcaption {
   padding-left:10px;
   padding-right:80px;
   font-size:0.9em;
   font-style: italic;
   text-align: left;
-  max-width:480px;
-  margin:0 auto;
 }
 
 h2 {
