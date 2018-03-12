@@ -29,7 +29,6 @@ figure {
 }
 
 .figureContentContainer{
-  background:red;
   display:inline-block;
   max-width:503px;
 }
