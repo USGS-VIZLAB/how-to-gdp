@@ -28,6 +28,11 @@ figure {
   text-align: center;
 }
 
+.figureContentContainer{
+  display:inline-block;
+  max-width:503px;
+}
+
 figcaption {
   padding-left:10px;
   padding-right:80px;
