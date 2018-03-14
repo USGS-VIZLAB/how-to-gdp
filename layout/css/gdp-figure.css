@@ -2,8 +2,15 @@
 
 body {
   font-family: "Source Sans Pro", sans-serif;
-  padding-left: 5px;
-  padding-right: 2px;
+}
+
+h1,
+h2{
+ margin:20px 0 5px 0; 
+}
+
+h2 {
+  font-size: 1.17em;
 }
  
 a:link{
@@ -20,7 +27,6 @@ a:hover{
 p {
   font-size:1em;
   line-height:1.5em;
-  margin:20px 35px;
 }
 
 figure {
@@ -41,24 +47,20 @@ figcaption {
   text-align: left;
 }
 
-h2 {
-  margin:20px 35px;
-  font-size: 1.17em;
-}
-
 .gdp-intro-text p{
   margin:20px 0;
   font-size: 1.25em;
 }
 
-.gdp-flex {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.gdp-text,
+.gdp-fig,
+.gdp-fig-two{
+  padding:0 10px;
 }
 
-.gdp-flex figure {
-  flex: 1;
+.gdp-fig img,
+.gdp-fig-two img{
+  width:100%;
 }
 
 @-webkit-keyframes rotation {
@@ -70,6 +72,18 @@ h2 {
   to {transform:rotate(360deg);} 
 }
 
+@media screen and (min-width:600px){
+  .gdp-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .gdp-flex figure {
+    flex: 1;
+  }
+}
+
 
 @media screen and (min-width:768px){
   .gdp-fig-two,
@@ -79,6 +93,7 @@ h2 {
     margin:10px auto 10px auto;
     font-size:1em;
   }
+
 }
 
 @media screen and (min-width:1200px){
