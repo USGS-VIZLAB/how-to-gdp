@@ -50,20 +50,24 @@ figcaption {
   text-align: left;
 }
 
-.gdp-intro-text p{
-  margin:20px 0;
-  font-size: 1.25em;
-}
-
 .gdp-text,
 .gdp-fig,
 .gdp-fig-two{
   padding:0 10px;
 }
 
+.gdp-text.gdp-intro-text p{
+  margin:20px 0;
+  font-size: 1.25em;
+  padding:0;
+}
+
 .gdp-text p,
 .gdp-fig p,
-.gdp-fig-two p{
+.gdp-fig-two p,
+.gdp-fig h2,
+.gdp-fig-two h2,
+.gdp-text h2{
   padding:0 10px;
 }
 
@@ -94,9 +98,15 @@ figcaption {
   
   .gdp-text p,
   .gdp-fig p,
-  .gdp-fig-two p{
-    padding:0 20px;
-  }
+  .gdp-fig-two p,
+  .gdp-text p,
+  .gdp-fig p,
+  .gdp-fig-two p,
+  .gdp-fig h2,
+  .gdp-fig-two h2,
+  .gdp-text h2{
+      padding:0 20px;
+    }
 }
 
 
