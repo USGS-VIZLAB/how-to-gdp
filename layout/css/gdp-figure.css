@@ -4,8 +4,11 @@ body {
   font-family: "Source Sans Pro", sans-serif;
 }
 
-h1,
-h2{
+.gdp-fig h1,
+.gdp-fig h2,
+.gdp-fig-two h2,
+.gdp-text h1,
+.gdp-text h2{
  margin:20px 0 5px 0; 
 }
 
@@ -58,6 +61,12 @@ figcaption {
   padding:0 10px;
 }
 
+.gdp-text p,
+.gdp-fig p,
+.gdp-fig-two p{
+  padding:0 10px;
+}
+
 .gdp-fig img,
 .gdp-fig-two img{
   width:100%;
@@ -81,6 +90,12 @@ figcaption {
   
   .gdp-flex figure {
     flex: 1;
+  }
+  
+  .gdp-text p,
+  .gdp-fig p,
+  .gdp-fig-two p{
+    padding:0 20px;
   }
 }
 
